@@ -103,13 +103,16 @@ public class PageViewTitle : UPageView, UButtonCallbacks {
     override public func initDrawables() {
         UDrawManager.getInstance().initialize()
         
-        let x : CGFloat = 0.0
-        var y : CGFloat = 100.0
+        let x : CGFloat = 10.0
+        var y : CGFloat = 10.0
+        
+        let width = mTopView!.frame.size.width - 20.0
+        
         
         for button in buttonInfo {
             let textButton = UButtonText(callbacks: self, type: UButtonType.BGColor, id: button.id, priority: 100, text: button.name,
                                          x: x, y: y,
-                                         width: 200.0, height: 50.0, textSize: 20,
+                                         width: width, height: 50.0, textSize: 20,
                                          textColor: UColor.White, color: UColor.Blue)
             textButton.addToDrawManager()
             

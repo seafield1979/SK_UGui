@@ -102,7 +102,7 @@ public class ViewTouch {
         タッチ開始時の処理
      */
     public func touchStart(touch: UITouch, pos : CGPoint) {
-        ULog.printMsg(ViewTouch.TAG, "Touch Down");
+        ULog.printMsg(ViewTouch.TAG, String(format: "Touch Down %f %f", pos.x, pos.y))
         
         isTouching = true
         

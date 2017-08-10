@@ -29,6 +29,8 @@ public class TopScene: SKScene {
     }
     
     override public func didMove(to view: SKView) {
+        
+        self.scaleMode = SKSceneScaleMode.resizeFill
         // ページマネージャーを初期化
         UDrawManager.getInstance().initialize()
         mPageManager = PageViewManager.createInstance(topView: self)

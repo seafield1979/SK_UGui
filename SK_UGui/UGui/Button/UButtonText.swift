@@ -96,6 +96,9 @@ public class UButtonText : UButton {
         self.mTextColor = textColor!
         self.mTextSize = textSize
         
+        let w = width
+        let h = height
+        
         // シーン
         let scene = TopScene.getInstance()
         
@@ -106,11 +109,11 @@ public class UButtonText : UButton {
         self.parentNode.position = scene.convertPoint(fromView: CGPoint(x:x, y:y))
         
         // BG
-        self.bgNode = SKShapeNode(rect: CGRect(x:0, y:0, width: width, height: height))
+        self.bgNode = SKShapeNode(rect: CGRect(x:0, y:0, width: w, height: -h))
         self.bgNode.fillColor = color!
         self.parentNode.addChild(self.bgNode)
         
-        self.bg2Node = SKShapeNode(rect: CGRect(x:0, y:0, width: width, height: height))
+        self.bg2Node = SKShapeNode(rect: CGRect(x:0, y:0, width: w, height: -h))
         self.bg2Node.fillColor = color!
         self.parentNode.addChild(self.bg2Node)
         
@@ -122,7 +125,7 @@ public class UButtonText : UButton {
         self.labelNode.horizontalAlignmentMode = .center
         self.labelNode.verticalAlignmentMode = .center
         // SpriteKit座標系に変換する
-        self.labelNode.position = CGPoint(x: width / 2, y: height / 2)
+        self.labelNode.position = CGPoint(x: w / 2, y: -h / 2)
         parentNode.addChild(self.labelNode)
         
         scene.addChild(self.parentNode)
@@ -141,7 +144,7 @@ public class UButtonText : UButton {
             setSize(width, size.height + UDpi.toPixel( UButtonText.MARGIN_V) * 2)
         }
         
-            }
+    }
 
     /**
      * Methods

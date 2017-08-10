@@ -169,7 +169,6 @@ public class UButton : UDrawable {
      * タッチアップイベント
      */
     public override func touchUpEvent(vt: ViewTouch) -> Bool {
-        print("button touchUp")
         if vt.isTouchUp {
             if isPressed {
                 isPressed = false
@@ -208,7 +207,6 @@ public class UButton : UDrawable {
                 isPressed = true
                 
                 done = true
-                print("button pressed")
             }
         case .Click:
             // クリックイベントをすぐに処理すると、ボタンの凹みが戻らないうちに次のページに遷移したりと
