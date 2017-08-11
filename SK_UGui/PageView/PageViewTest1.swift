@@ -106,7 +106,7 @@ public class PageViewTest1 : UPageView, UButtonCallbacks {
         textButton2.addToDrawManager()
 
         y += buttonH + PageViewTest1.MARGIN
-        
+
         // Press3 
         // 押されたら凹んで戻らないボタン。戻すには isPressed を falseに設定する
         pressedButton1 = UButtonText(callbacks: self, type: UButtonType.Press3, id: PageViewTest1.buttonId41, priority: 100, text: "button41", x: x, y: y, width: buttonW / 2, height: buttonH, textSize: 20, textColor: UIColor.white, color: UIColor.blue)
@@ -117,18 +117,18 @@ public class PageViewTest1 : UPageView, UButtonCallbacks {
         pressedButton2?.addToDrawManager()
         
         y += buttonH + PageViewTest1.MARGIN
-
-        // 画像ボタン(ONとOFFで別の画像を設定している)
-        let image1 = UResourceManager.getImageByName(ImageName.miro)
-        let image2 = UResourceManager.getImageByName(ImageName.ume)
-        let imageButton = UButtonImage.createButton(callbacks: nil, id: PageViewTest1.buttonId5, priority: 100, x: x, y: y, width: buttonW, height: buttonH, image: image1, pressedImage: image2)
-        imageButton.addToDrawManager()
-        
-        y += buttonH + PageViewTest1.MARGIN
-        
-        // UButtonClose
-        let closeButton = UButtonClose(callbacks: self, type: UButtonType.BGColor, id: PageViewTest1.buttonId6, priority: 100, x: x, y: y, color: UIColor.red)
-        closeButton.addToDrawManager()
+//
+//        // 画像ボタン(ONとOFFで別の画像を設定している)
+//        let image1 = UResourceManager.getImageByName(ImageName.miro)
+//        let image2 = UResourceManager.getImageByName(ImageName.ume)
+//        let imageButton = UButtonImage.createButton(callbacks: nil, id: PageViewTest1.buttonId5, priority: 100, x: x, y: y, width: buttonW, height: buttonH, image: image1, pressedImage: image2)
+//        imageButton.addToDrawManager()
+//        
+//        y += buttonH + PageViewTest1.MARGIN
+//        
+//        // UButtonClose
+//        let closeButton = UButtonClose(callbacks: self, type: UButtonType.BGColor, id: PageViewTest1.buttonId6, priority: 100, x: x, y: y, color: UIColor.red)
+//        closeButton.addToDrawManager()
     }
     
     /**

@@ -276,13 +276,13 @@ class UDrawManager {
         // 描画はSpriteKitで行うので不要
 //        ULog.startCount(tag: UDrawManager.TAG)
         // 描画は手前(priorityが大きい)から順に行う
-//        for key in lists!.keys.sorted().reversed() {
-//            let list = lists![key]
-//            if list!.draw() {
-//               redraw = true
-//            }
-//        }
-         
+        for key in lists!.keys.sorted().reversed() {
+            let list = lists![key]
+            if list!.draw() {
+               redraw = true
+            }
+        }
+        
         ULog.showCount(tag: UDrawManager.TAG)
         
         UDrawManager.drawDebugPoint()

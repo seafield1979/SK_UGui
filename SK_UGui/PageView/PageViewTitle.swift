@@ -135,29 +135,29 @@ public class PageViewTitle : UPageView, UButtonCallbacks {
      * UButtonCallbacks
      */
     public func UButtonClicked(id : Int, pressedOn : Bool) -> Bool {
-//        switch(id) {
-//        case PageViewTitle.buttonId1:
-//            // ページ切り替え
-//            _ = PageViewManager.getInstance().stackPage(pageId: PageView.Test1)
-//            
-//        case PageViewTitle.buttonId2:
-//            // ページ切り替え
-//            _ = PageViewManager.getInstance().stackPage(pageId: PageView.Test2)
-//        case PageViewTitle.buttonId3:
-//            // ページ切り替え
-//            _ = PageViewManager.getInstance().stackPage(pageId: PageView.Test3)
-//        case PageViewTitle.buttonId4:
-//            // ページ切り替え
-//            _ = PageViewManager.getInstance().stackPage(pageId: PageView.Test4)
-//        case PageViewTitle.buttonId5:
-//            // ページ切り替え
-//            _ = PageViewManager.getInstance().stackPage(pageId: PageView.Test5)
-//        case PageViewTitle.buttonId6:
-//            // ページ切り替え
-//            _ = PageViewManager.getInstance().stackPage(pageId: PageView.Test6)
-//        default:
-//            break
-//        }
+        switch(id) {
+        case PageViewTitle.buttonId1:
+            // ページ切り替え
+            _ = PageViewManager.getInstance().stackPage(pageId: PageView.Test1)
+            
+        case PageViewTitle.buttonId2:
+            // ページ切り替え
+            _ = PageViewManager.getInstance().stackPage(pageId: PageView.Test2)
+        case PageViewTitle.buttonId3:
+            // ページ切り替え
+            _ = PageViewManager.getInstance().stackPage(pageId: PageView.Test3)
+        case PageViewTitle.buttonId4:
+            // ページ切り替え
+            _ = PageViewManager.getInstance().stackPage(pageId: PageView.Test4)
+        case PageViewTitle.buttonId5:
+            // ページ切り替え
+            _ = PageViewManager.getInstance().stackPage(pageId: PageView.Test5)
+        case PageViewTitle.buttonId6:
+            // ページ切り替え
+            _ = PageViewManager.getInstance().stackPage(pageId: PageView.Test6)
+        default:
+            break
+        }
         return true
     }
 }

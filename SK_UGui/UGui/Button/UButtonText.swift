@@ -35,7 +35,7 @@ public class UButtonText : UButton {
     private var parentNode : SKNode
     private var labelNode : SKLabelNode
     private var bgNode : SKShapeNode
-    private var bg2Node : SKShapeNode
+    private var bg2Node : SKShapeNode? = nil
     
     private var mText : String?
     private var mTextColor : UIColor
@@ -107,15 +107,24 @@ public class UButtonText : UButton {
         self.parentNode = SKNode()
         self.parentNode.zPosition = CGFloat(priority)
         self.parentNode.position = scene.convertPoint(fromView: CGPoint(x:x, y:y))
+        scene.addChild(parentNode)
         
         // BG
-        self.bgNode = SKShapeNode(rect: CGRect(x:0, y:0, width: w, height: -h))
+        let bgH = (type == .BGColor) ? -h : -(h - UDpi.toPixel(UButton.PRESS_Y))
+            
+        self.bgNode = SKShapeNode(rect: CGRect(x:0, y:0, width: w, height: bgH))
         self.bgNode.fillColor = color!
+        self.bgNode.strokeColor = .clear
+        self.bgNode.zPosition = 0.1
         self.parentNode.addChild(self.bgNode)
         
-        self.bg2Node = SKShapeNode(rect: CGRect(x:0, y:0, width: w, height: -h))
-        self.bg2Node.fillColor = color!
-        self.parentNode.addChild(self.bg2Node)
+        if type != .BGColor {
+            let _h = UDpi.toPixel( UButton.PRESS_Y + 13)
+            self.bg2Node = SKShapeNode(rect: CGRect(x:0, y:0, width: w, height: -_h))
+            self.bg2Node!.fillColor = color!
+            self.bg2Node!.strokeColor = .clear
+            self.parentNode.addChild(self.bg2Node!)
+        }
         
         // Label
         self.labelNode = SKLabelNode(text: text)
@@ -124,13 +133,10 @@ public class UButtonText : UButton {
         self.labelNode.fontName = "HiraKakuProN-W6"
         self.labelNode.horizontalAlignmentMode = .center
         self.labelNode.verticalAlignmentMode = .center
-        // SpriteKit座標系に変換する
-        self.labelNode.position = CGPoint(x: w / 2, y: -h / 2)
-        parentNode.addChild(self.labelNode)
+        self.labelNode.position = CGPoint(x: w / 2, y: -bgH / 2)
+        self.bgNode.addChild(self.labelNode)
         
-        scene.addChild(self.parentNode)
 
-        
         super.init(callbacks: callbacks, type: type, id: id, priority: priority,
                    x: x, y: y, width: width, height: height, color: color)
         
@@ -161,26 +167,6 @@ public class UButtonText : UButton {
         }
     }
     
-    
-    /**
-      タッチ処理
-     */
-    public override func touchEvent(vt : ViewTouch, offset : CGPoint?) -> Bool {
-        if (!enabled) {
-            return false
-        }
-        
-        let done = super.touchEvent(vt: vt, offset: offset)
-        
-        if isPressed {
-            self.labelNode.fontColor = pressedColor
-        } else {
-            self.labelNode.fontColor = mTextColor
-        }
-        
-        return done
-    }
-
     /**
      * 描画処理
      * @param canvas
@@ -188,16 +174,11 @@ public class UButtonText : UButton {
      * @param offset 独自の座標系を持つオブジェクトをスクリーン座標系に変換するためのオフセット値
      */
     public override func draw(_ offset : CGPoint?) {
+        let scene = TopScene.getInstance()
         // 色
         // 押されていたら明るくする
         var _color = color
-        
-        var _pos = CGPoint(x: pos.x, y: pos.y)
-        if offset != nil {
-            _pos.x += offset!.x
-            _pos.y += offset!.y
-        }
-        
+        var _pos = CGPoint(x: 0, y: 0)
         var _height = size.height
         
         if type == UButtonType.BGColor {
@@ -222,18 +203,24 @@ public class UButtonText : UButton {
                 // ボタンの影用に下に矩形を描画
                 let height : CGFloat = UDpi.toPixel( UButton.PRESS_Y + 13)
                 
-                UDraw.drawRoundRectFill(rect:
-                    CGRect(x:_pos.x, y:_pos.y + size.height - height,
-                           width: size.width,
-                           height: height),
-                        cornerR: UDpi.toPixel(UButton.BUTTON_RADIUS),
-                        color:_pressedColor, strokeWidth: 0, strokeColor: nil)
+//                UDraw.drawRoundRectFill(rect:
+//                    CGRect(x:_pos.x, y:_pos.y + size.height - height,
+//                           width: size.width,
+//                           height: height),
+//                        cornerR: UDpi.toPixel(UButton.BUTTON_RADIUS),
+//                        color:_pressedColor, strokeWidth: 0, strokeColor: nil)
+                if self.bg2Node != nil {
+                    self.bg2Node!.position = CGPoint(x: 0, y: SKUtil.convY(fromView:size.height - height))
+                    self.bg2Node!.fillColor = _pressedColor
+                }
             }
             _height -= UDpi.toPixel(UButton.PRESS_Y)
             
         }
-        UDraw.drawRoundRectFill(rect: CGRect(x:_pos.x, y: _pos.y, width: size.width, height: _height),
-                                cornerR: UDpi.toPixel(UButton.BUTTON_RADIUS), color: _color!, strokeWidth: 0, strokeColor: nil);
+        self.bgNode.position = CGPoint(x: 0, y: SKUtil.convY(fromView: _pos.y))
+        self.bgNode.fillColor = _color!
+//        UDraw.drawRoundRectFill(rect: CGRect(x:_pos.x, y: _pos.y, width: size.width, height: _height),
+//                                cornerR: UDpi.toPixel(UButton.BUTTON_RADIUS), color: _color!, strokeWidth: 0, strokeColor: nil);
         
         // 画像
         if mImage != nil {
@@ -267,34 +254,30 @@ public class UButtonText : UButton {
                 offset = _offset
             }
             
-            UDraw.drawImage(image:mImage!,
-                             x: _pos.x + offset.x + baseX,
-                             y: _pos.y + offset.y + baseY,
-                             width: mImageSize!.width, height: mImageSize!.height)
+//            UDraw.drawImage(image:mImage!,
+//                             x: _pos.x + offset.x + baseX,
+//                             y: _pos.y + offset.y + baseY,
+//                             width: mImageSize!.width, height: mImageSize!.height)
         }
         // テキスト
         if mText != nil {
-            var y : CGFloat = _pos.y + size.height / 2
-            var offset : CGPoint = CGPoint()
-            if mTextOffset != nil {
-                offset = mTextOffset!
-            }
-            y += offset.y
+            var y : CGFloat = size.height / 2
             
             if isPressButton() {
-                y -= UDpi.toPixel(UButton.PRESS_Y) / 2
+//                y -= UDpi.toPixel(UButton.PRESS_Y) / 2
             }
-            
-            UDraw.drawText(text: mText!, alignment: UAlignment.Center,
-                           textSize: mTextSize,
-                           x: _pos.x + offset.x + size.width / 2,
-                           y: y, color: mTextColor);
+            self.labelNode.position = CGPoint(x: size.width / 2, y: SKUtil.convY(fromView: y))
+//            self.labelNode.fontColor = mTextColor
+//            UDraw.drawText(text: mText!, alignment: UAlignment.Center,
+//                           textSize: mTextSize,
+//                           x: _pos.x + offset.x + size.width / 2,
+//                           y: y, color: mTextColor);
         }
         // プルダウン
         if (pullDownIcon) {
-            UDraw.drawTriangleFill(center: CGPoint(x:_pos.x + size.width - UDpi.toPixel(13) , y: _pos.y + size.height / 2),
-                                   radius: UDpi.toPixel(10),
-                                   rotation: 180.0, color: UButtonText.PULL_DOWN_COLOR)
+//            UDraw.drawTriangleFill(center: CGPoint(x:_pos.x + size.width - UDpi.toPixel(13) , y: _pos.y + size.height / 2),
+//                                   radius: UDpi.toPixel(10),
+//                                   rotation: 180.0, color: UButtonText.PULL_DOWN_COLOR)
         }
     }
 }
