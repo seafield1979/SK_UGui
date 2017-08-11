@@ -80,6 +80,7 @@
 		8A22B3461F3C2E960094D5C0 /* ume.png in Resources */ = {isa = PBXBuildFile; fileRef = 8A22B3401F3C2E960094D5C0 /* ume.png */; };
 		8A22B3491F3C339E0094D5C0 /* SKUNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A22B3481F3C339E0094D5C0 /* SKUNode.swift */; };
 		8A22B34B1F3DAD9C0094D5C0 /* SKUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A22B34A1F3DAD9C0094D5C0 /* SKUtil.swift */; };
+		8A22B34D1F3DEDBF0094D5C0 /* SKNodeUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A22B34C1F3DEDBF0094D5C0 /* SKNodeUtil.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -158,6 +159,7 @@
 		8A22B3401F3C2E960094D5C0 /* ume.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ume.png; path = SK_UGui/Resource/ume.png; sourceTree = "<group>"; };
 		8A22B3481F3C339E0094D5C0 /* SKUNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SKUNode.swift; path = SK_UGui/SpriteKit/SKUNode.swift; sourceTree = "<group>"; };
 		8A22B34A1F3DAD9C0094D5C0 /* SKUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKUtil.swift; sourceTree = "<group>"; };
+		8A22B34C1F3DEDBF0094D5C0 /* SKNodeUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SKNodeUtil.swift; path = SK_UGui/SpriteKit/SKNodeUtil.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -380,6 +382,7 @@
 			isa = PBXGroup;
 			children = (
 				8A22B3481F3C339E0094D5C0 /* SKUNode.swift */,
+				8A22B34C1F3DEDBF0094D5C0 /* SKNodeUtil.swift */,
 			);
 			name = SpriteKit;
 			sourceTree = "<group>";
@@ -520,6 +523,7 @@
 				8A22B3011F3C277F0094D5C0 /* UDrawableRect.swift in Sources */,
 				8A22B2F11F3C277F0094D5C0 /* UButton.swift in Sources */,
 				8A22B3491F3C339E0094D5C0 /* SKUNode.swift in Sources */,
+				8A22B34D1F3DEDBF0094D5C0 /* SKNodeUtil.swift in Sources */,
 				8A22B3141F3C277F0094D5C0 /* UDebug.swift in Sources */,
 				8A22B32B1F3C299D0094D5C0 /* PageViewTest1.swift in Sources */,
 				8A22B3051F3C277F0094D5C0 /* UListItem.swift in Sources */,

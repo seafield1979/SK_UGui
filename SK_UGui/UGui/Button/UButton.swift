@@ -42,7 +42,6 @@ public class UButton : UDrawable {
     /**
      * Consts
      */
-//    public static let TAG = "UButton"
     public static let PRESS_Y : Int = 6
     public static let BUTTON_RADIUS : Int = 6
     public static let DISABLED_COLOR : UIColor = UColor.makeColor(160, 160, 160)
@@ -62,7 +61,6 @@ public class UButton : UDrawable {
     var disabledColor : UIColor         // enabled == false のときの色
     var disabledColor2 : UIColor        // eanbled == false のときの濃い色
     var pressedOn : Bool = false        // Press2タイプの時のOn状態
-    var pullDownIcon : Bool = false     // プルダウンのアイコン▼を表示
     
     /**
      * Get/Set
@@ -88,10 +86,7 @@ public class UButton : UDrawable {
         self.enabled = enabled
     }
     
-    public func setPullDownIcon(_ pullDown : Bool) {
-        pullDownIcon = pullDown
-    }
-    
+
     public func isPressButton() -> Bool {
         return (type != UButtonType.BGColor)
     }

@@ -98,12 +98,15 @@ public class PageViewTest1 : UPageView, UButtonCallbacks {
         // Press 押したら凹むボタン
         let textButton = UButtonText(callbacks: self, type: UButtonType.Press, id: PageViewTest1.buttonId2, priority: 100, text: "button2", x: x, y: y, width: buttonW, height: buttonH, textSize: 20, textColor: UIColor.white, color: UIColor.blue)
         textButton.addToDrawManager()
+        textButton.setImage(imageName: ImageName.close, imageSize: CGSize(width: 30, height: 30))
+        textButton.setImageOffset(x: 0, y: 0)
         
         y += buttonH + PageViewTest1.MARGIN
 
         // Press2 押すたびにON/OFFが切り替わるボタン
         let textButton2 = UButtonText(callbacks: self, type: UButtonType.Press2, id: PageViewTest1.buttonId3, priority: 100, text: "button3", x: x, y: y, width: buttonW, height: buttonH, textSize: 20, textColor: UIColor.white, color: UIColor.blue)
         textButton2.addToDrawManager()
+        textButton2.setPullDownIcon(true)
 
         y += buttonH + PageViewTest1.MARGIN
 

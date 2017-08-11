@@ -32,19 +32,21 @@ public class UButtonText : UButton {
     /**
      * Member Variables
      */
+    // SpriteKitのノード
     private var parentNode : SKNode
     private var labelNode : SKLabelNode
     private var bgNode : SKShapeNode
     private var bg2Node : SKShapeNode? = nil
+    private var imageNode : SKSpriteNode? = nil
+    private var pullNode : SKShapeNode? = nil
     
     private var mText : String?
     private var mTextColor : UIColor
     private var mTextSize : Int = 0
-    private var mImage : UIImage? = nil
     private var mImageAlignment : UAlignment = UAlignment.Left     // 画像の表示位置
-    private var mTextOffset : CGPoint? = CGPoint()
     private var mImageOffset : CGPoint? = CGPoint()
     private var mImageSize : CGSize? = CGSize()
+    private var pullDownIcon : Bool = false     // プルダウンのアイコン▼を表示
     
     /**
      * Get/Set
@@ -62,14 +64,62 @@ public class UButtonText : UButton {
         self.mTextColor = mTextColor
     }
     
-    public func setImage(imageName : ImageName, imageSize : CGSize?) {
-        mImage = UResourceManager.getImageByName(imageName)
-        mImageSize = imageSize
+    public func setImage(imageName : ImageName, imageSize : CGSize) {
+        imageNode = SKSpriteNode(imageNamed: imageName.rawValue)
+        if imageNode != nil {
+            imageNode!.size = imageSize
+            bgNode.addChild( imageNode! )
+            imageNode!.position = CGPoint(x: 100.0, y: -20)
+            
+            mImageSize = imageSize
+            calcImageOffset(alignment: mImageAlignment)
+        }
     }
     
-    public func setImage(image : UIImage?, imageSize : CGSize?) {
-        mImage = image
+    public func setImage(image : UIImage, imageSize : CGSize) {
+        let texture = SKTexture(cgImage: image.cgImage!)
+        imageNode = SKSpriteNode(texture: texture)
+        imageNode!.size = imageSize
         mImageSize = imageSize
+        
+        calcImageOffset(alignment: mImageAlignment)
+    }
+    
+    // 画像の表示座標を計算する
+    private func calcImageOffset( alignment : UAlignment) {
+        var baseX : CGFloat = 0, baseY : CGFloat = 0
+        
+        switch mImageAlignment {
+        case .None:
+            baseX = 0
+            baseY = bgNode.frame.size.height / 2
+            break
+        case .CenterX:
+            break
+        case .CenterY:
+            break
+        case .Center:
+            baseX = bgNode.frame.size.width / 2
+            baseY = bgNode.frame.size.height / 2
+            break
+        case .Left:
+            baseX = 50
+            baseY = bgNode.frame.size.height / 2
+            break
+        case .Right:
+            break
+        case .Right_CenterY:
+            break
+        }
+        
+        var offset = CGPoint()
+        if mImageOffset != nil {
+            offset = mImageOffset!
+        }
+        
+        imageNode!.position = CGPoint(x: baseX + offset.x,
+                                      y: SKUtil.convY(fromView: baseY + offset.y))
+
     }
     
     public func setImageAlignment(alignment : UAlignment) {
@@ -77,11 +127,11 @@ public class UButtonText : UButton {
     }
     
     public func setTextOffset(x : CGFloat, y : CGFloat) {
-        mTextOffset = CGPoint(x: x, y: y)
+        labelNode.position = CGPoint(x: x, y: SKUtil.convY(fromView: y))
     }
     
     public func setImageOffset(x : CGFloat, y : CGFloat) {
-        mImageOffset = CGPoint(x:x, y:y)
+        mImageOffset = CGPoint(x: x, y: y)
     }
     
     /**
@@ -118,6 +168,7 @@ public class UButtonText : UButton {
         self.bgNode.zPosition = 0.1
         self.parentNode.addChild(self.bgNode)
         
+        // BG2(影の部分)
         if type != .BGColor {
             let _h = UDpi.toPixel( UButton.PRESS_Y + 13)
             self.bg2Node = SKShapeNode(rect: CGRect(x:0, y:0, width: w, height: -_h))
@@ -133,7 +184,7 @@ public class UButtonText : UButton {
         self.labelNode.fontName = "HiraKakuProN-W6"
         self.labelNode.horizontalAlignmentMode = .center
         self.labelNode.verticalAlignmentMode = .center
-        self.labelNode.position = CGPoint(x: w / 2, y: -bgH / 2)
+        self.labelNode.position = CGPoint(x: w / 2, y: bgH / 2)
         self.bgNode.addChild(self.labelNode)
         
 
@@ -160,12 +211,29 @@ public class UButtonText : UButton {
         
         // ボタンの左側にチェックアイコンを表示
         if checked {
-            setImage(imageName: ImageName.ume,
-                     imageSize: CGSize(width: UDpi.toPixel(UButtonText.CHECKED_W), height: UDpi.toPixel(UButtonText.CHECKED_W)))
+            if imageNode == nil {
+                setImage(imageName: ImageName.ume,
+                         imageSize: CGSize(width: UDpi.toPixel(UButtonText.CHECKED_W), height: UDpi.toPixel(UButtonText.CHECKED_W)))
+            }
         } else {
-            setImage(image: nil, imageSize: nil)
+            if imageNode != nil {
+                imageNode!.removeFromParent()
+            }
         }
     }
+    
+    public func setPullDownIcon(_ pullDown : Bool) {
+        if pullNode == nil {
+            pullNode = SKNodeUtil.createTriangleNode(
+                length: UDpi.toPixel(10),
+                angle: 180,
+                color: UButtonText.PULL_DOWN_COLOR)
+            pullNode!.position = CGPoint(x: size.width - UDpi.toPixel(30), y: SKUtil.convY(fromView: size.height / 2))
+
+            bgNode.addChild(pullNode!)
+        }
+    }
+    
     
     /**
      * 描画処理
@@ -174,7 +242,6 @@ public class UButtonText : UButton {
      * @param offset 独自の座標系を持つオブジェクトをスクリーン座標系に変換するためのオフセット値
      */
     public override func draw(_ offset : CGPoint?) {
-        let scene = TopScene.getInstance()
         // 色
         // 押されていたら明るくする
         var _color = color
@@ -203,12 +270,6 @@ public class UButtonText : UButton {
                 // ボタンの影用に下に矩形を描画
                 let height : CGFloat = UDpi.toPixel( UButton.PRESS_Y + 13)
                 
-//                UDraw.drawRoundRectFill(rect:
-//                    CGRect(x:_pos.x, y:_pos.y + size.height - height,
-//                           width: size.width,
-//                           height: height),
-//                        cornerR: UDpi.toPixel(UButton.BUTTON_RADIUS),
-//                        color:_pressedColor, strokeWidth: 0, strokeColor: nil)
                 if self.bg2Node != nil {
                     self.bg2Node!.position = CGPoint(x: 0, y: SKUtil.convY(fromView:size.height - height))
                     self.bg2Node!.fillColor = _pressedColor
@@ -219,65 +280,5 @@ public class UButtonText : UButton {
         }
         self.bgNode.position = CGPoint(x: 0, y: SKUtil.convY(fromView: _pos.y))
         self.bgNode.fillColor = _color!
-//        UDraw.drawRoundRectFill(rect: CGRect(x:_pos.x, y: _pos.y, width: size.width, height: _height),
-//                                cornerR: UDpi.toPixel(UButton.BUTTON_RADIUS), color: _color!, strokeWidth: 0, strokeColor: nil);
-        
-        // 画像
-        if mImage != nil {
-            var baseX : CGFloat = 0, baseY : CGFloat = 0
-            
-            switch mImageAlignment {
-            case .None:
-                baseX = 0
-                baseY = (size.height - mImageSize!.height) / 2
-                break
-            case .CenterX:
-                break
-            case .CenterY:
-                break
-            case .Center:
-                baseX = (size.width - mImageSize!.width) / 2
-                baseY = (size.height - mImageSize!.height) / 2
-                break
-            case .Left:
-                baseX = 50
-                baseY = (size.height - mImageSize!.height) / 2
-                break
-            case .Right:
-                break
-            case .Right_CenterY:
-                break
-            }
-            
-            var offset : CGPoint = CGPoint()
-            if let _offset = mImageOffset {
-                offset = _offset
-            }
-            
-//            UDraw.drawImage(image:mImage!,
-//                             x: _pos.x + offset.x + baseX,
-//                             y: _pos.y + offset.y + baseY,
-//                             width: mImageSize!.width, height: mImageSize!.height)
-        }
-        // テキスト
-        if mText != nil {
-            var y : CGFloat = size.height / 2
-            
-            if isPressButton() {
-//                y -= UDpi.toPixel(UButton.PRESS_Y) / 2
-            }
-            self.labelNode.position = CGPoint(x: size.width / 2, y: SKUtil.convY(fromView: y))
-//            self.labelNode.fontColor = mTextColor
-//            UDraw.drawText(text: mText!, alignment: UAlignment.Center,
-//                           textSize: mTextSize,
-//                           x: _pos.x + offset.x + size.width / 2,
-//                           y: y, color: mTextColor);
-        }
-        // プルダウン
-        if (pullDownIcon) {
-//            UDraw.drawTriangleFill(center: CGPoint(x:_pos.x + size.width - UDpi.toPixel(13) , y: _pos.y + size.height / 2),
-//                                   radius: UDpi.toPixel(10),
-//                                   rotation: 180.0, color: UButtonText.PULL_DOWN_COLOR)
-        }
     }
 }

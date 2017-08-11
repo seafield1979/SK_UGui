@@ -56,15 +56,13 @@ public class TopScene: SKScene {
     
     override public func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
-        //for t in touches { self.touchDown(atPoint: t.location(in: self)) }
-        
         // タッチイベントを取得する
         let touch = touches.first
         
         if touch != nil {
             let pos = self.convertPoint(toView: touch!.location(in: self))
-            vt.touchStart(touch: touch!,
-                          pos: pos)
+            _ = vt.checkTouchType(e: TouchEventType.Down,
+                                  touch: touch!, pos: pos)
         }
         
         // 描画オブジェクトのタッチ処理はすべてUDrawManagerにまかせる
@@ -77,7 +75,8 @@ public class TopScene: SKScene {
         let touch = touches.first
         let pos = self.convertPoint(toView: touch!.location(in: self))
         
-        vt.touchMove(touch: touch!, pos: pos )
+        _ = vt.checkTouchType(e: TouchEventType.Move,
+                              touch: touch!, pos: pos)
         
         // 描画オブジェクトのタッチ処理はすべてUDrawManagerにまかせる
         if UDrawManager.getInstance().touchEvent(vt) {
@@ -89,7 +88,8 @@ public class TopScene: SKScene {
         let touch = touches.first
         let pos = self.convertPoint(toView: touch!.location(in: self))
 
-        _ = vt.touchEnd(touch: touches.first!, pos: pos)
+        _ = vt.checkTouchType(e: TouchEventType.Up,
+                              touch: touch!, pos: pos)
         
         // 描画オブジェクトのタッチ処理はすべてUDrawManagerにまかせる
         if UDrawManager.getInstance().touchEvent(vt) {
@@ -97,7 +97,11 @@ public class TopScene: SKScene {
     }
     
     override public func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchUp(atPoint: t.location(in: self)) }
+        let touch = touches.first
+        let pos = self.convertPoint(toView: touch!.location(in: self))
+        
+        _ = vt.checkTouchType(e: TouchEventType.Cancel,
+                              touch: touch!, pos: pos)
     }
     
     
@@ -111,6 +115,5 @@ public class TopScene: SKScene {
         if UDrawManager.getInstance().draw() == true {
 //            redraw = true
         }
-
     }
 }
