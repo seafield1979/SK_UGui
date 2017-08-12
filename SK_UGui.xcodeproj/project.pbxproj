@@ -115,8 +115,8 @@
 		8A22B2D71F3C277F0094D5C0 /* UDrawManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UDrawManager.swift; sourceTree = "<group>"; };
 		8A22B2D81F3C277F0094D5C0 /* UDraw.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UDraw.swift; sourceTree = "<group>"; };
 		8A22B2D91F3C277F0094D5C0 /* UImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UImageView.swift; sourceTree = "<group>"; };
-		8A22B2DA1F3C277F0094D5C0 /* UListItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UListItem.swift; sourceTree = "<group>"; };
-		8A22B2DB1F3C277F0094D5C0 /* UListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UListView.swift; sourceTree = "<group>"; };
+		8A22B2DA1F3C277F0094D5C0 /* UListItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UListItem.swift; path = ../UListItem.swift; sourceTree = "<group>"; };
+		8A22B2DB1F3C277F0094D5C0 /* UListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UListView.swift; path = ../UListView.swift; sourceTree = "<group>"; };
 		8A22B2DC1F3C277F0094D5C0 /* URect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URect.swift; sourceTree = "<group>"; };
 		8A22B2DD1F3C277F0094D5C0 /* UView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UView.swift; sourceTree = "<group>"; };
 		8A22B2DF1F3C277F0094D5C0 /* UDialogWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UDialogWindow.swift; sourceTree = "<group>"; };
@@ -237,8 +237,6 @@
 				8A22B2D21F3C277F0094D5C0 /* UDraw */,
 				8A22B2D81F3C277F0094D5C0 /* UDraw.swift */,
 				8A22B2D91F3C277F0094D5C0 /* UImageView.swift */,
-				8A22B2DA1F3C277F0094D5C0 /* UListItem.swift */,
-				8A22B2DB1F3C277F0094D5C0 /* UListView.swift */,
 				8A22B2DC1F3C277F0094D5C0 /* URect.swift */,
 				8A22B2DD1F3C277F0094D5C0 /* UView.swift */,
 				8A22B2DE1F3C277F0094D5C0 /* Window */,
@@ -263,6 +261,8 @@
 			isa = PBXGroup;
 			children = (
 				8A22B2C51F3C277F0094D5C0 /* ListItemTest1.swift */,
+				8A22B2DA1F3C277F0094D5C0 /* UListItem.swift */,
+				8A22B2DB1F3C277F0094D5C0 /* UListView.swift */,
 			);
 			path = ListView;
 			sourceTree = "<group>";

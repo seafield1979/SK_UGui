@@ -75,7 +75,64 @@ public class PageViewTest6 : UPageView {
      */
     override public func initDrawables() {
         UDrawManager.getInstance().initialize()
+
+        let scene = TopScene.getInstance()
+
+        // 基準のラインを配置
+        let line = SKNodeUtil.createLineNode(
+            p1: CGPoint(x: scene.size.width / 2, y: 0),
+            p2: CGPoint(x: scene.size.width / 2, y: scene.size.height),
+            color: .red, lineWidth: 2.0)
+        scene.addChild(line)
         
+        let x : CGFloat = scene.size.width / 2
+        var y : CGFloat = UUtil.navigationBarHeight() + PageViewTest1.MARGIN
+        let buttonH : CGFloat = 50.0
+     
+        // None
+        addTextView(x: x, y: y, alignment: .None, isMargin: true)
+        y += buttonH + PageViewTest1.MARGIN
+
+        // CenterX
+        addTextView(x: x, y: y, alignment: .CenterX, isMargin: true)
+        y += buttonH + PageViewTest1.MARGIN
+        
+        // CenterY
+        addTextView(x: x, y: y, alignment: .CenterY, isMargin: true)
+        y += buttonH + PageViewTest1.MARGIN
+        
+        // Center
+        addTextView(x: x, y: y, alignment: .Center, isMargin: true)
+        y += buttonH + PageViewTest1.MARGIN
+        
+        // Left
+        addTextView(x: x, y: y, alignment: .Left, isMargin: true)
+        y += buttonH + PageViewTest1.MARGIN
+        
+        // Right
+        addTextView(x: x, y: y, alignment: .Right, isMargin: true)
+        y += buttonH + PageViewTest1.MARGIN
+        
+        // Right_CenterY
+        addTextView(x: x, y: y, alignment: .Right_CenterY, isMargin: true)
+        y += buttonH + PageViewTest1.MARGIN
+    }
+    
+    /**
+     TextViewを１つ追加する
+     */
+    private func addTextView(x: CGFloat, y: CGFloat, alignment : UAlignment, isMargin : Bool)
+    {
+        let scene = TopScene.getInstance()
+        
+        let point = SKNodeUtil.createCrossPoint(pos: CGPoint(x:x, y:y), length: 10.0, lineWidth: 2.0, color: .yellow)
+        scene.addChild(point)
+        
+        let text = UTextView(text: "hello world", textSize: 20, priority: 100, alignment: alignment, multiLine: false,
+                              isDrawBG: true, isMargin: isMargin,
+                              x: x, y: y, width: 0, color: .white, bgColor: .gray)
+        text.parentNode.zPosition = 10.0
+        text.addToDrawManager()
     }
     
     // ダイアログを表示する

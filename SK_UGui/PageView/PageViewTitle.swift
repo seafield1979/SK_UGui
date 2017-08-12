@@ -42,6 +42,7 @@ public class PageViewTitle : UPageView, UButtonCallbacks {
     public static let buttonId4 = 103
     public static let buttonId5 = 104
     public static let buttonId6 = 105
+    public static let buttonId7 = 106
     
     /**
      * Member variables
@@ -59,6 +60,7 @@ public class PageViewTitle : UPageView, UButtonCallbacks {
         buttonInfo.append(ButtonInfo(id: 102, name: "Logwindow"))
         buttonInfo.append(ButtonInfo(id: 103, name: "メニューバー"))
         buttonInfo.append(ButtonInfo(id: 104, name: "リストView"))
+        buttonInfo.append(ButtonInfo(id: 105, name: "テキスト"))
     }
     
     /**

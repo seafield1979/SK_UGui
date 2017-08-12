@@ -13,11 +13,11 @@ import UIKit
 public enum PageView : Int, EnumEnumerable {
     case Title = 0   // タイトル画面
     case Test1      // ボタン
-    case Test2
+    case Test2      // ダイアログ
     case Test3      // ログウィンドウ
     case Test4      // メニューバー
-    case Test5      // スクロールバー
-    case Test6
+    case Test5      // リストビュー
+    case Test6      // テキスト
    ;
 }
 
