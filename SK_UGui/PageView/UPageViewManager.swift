@@ -44,6 +44,7 @@ public class UPageViewManager {
             pages.append(nil)
         }
         mTopView = topView
+        mParentVC = AppDelegate.rootViewController
         
         // 戻るボタン
         returnButton = UIBarButtonItem(title: "戻る", style: UIBarButtonItemStyle.plain, target: self, action: #selector(UPageViewManager.clickReturnButton))

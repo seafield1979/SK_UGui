@@ -14,9 +14,10 @@ public class TopScene: SKScene {
     private var label : SKLabelNode?
     private var spinnyNode : SKShapeNode?
     
-    private var mPageManager : UPageViewManager? = nil
+    private var mPageManager : UPageViewManager?
     
-    public static var instance : TopScene? = nil
+    public static var instance : TopScene?
+    public var parentVC : UIViewController?
     
     var vt : ViewTouch = ViewTouch()
     
@@ -34,6 +35,9 @@ public class TopScene: SKScene {
         // ページマネージャーを初期化
         UDrawManager.getInstance().initialize()
         mPageManager = PageViewManager.createInstance(topView: self)
+        if parentVC != nil {
+            mPageManager?.mParentVC = parentVC
+        }
         
         // DPI初期化
         UDpi.initialize()

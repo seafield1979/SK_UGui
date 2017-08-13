@@ -15,11 +15,15 @@ class GameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // ナビゲーションバーにViewが重ならないようにする
+        self.edgesForExtendedLayout = []
+        
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
-            if let scene = SKScene(fileNamed: "TopScene") {
+            if let scene = TopScene(fileNamed: "TopScene") {
                 // Set the scale mode to scale to fit the window
                 scene.scaleMode = .aspectFill
+                scene.parentVC = self
                 
                 // Present the scene
                 view.presentScene(scene)

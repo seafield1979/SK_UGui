@@ -12,10 +12,15 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    @IBOutlet var viewController: GameViewController?
+    
+    public static var rootViewController : UIViewController?
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool
     {
+        AppDelegate.rootViewController = window?.rootViewController
+        
         // システム初期化
         initSystem()
         
