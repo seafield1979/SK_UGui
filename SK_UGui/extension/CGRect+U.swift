@@ -73,4 +73,15 @@ extension CGRect {
     func centerY() -> CGFloat {
         return self.y + self.height / 2
     }
+    
+    
+    // MARK: SpriteKit
+    /**
+     SpriteKit座標系のRectに変換する
+     ※SpriteKitでは height がマイナスになると cornerRadiusが効かないので yの座標を調節する
+     */
+    public func convToSK() -> CGRect {
+        return CGRect(x: self.x, y: -self.y - self.height,
+                      width: self.width, height: self.height)
+    }
 }

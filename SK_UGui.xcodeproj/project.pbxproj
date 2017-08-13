@@ -82,6 +82,7 @@
 		8A22B34B1F3DAD9C0094D5C0 /* SKUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A22B34A1F3DAD9C0094D5C0 /* SKUtil.swift */; };
 		8A22B34D1F3DEDBF0094D5C0 /* SKNodeUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A22B34C1F3DEDBF0094D5C0 /* SKNodeUtil.swift */; };
 		8A22B34F1F3F32220094D5C0 /* PageViewTest7.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A22B34E1F3F32220094D5C0 /* PageViewTest7.swift */; };
+		8A22B3511F400A6A0094D5C0 /* CGPoint+ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A22B3501F400A6A0094D5C0 /* CGPoint+ex.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -162,6 +163,7 @@
 		8A22B34A1F3DAD9C0094D5C0 /* SKUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKUtil.swift; sourceTree = "<group>"; };
 		8A22B34C1F3DEDBF0094D5C0 /* SKNodeUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SKNodeUtil.swift; path = SK_UGui/SpriteKit/SKNodeUtil.swift; sourceTree = "<group>"; };
 		8A22B34E1F3F32220094D5C0 /* PageViewTest7.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageViewTest7.swift; sourceTree = "<group>"; };
+		8A22B3501F400A6A0094D5C0 /* CGPoint+ex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGPoint+ex.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -219,6 +221,7 @@
 		8A22B2BC1F3C277F0094D5C0 /* extension */ = {
 			isa = PBXGroup;
 			children = (
+				8A22B3501F400A6A0094D5C0 /* CGPoint+ex.swift */,
 				8A22B2BD1F3C277F0094D5C0 /* CGRect+U.swift */,
 			);
 			name = extension;
@@ -482,6 +485,7 @@
 				8A22B2F61F3C277F0094D5C0 /* MenuBarTest1.swift in Sources */,
 				8A22B2FF1F3C277F0094D5C0 /* DrawPriority.swift in Sources */,
 				8A22B2F21F3C277F0094D5C0 /* UButtonClose.swift in Sources */,
+				8A22B3511F400A6A0094D5C0 /* CGPoint+ex.swift in Sources */,
 				8A22B2F91F3C277F0094D5C0 /* UCircle.swift in Sources */,
 				8A22B2AB1F3C267D0094D5C0 /* TopScene.swift in Sources */,
 				8A22B30B1F3C277F0094D5C0 /* UPopupWindow.swift in Sources */,

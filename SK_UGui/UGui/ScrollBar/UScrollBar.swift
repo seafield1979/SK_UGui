@@ -163,10 +163,9 @@ public class UScrollBar {
         self.pageLen = pageLen
     
         // SpriteKit のノード
-        let scene = TopScene.getInstance()
         // 親
         parentNode = SKNode()
-        parentNode.position = CGPoint(x:x, y: SKUtil.convY(fromView:y))
+        parentNode.position = CGPoint(x:x, y: y).convToSK()
         parentNode.zPosition = 1.0
         
         // BG
@@ -256,18 +255,18 @@ public class UScrollBar {
         var _barLength : CGFloat = barLength
         var _barPos : CGFloat = barPos
         if (showType == ScrollBarShowType.ShowAllways) {
-            _barLength = bgLength - 30;
-            _barPos = 15;
+            _barLength = bgLength - 15;
+            _barPos = 7;
         }
         if (type == ScrollBarType.Horizontal) {
             barRect.x = CGFloat(_barPos)
-            barRect.y = 10
+            barRect.y = 5
             barRect.width = CGFloat(_barLength)
-            barRect.height = CGFloat(bgWidth) - 20
+            barRect.height = CGFloat(bgWidth) - 10
         } else {
-            barRect.x = 10.0
+            barRect.x = 5.0
             barRect.y = CGFloat(_barPos)
-            barRect.width = CGFloat(bgWidth) - 20.0
+            barRect.width = CGFloat(bgWidth) - 10.0
             barRect.height = CGFloat(_barLength)
         }
         
@@ -277,9 +276,7 @@ public class UScrollBar {
             parentNode.removeChildren(in: [barNode!])
         }
         
-        barRect.y = SKUtil.convY(fromView: barRect.y)
-        barRect.height = SKUtil.convY(fromView: barRect.height)
-        self.barNode = SKShapeNode(rect: barRect)
+        self.barNode = SKShapeNode(rect: barRect.convToSK(), cornerRadius: 3.0)
         self.barNode!.fillColor = barColor
         self.barNode!.strokeColor = .clear
         self.barNode!.zPosition = 2.0

@@ -7,8 +7,7 @@
 //  Copyright © 2017年 Shusuke Unno. All rights reserved.
 //
 
-import Foundation
-import UIKit
+import SpriteKit
 
 
 /**
@@ -112,12 +111,22 @@ public class PageViewTitle : UPageView, UButtonCallbacks {
         
         let width = mTopView!.frame.size.width - 20.0
         
+        // parent
+        let parent = SKNode()
+        mTopView!.addChild(parent)
+        
+        // Shape
+//        let shapeNode = SKShapeNode(rect: CGRect(x: 0, y: -100, width: 100, height: 100), cornerRadius: 10.0)
+//        shapeNode.position = CGPoint(x:100, y:100)
+//        shapeNode.fillColor = UIColor.red
+//        shapeNode.strokeColor = .clear
+//        parent.addChild(shapeNode)
         
         for button in buttonInfo {
             let textButton = UButtonText(callbacks: self, type: UButtonType.BGColor, id: button.id, priority: 100, text: button.name,
                                          x: x, y: y,
                                          width: width, height: 50.0, textSize: 20,
-                                         textColor: UColor.White, color: UColor.Blue)
+                                         textColor: .white, color: .blue)
             textButton.addToDrawManager()
             
             y += 60.0

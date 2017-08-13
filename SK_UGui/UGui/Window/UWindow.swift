@@ -52,7 +52,7 @@ public class UWindow : UDrawable, UButtonCallbacks {
      * Member Variables
      */
     // SpriteKit nodes
-    var parentNode : SKNode
+    var parentNode : SKCropNode
     var bgNode : SKShapeNode
     var frameNode : SKShapeNode? = nil
     var sbHNode : SKShapeNode? = nil        // スクロールバー 横
@@ -213,10 +213,17 @@ public class UWindow : UDrawable, UButtonCallbacks {
         let scene = TopScene.getInstance()
         
         // ノードを作成
+        // mask
+        let maskNode = SKShapeNode(rect: CGRect(x:0, y:0, width:width, height:height).convToSK(),
+                                   cornerRadius: 5.0)
+        maskNode.fillColor = .black
+        maskNode.strokeColor = .clear
+        
         // parent
-        self.parentNode = SKNode()
-        self.parentNode.zPosition = CGFloat(priority)
-        self.parentNode.position = scene.convertPoint(fromView: CGPoint(x:x, y:y))
+        parentNode = SKCropNode()
+        parentNode.maskNode = maskNode
+        parentNode.zPosition = CGFloat(priority)
+        parentNode.position = scene.convertPoint(fromView: CGPoint(x:x, y:y))
         scene.addChild(parentNode)
         
         // 枠
@@ -237,6 +244,17 @@ public class UWindow : UDrawable, UButtonCallbacks {
         bgNode.strokeColor = .clear
         parentNode.addChild(bgNode)
         
+        // test
+//        let n = SKShapeNode(rect: CGRect(x:0, y:0, width: 50, height: -50))
+//        n.fillColor = .red
+//        n.strokeColor = .clear
+//        parentNode.addChild(n)
+//        
+//        let n2 = SKShapeNode(rect: CGRect(x:50, y:-50, width: 50, height: -50))
+//        n2.fillColor = .blue
+//        n2.strokeColor = .clear
+//        parentNode.addChild(n2)
+//        
         super.init(priority: priority, x: x,y: y,width: width,height: height)
         
         updateRect()
@@ -370,15 +388,6 @@ public class UWindow : UDrawable, UButtonCallbacks {
         if (!isShow) {
             return
         }
-        
-        // BG
-//        if bgColor != nil {
-//            if offset != nil {
-//                drawBG(offset: offset!)
-//            } else {
-//                drawBG()
-//            }
-//        }
         
         // Window内部
         var _pos : CGPoint = CGPoint(x: frameSize.width, y: frameSize.height + topBarH)

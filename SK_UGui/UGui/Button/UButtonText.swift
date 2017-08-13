@@ -160,22 +160,14 @@ public class UButtonText : UButton {
         scene.addChild(parentNode)
         
         // BG
-        let bgH = (type == .BGColor) ? -h : -(h - UDpi.toPixel(UButton.PRESS_Y))
+        let bgH = (type == .BGColor) ? h : (h - UDpi.toPixel(UButton.PRESS_Y))
             
-        self.bgNode = SKShapeNode(rect: CGRect(x:0, y:0, width: w, height: bgH))
+        self.bgNode = SKShapeNode(rect: CGRect(x:0, y:0, width: w, height: bgH).convToSK(),
+                                  cornerRadius: 10.0)
         self.bgNode.fillColor = color!
         self.bgNode.strokeColor = .clear
         self.bgNode.zPosition = 0.1
         self.parentNode.addChild(self.bgNode)
-        
-        // BG2(影の部分)
-        if type != .BGColor {
-            let _h = UDpi.toPixel( UButton.PRESS_Y + 13)
-            self.bg2Node = SKShapeNode(rect: CGRect(x:0, y:0, width: w, height: -_h))
-            self.bg2Node!.fillColor = color!
-            self.bg2Node!.strokeColor = .clear
-            self.parentNode.addChild(self.bg2Node!)
-        }
         
         // Label
         self.labelNode = SKLabelNode(text: text)
@@ -184,7 +176,7 @@ public class UButtonText : UButton {
         self.labelNode.fontName = "HiraKakuProN-W6"
         self.labelNode.horizontalAlignmentMode = .center
         self.labelNode.verticalAlignmentMode = .center
-        self.labelNode.position = CGPoint(x: w / 2, y: bgH / 2)
+        self.labelNode.position = CGPoint(x: w / 2, y: bgH / 2).convToSK()
         self.bgNode.addChild(self.labelNode)
         
 
@@ -201,6 +193,15 @@ public class UButtonText : UButton {
             setSize(width, size.height + UDpi.toPixel( UButtonText.MARGIN_V) * 2)
         }
         
+        // BG2(影の部分)
+        if type != .BGColor {
+            let _h = UDpi.toPixel( UButton.PRESS_Y + 20)
+            self.bg2Node = SKShapeNode(rect: CGRect(x:0, y:bgH - UDpi.toPixel(20), width: w, height: _h).convToSK(),
+                                       cornerRadius: 10.0)
+            self.bg2Node!.fillColor = pressedColor
+                self.bg2Node!.strokeColor = .clear
+            self.parentNode.addChild(self.bg2Node!)
+        }
     }
 
     /**
@@ -258,22 +259,12 @@ public class UButtonText : UButton {
             }
         }
         else {
-            var _pressedColor = pressedColor
             // 押したら凹むボタン
             if !enabled {
                 _color = disabledColor
-                _pressedColor = disabledColor2
             }
             if isPressed || pressedOn {
                 _pos.y += UDpi.toPixel( UButton.PRESS_Y)
-            } else {
-                // ボタンの影用に下に矩形を描画
-                let height : CGFloat = UDpi.toPixel( UButton.PRESS_Y + 13)
-                
-                if self.bg2Node != nil {
-                    self.bg2Node!.position = CGPoint(x: 0, y: SKUtil.convY(fromView:size.height - height))
-                    self.bg2Node!.fillColor = _pressedColor
-                }
             }
             _height -= UDpi.toPixel(UButton.PRESS_Y)
             
