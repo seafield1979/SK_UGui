@@ -6,8 +6,7 @@
 //  Copyright © 2017年 Shusuke Unno. All rights reserved.
 //
 
-import Foundation
-import UIKit
+import SpriteKit
 
 /**
  * スクロールバーの表示タイプ
@@ -43,7 +42,7 @@ public class UScrollBar {
      */
     public static let TAG = "UScrollBar"
     
-    private static let TOUCH_MARGIN = 40     // バーは細くてタッチしにくいので見た目よりもあたり判定を広くするためのマージンを設定する1
+    private static let TOUCH_MARGIN = 10     // バーは細くてタッチしにくいので見た目よりもあたり判定を広くするためのマージンを設定する1
     
     // colors
     private static let BAR_COLOR = UColor.makeColor(160, 128,128,128)
@@ -53,13 +52,19 @@ public class UScrollBar {
     /**
      * Membar Variables
      */
+    // SpriteKit nodes
+    public var parentNode : SKNode
+    public var barNode : SKShapeNode? = nil
+    public var bgNode : SKShapeNode? = nil
+    
     private var type : ScrollBarType = ScrollBarType.Vertical
     private var showType : ScrollBarShowType = ScrollBarShowType.Show
     private var _isShow : Bool = false
     
     public var pos = CGPoint()
     public var parentPos = CGPoint()
-    public var bgColor : UIColor? = nil, barColor : UIColor? = nil
+    public var bgColor : UIColor? = nil
+    public var barColor : UIColor = .orange
     private var isDraging : Bool = false
     
     // スクリーン座標系
@@ -157,14 +162,34 @@ public class UScrollBar {
         self.contentLen = contentLen
         self.pageLen = pageLen
     
+        // SpriteKit のノード
+        let scene = TopScene.getInstance()
+        // 親
+        parentNode = SKNode()
+        parentNode.position = CGPoint(x:x, y: SKUtil.convY(fromView:y))
+        parentNode.zPosition = 1.0
+        
+        // BG
+        bgColor = .gray
+        if bgColor != nil {
+            if type == .Horizontal {
+                bgNode = SKShapeNode(rect: CGRect(x: 0, y: 0, width: bgLength, height: -bgWidth))
+            } else {
+                bgNode = SKShapeNode(rect: CGRect(x: 0, y: 0, width: bgWidth, height:-bgLength))
+            }
+            bgNode!.fillColor = bgColor!
+            bgNode!.strokeColor = .clear
+            parentNode.addChild(bgNode!)
+        }
+        
         updateBarLength()
  
         if (showType == ScrollBarShowType.Show2) {
             bgColor = UIColor.clear
-            barColor = UScrollBar.BAR_COLOR
+//            barColor = UScrollBar.BAR_COLOR
         } else {
             bgColor = UScrollBar.SHOW_BAR_COLOR
-            barColor = UScrollBar.SHOW_BG_COLOR
+//            barColor = UScrollBar.SHOW_BG_COLOR
         }
         
         updateSize()
@@ -188,7 +213,7 @@ public class UScrollBar {
      */
     public func setColor(bgColor : UIColor?, barColor : UIColor?) {
         self.bgColor = bgColor
-        self.barColor = barColor
+        self.barColor = barColor!
     }
     
     /**
@@ -228,13 +253,6 @@ public class UScrollBar {
             return
         }
     
-        var baseX : CGFloat = pos.x + parentPos.x
-        var baseY : CGFloat = pos.y + parentPos.y
-        if offset != nil {
-            baseX += offset!.x
-            baseY += offset!.y
-        }
-        
         var _barLength : CGFloat = barLength
         var _barPos : CGFloat = barPos
         if (showType == ScrollBarShowType.ShowAllways) {
@@ -242,40 +260,30 @@ public class UScrollBar {
             _barPos = 15;
         }
         if (type == ScrollBarType.Horizontal) {
-            if bgColor != nil {
-                bgRect.x = baseX
-                bgRect.y = baseY
-                bgRect.width = CGFloat(bgLength)
-                bgRect.height = CGFloat(bgWidth)
-            }
-            
-            barRect.x = baseX + CGFloat(_barPos)
-            barRect.y = baseY + 10
+            barRect.x = CGFloat(_barPos)
+            barRect.y = 10
             barRect.width = CGFloat(_barLength)
             barRect.height = CGFloat(bgWidth) - 20
         } else {
-            if bgColor != nil {
-                bgRect.x = baseX
-                bgRect.y = baseY
-                bgRect.width = CGFloat(bgWidth)
-                bgRect.height = CGFloat(bgLength)
-            }
-            
-            barRect.x = baseX + 10.0
-            barRect.y = baseY + CGFloat(_barPos)
+            barRect.x = 10.0
+            barRect.y = CGFloat(_barPos)
             barRect.width = CGFloat(bgWidth) - 20.0
             barRect.height = CGFloat(_barLength)
         }
         
-        // 背景
-        if (bgColor != nil) {
-            UDraw.drawRectFill(rect: bgRect, color: bgColor!)
+        // バー
+        // すでに追加済みバーを削除
+        if barNode != nil {
+            parentNode.removeChildren(in: [barNode!])
         }
         
-        // バー
-        if (barColor != nil) {
-            UDraw.drawRectFill(rect: barRect, color: barColor!)
-        }
+        barRect.y = SKUtil.convY(fromView: barRect.y)
+        barRect.height = SKUtil.convY(fromView: barRect.height)
+        self.barNode = SKShapeNode(rect: barRect)
+        self.barNode!.fillColor = barColor
+        self.barNode!.strokeColor = .clear
+        self.barNode!.zPosition = 2.0
+        parentNode.addChild(barNode!)
     }
     
     
@@ -307,6 +315,7 @@ public class UScrollBar {
      */
     public func barMove(_ move : CGFloat) {
         barPos += move
+        print("barMode: \(move) \(barPos)")
         if (barPos < 0) {
             barPos = 0;
         }
@@ -321,7 +330,7 @@ public class UScrollBar {
      * @param tv
      * @return
      */
-    public func touchEvent(vt : ViewTouch, offset : CGPoint) -> Bool {
+    public func touchEvent(vt : ViewTouch, offset : CGPoint?) -> Bool {
         switch(vt.type) {
         case .Touch:
             if touchDown(vt: vt, offset: offset) {
@@ -344,9 +353,13 @@ public class UScrollBar {
      * @param vt
      * @return true:バーがスクロールした
      */
-    private func touchDown(vt : ViewTouch, offset : CGPoint) -> Bool {
+    private func touchDown(vt : ViewTouch, offset : CGPoint?) -> Bool {
+        var offset = offset
+        if offset == nil {
+            offset = CGPoint()
+        }
         // スペース部分をタッチしたら１画面分スクロール
-        let ep = CGPoint(x: vt.touchX - offset.x, y: vt.touchY - offset.y)
+        let ep = CGPoint(x: vt.touchX - offset!.x, y: vt.touchY - offset!.y)
         
         var rect = CGRect()
         
@@ -375,9 +388,10 @@ public class UScrollBar {
                 }
             }
         } else {
+            let marginH = UDpi.toPixel(UScrollBar.TOUCH_MARGIN)
             rect = CGRect(x:pos.x,
-                          y: pos.y - UDpi.toPixel(UScrollBar.TOUCH_MARGIN),
-                          width: bgLength, height: bgWidth)
+                          y: pos.y - marginH,
+                          width: bgLength, height: bgWidth + marginH * 2)
             
             if (rect.contains(ep)) {
                 if ep.x < barPos {
@@ -410,8 +424,8 @@ public class UScrollBar {
     
     private func touchMove(vt : ViewTouch) -> Bool {
         if (isDraging) {
-            let move : CGFloat = (type == ScrollBarType.Vertical) ? vt.moveY : vt.moveY
-                barMove(move)
+            let move : CGFloat = (type == ScrollBarType.Vertical) ? vt.moveY : vt.moveX
+            barMove(move)
             return true
         }
         return false

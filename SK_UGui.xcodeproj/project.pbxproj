@@ -81,6 +81,7 @@
 		8A22B3491F3C339E0094D5C0 /* SKUNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A22B3481F3C339E0094D5C0 /* SKUNode.swift */; };
 		8A22B34B1F3DAD9C0094D5C0 /* SKUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A22B34A1F3DAD9C0094D5C0 /* SKUtil.swift */; };
 		8A22B34D1F3DEDBF0094D5C0 /* SKNodeUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A22B34C1F3DEDBF0094D5C0 /* SKNodeUtil.swift */; };
+		8A22B34F1F3F32220094D5C0 /* PageViewTest7.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A22B34E1F3F32220094D5C0 /* PageViewTest7.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -160,6 +161,7 @@
 		8A22B3481F3C339E0094D5C0 /* SKUNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SKUNode.swift; path = SK_UGui/SpriteKit/SKUNode.swift; sourceTree = "<group>"; };
 		8A22B34A1F3DAD9C0094D5C0 /* SKUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKUtil.swift; sourceTree = "<group>"; };
 		8A22B34C1F3DEDBF0094D5C0 /* SKNodeUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SKNodeUtil.swift; path = SK_UGui/SpriteKit/SKNodeUtil.swift; sourceTree = "<group>"; };
+		8A22B34E1F3F32220094D5C0 /* PageViewTest7.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageViewTest7.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -357,6 +359,7 @@
 				8A22B3231F3C299D0094D5C0 /* PageViewTest4.swift */,
 				8A22B3241F3C299D0094D5C0 /* PageViewTest5.swift */,
 				8A22B3251F3C299D0094D5C0 /* PageViewTest6.swift */,
+				8A22B34E1F3F32220094D5C0 /* PageViewTest7.swift */,
 				8A22B3261F3C299D0094D5C0 /* PageViewTitle.swift */,
 				8A22B3271F3C299D0094D5C0 /* UPageView.swift */,
 				8A22B3281F3C299D0094D5C0 /* UPageViewManager.swift */,
@@ -497,6 +500,7 @@
 				8A22B32C1F3C299D0094D5C0 /* PageViewTest2.swift in Sources */,
 				8A22B3351F3C2DAC0094D5C0 /* TopView.swift in Sources */,
 				8A22B2F71F3C277F0094D5C0 /* UMenuBar.swift in Sources */,
+				8A22B34F1F3F32220094D5C0 /* PageViewTest7.swift in Sources */,
 				8A22B2F01F3C277F0094D5C0 /* CGRect+U.swift in Sources */,
 				8A22B31B1F3C27BA0094D5C0 /* ColorView.swift in Sources */,
 				8A22B3331F3C299D0094D5C0 /* UPageViewManager.swift in Sources */,

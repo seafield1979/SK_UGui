@@ -8,8 +8,7 @@
 //  Copyright © 2017年 Shusuke Unno. All rights reserved.
 //
 
-import Foundation
-import UIKit
+import SpriteKit
 
 /**
  * Enums
@@ -52,6 +51,14 @@ public class UWindow : UDrawable, UButtonCallbacks {
     /**
      * Member Variables
      */
+    // SpriteKit nodes
+    var parentNode : SKNode
+    var bgNode : SKShapeNode
+    var frameNode : SKShapeNode? = nil
+    var sbHNode : SKShapeNode? = nil        // スクロールバー 横
+    var sbVNode : SKShapeNode? = nil        // スクロールバー 縦
+    
+    
     var windowCallbacks : UWindowCallbacks? = nil
     var parentView : TopScene? = nil
     var bgColor : UIColor? = nil
@@ -202,6 +209,34 @@ public class UWindow : UDrawable, UButtonCallbacks {
         self.frameSize = CGSize(width: frameW, height: frameH)
         self.frameColor = UWindow.FRAME_COLOR
         
+        // シーン
+        let scene = TopScene.getInstance()
+        
+        // ノードを作成
+        // parent
+        self.parentNode = SKNode()
+        self.parentNode.zPosition = CGFloat(priority)
+        self.parentNode.position = scene.convertPoint(fromView: CGPoint(x:x, y:y))
+        scene.addChild(parentNode)
+        
+        // 枠
+        if frameW > 0 || frameH > 0 {
+            self.frameNode = SKShapeNode(rect: CGRect(x: 0, y: 0, width: width, height: SKUtil.convY(fromView: height)))
+            if frameColor != nil {
+                frameNode!.fillColor = frameColor!
+            }
+            frameNode!.strokeColor = .clear
+            parentNode.addChild(frameNode!)
+        }
+        
+        // BG
+        self.bgNode = SKShapeNode(rect: CGRect(x: frameW, y: frameH, width: clientSize.width, height: SKUtil.convY(fromView: clientSize.height)))
+        if bgColor != nil {
+            bgNode.fillColor = bgColor!
+        }
+        bgNode.strokeColor = .clear
+        parentNode.addChild(bgNode)
+        
         super.init(priority: priority, x: x,y: y,width: width,height: height)
         
         updateRect()
@@ -233,6 +268,7 @@ public class UWindow : UDrawable, UButtonCallbacks {
                 bgWidth: scrollBarW,
                 pageLen: height - scrollBarW,
                 contentLen: contentSize.height)
+            parentNode.addChild( mScrollBarV!.parentNode )
             
             mScrollBarH = UScrollBar(
                 type: ScrollBarType.Horizontal,
@@ -243,6 +279,7 @@ public class UWindow : UDrawable, UButtonCallbacks {
                 bgWidth: scrollBarW,
                 pageLen: width - scrollBarW,
                 contentLen: contentSize.width)
+            parentNode.addChild( mScrollBarH!.parentNode )
         }
     }
     
@@ -335,13 +372,13 @@ public class UWindow : UDrawable, UButtonCallbacks {
         }
         
         // BG
-        if bgColor != nil {
-            if offset != nil {
-                drawBG(offset: offset!)
-            } else {
-                drawBG()
-            }
-        }
+//        if bgColor != nil {
+//            if offset != nil {
+//                drawBG(offset: offset!)
+//            } else {
+//                drawBG()
+//            }
+//        }
         
         // Window内部
         var _pos : CGPoint = CGPoint(x: frameSize.width, y: frameSize.height + topBarH)
@@ -404,50 +441,49 @@ public class UWindow : UDrawable, UButtonCallbacks {
         // Frame
         if (frameSize.width > 0 && frameColor != nil) {
             // 左右
-            UDraw.drawRectFill( rect: CGRect(x: _pos.x, y: _pos.y,
-                                       width: frameSize.width, height: size.height),
-                                color: frameColor!,
-                                strokeWidth: 0, strokeColor: nil)
-            UDraw.drawRectFill( rect: CGRect(x: _pos.x + size.width - frameSize.width,
-                                             y: _pos.y,
-                                             width: size.width,
-                                             height: size.height),
-                                color:frameColor!,
-                                strokeWidth: 0, strokeColor: nil)
+//            UDraw.drawRectFill( rect: CGRect(x: _pos.x, y: _pos.y,
+//                                       width: frameSize.width, height: size.height),
+//                                color: frameColor!,
+//                                strokeWidth: 0, strokeColor: nil)
+//            UDraw.drawRectFill( rect: CGRect(x: _pos.x + size.width - frameSize.width,
+//                                             y: _pos.y,
+//                                             width: size.width,
+//                                             height: size.height),
+//                                color:frameColor!,
+//                                strokeWidth: 0, strokeColor: nil)
         }
         
         if (frameSize.height > 0 && frameColor != nil) {
             // 上下
-            UDraw.drawRectFill( rect: CGRect(x: _pos.x, y: _pos.y,
-                                             width: size.width,
-                                             height: frameSize.height),
-                                color: frameColor!,
-                                strokeWidth: 0, strokeColor: nil)
-            UDraw.drawRectFill( rect: CGRect(x: _pos.x, y: _pos.y + size.height - frameSize.height,
-                                             width: size.width,
-                                             height: size.height),
-                                color:frameColor!,
-                                strokeWidth: 0, strokeColor: nil);
+//            UDraw.drawRectFill( rect: CGRect(x: _pos.x, y: _pos.y,
+//                                             width: size.width,
+//                                             height: frameSize.height),
+//                                color: frameColor!,
+//                                strokeWidth: 0, strokeColor: nil)
+//            UDraw.drawRectFill( rect: CGRect(x: _pos.x, y: _pos.y + size.height - frameSize.height,
+//                                             width: size.width,
+//                                             height: size.height),
+//                                color:frameColor!,
+//                                strokeWidth: 0, strokeColor: nil);
         }
         
         // TopBar
         if (topBarH > 0 && topBarColor != nil) {
-            UDraw.drawRectFill( rect: CGRect(x: _pos.x, y: _pos.y + frameSize.height,
-                                             width: size.width - frameSize.width,
-                                             height: frameSize.height + topBarH),
-                                color: topBarColor!,
-                                strokeWidth: 0,
-                                strokeColor: nil)
+//            UDraw.drawRectFill( rect: CGRect(x: _pos.x, y: _pos.y + frameSize.height,
+//                                             width: size.width - frameSize.width,
+//                                             height: frameSize.height + topBarH),
+//                                color: topBarColor!,
+//                                strokeWidth: 0,
+//                                strokeColor: nil)
         }
         
         // Close Button
         if (closeIcon != nil && closeIcon!.isShow) {
-            closeIcon!.draw(_pos);
+//            closeIcon!.draw(_pos);
         }
         
         // スクロールバー
         if (mScrollBarV != nil && mScrollBarV!.isShow()) {
-            
             mScrollBarV!.draw(offset: offset)
         }
         if (mScrollBarH != nil && mScrollBarH!.isShow()) {
@@ -526,7 +562,7 @@ public class UWindow : UDrawable, UButtonCallbacks {
         
         var offset = offset
         if offset == nil {
-            offset = CGPoint(x: offset!.x, y: offset!.y)
+            offset = CGPoint()
         }
         offset!.x += pos.x
         offset!.y += pos.y
@@ -539,13 +575,13 @@ public class UWindow : UDrawable, UButtonCallbacks {
         
         // スクロールバーのタッチ処理
         if mScrollBarV != nil && mScrollBarV!.isShow(){
-            if ( mScrollBarV!.touchEvent(vt: vt, offset: offset!)) {
+            if ( mScrollBarV!.touchEvent(vt: vt, offset: offset)) {
                 contentTop.y = CGFloat(mScrollBarV!.getTopPos())
                 return true
             }
         }
         if mScrollBarH != nil && mScrollBarH!.isShow() {
-            if  mScrollBarH!.touchEvent(vt: vt, offset: offset!) {
+            if  mScrollBarH!.touchEvent(vt: vt, offset: offset) {
                 contentTop.x = CGFloat(mScrollBarH!.getTopPos())
                 return true;
             }

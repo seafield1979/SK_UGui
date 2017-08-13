@@ -119,7 +119,7 @@ public class ViewTouch {
         
         switch e {
         case .Down:
-            ULog.printMsg(ViewTouch.TAG, "Touch Down")
+            ULog.printMsg(ViewTouch.TAG, "Touch Down: \(pos.x) \(pos.y)")
             
             isTouching = true
             if touch != nil {

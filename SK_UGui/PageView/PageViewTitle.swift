@@ -43,6 +43,7 @@ public class PageViewTitle : UPageView, UButtonCallbacks {
     public static let buttonId5 = 104
     public static let buttonId6 = 105
     public static let buttonId7 = 106
+    public static let buttonId8 = 108
     
     /**
      * Member variables
@@ -55,12 +56,13 @@ public class PageViewTitle : UPageView, UButtonCallbacks {
     public override init( topView : TopScene, title : String) {
         super.init( topView: topView, title: title)
         
-        buttonInfo.append(ButtonInfo(id: 100, name: "ボタン"))
-        buttonInfo.append(ButtonInfo(id: 101, name: "ダイアログ"))
-        buttonInfo.append(ButtonInfo(id: 102, name: "Logwindow"))
-        buttonInfo.append(ButtonInfo(id: 103, name: "メニューバー"))
-        buttonInfo.append(ButtonInfo(id: 104, name: "リストView"))
-        buttonInfo.append(ButtonInfo(id: 105, name: "テキスト"))
+        buttonInfo.append(ButtonInfo(id: PageViewTitle.buttonId1, name: "ボタン"))
+        buttonInfo.append(ButtonInfo(id: PageViewTitle.buttonId2, name: "ダイアログ"))
+        buttonInfo.append(ButtonInfo(id: PageViewTitle.buttonId3, name: "Logwindow"))
+        buttonInfo.append(ButtonInfo(id: PageViewTitle.buttonId4, name: "メニューバー"))
+        buttonInfo.append(ButtonInfo(id: PageViewTitle.buttonId5, name: "リストView"))
+        buttonInfo.append(ButtonInfo(id: PageViewTitle.buttonId6, name: "テキスト"))
+        buttonInfo.append(ButtonInfo(id: PageViewTitle.buttonId7, name: "ウィンドウ"))
     }
     
     /**
@@ -157,6 +159,9 @@ public class PageViewTitle : UPageView, UButtonCallbacks {
         case PageViewTitle.buttonId6:
             // ページ切り替え
             _ = PageViewManager.getInstance().stackPage(pageId: PageView.Test6)
+        case PageViewTitle.buttonId7:
+            // ページ切り替え
+            _ = PageViewManager.getInstance().stackPage(pageId: PageView.Test7)
         default:
             break
         }

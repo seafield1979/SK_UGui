@@ -18,6 +18,7 @@ public enum PageView : Int, EnumEnumerable {
     case Test4      // メニューバー
     case Test5      // リストビュー
     case Test6      // テキスト
+    case Test7      // ウィンドウ
    ;
 }
 
@@ -72,6 +73,9 @@ public class PageViewManager : UPageViewManager {
         case .Test6:
             page = PageViewTest6( topView: mTopView,
                                   title: UResourceManager.getStringByName("test6"))
+        case .Test7:
+            page = PageViewTest7( topView: mTopView,
+                                  title: UResourceManager.getStringByName("test7"))
         }
         if page != nil {
             pages[pageView.rawValue] = page
