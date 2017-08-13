@@ -83,6 +83,8 @@
 		8A22B34D1F3DEDBF0094D5C0 /* SKNodeUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A22B34C1F3DEDBF0094D5C0 /* SKNodeUtil.swift */; };
 		8A22B34F1F3F32220094D5C0 /* PageViewTest7.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A22B34E1F3F32220094D5C0 /* PageViewTest7.swift */; };
 		8A22B3511F400A6A0094D5C0 /* CGPoint+ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A22B3501F400A6A0094D5C0 /* CGPoint+ex.swift */; };
+		8A22B3551F4040570094D5C0 /* ScrollWindowTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A22B3541F4040570094D5C0 /* ScrollWindowTest.swift */; };
+		8A22B3571F4046DF0094D5C0 /* WindowItemNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A22B3561F4046DF0094D5C0 /* WindowItemNode.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -164,6 +166,8 @@
 		8A22B34C1F3DEDBF0094D5C0 /* SKNodeUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SKNodeUtil.swift; path = SK_UGui/SpriteKit/SKNodeUtil.swift; sourceTree = "<group>"; };
 		8A22B34E1F3F32220094D5C0 /* PageViewTest7.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageViewTest7.swift; sourceTree = "<group>"; };
 		8A22B3501F400A6A0094D5C0 /* CGPoint+ex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGPoint+ex.swift"; sourceTree = "<group>"; };
+		8A22B3541F4040570094D5C0 /* ScrollWindowTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollWindowTest.swift; sourceTree = "<group>"; };
+		8A22B3561F4046DF0094D5C0 /* WindowItemNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WindowItemNode.swift; path = SK_UGui/UGui/Window/WindowItemNode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -180,6 +184,7 @@
 		8A22B2981F3C267D0094D5C0 = {
 			isa = PBXGroup;
 			children = (
+				8A22B3561F4046DF0094D5C0 /* WindowItemNode.swift */,
 				8A22B3471F3C33790094D5C0 /* SpriteKit */,
 				8A22B3191F3C27BA0094D5C0 /* ColorView.swift */,
 				8A22B3341F3C2DAC0094D5C0 /* TopView.swift */,
@@ -327,6 +332,7 @@
 				8A22B2E11F3C277F0094D5C0 /* UPopupWindow.swift */,
 				8A22B2E21F3C277F0094D5C0 /* UScrollWindow.swift */,
 				8A22B2E31F3C277F0094D5C0 /* UWindow.swift */,
+				8A22B3541F4040570094D5C0 /* ScrollWindowTest.swift */,
 			);
 			path = Window;
 			sourceTree = "<group>";
@@ -496,6 +502,7 @@
 				8A22B3291F3C299D0094D5C0 /* PageViewManager.swift in Sources */,
 				8A22B3161F3C277F0094D5C0 /* ULog.swift in Sources */,
 				8A22B3171F3C277F0094D5C0 /* UResourceManager.swift in Sources */,
+				8A22B3551F4040570094D5C0 /* ScrollWindowTest.swift in Sources */,
 				8A22B3121F3C277F0094D5C0 /* Random.swift in Sources */,
 				8A22B2F41F3C277F0094D5C0 /* UButtonText.swift in Sources */,
 				8A22B3321F3C299D0094D5C0 /* UPageView.swift in Sources */,
@@ -527,6 +534,7 @@
 				8A22B31C1F3C27BA0094D5C0 /* ViewTouch.swift in Sources */,
 				8A22B2F51F3C277F0094D5C0 /* ListItemTest1.swift in Sources */,
 				8A22B3301F3C299D0094D5C0 /* PageViewTest6.swift in Sources */,
+				8A22B3571F4046DF0094D5C0 /* WindowItemNode.swift in Sources */,
 				8A22B2FA1F3C277F0094D5C0 /* UScrollBar.swift in Sources */,
 				8A22B3011F3C277F0094D5C0 /* UDrawableRect.swift in Sources */,
 				8A22B2F11F3C277F0094D5C0 /* UButton.swift in Sources */,

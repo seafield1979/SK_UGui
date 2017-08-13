@@ -37,7 +37,7 @@ public class UScrollWindow : UWindow {
     }
     
     public override func drawContent(offset : CGPoint?) {
-        
+        super.drawContent(offset: offset)
     }
     
     override public func touchEvent(vt: ViewTouch, offset: CGPoint?) -> Bool {

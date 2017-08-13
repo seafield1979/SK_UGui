@@ -54,6 +54,7 @@ public class UWindow : UDrawable, UButtonCallbacks {
     // SpriteKit nodes
     var parentNode : SKCropNode
     var bgNode : SKShapeNode
+    var scrollNode : SKNode                 // スクロールする子ノードの親
     var frameNode : SKShapeNode? = nil
     var sbHNode : SKShapeNode? = nil        // スクロールバー 横
     var sbVNode : SKShapeNode? = nil        // スクロールバー 縦
@@ -225,6 +226,19 @@ public class UWindow : UDrawable, UButtonCallbacks {
         parentNode.zPosition = CGFloat(priority)
         parentNode.position = scene.convertPoint(fromView: CGPoint(x:x, y:y))
         scene.addChild(parentNode)
+        
+        // scrollNode
+        scrollNode = SKNode()
+        scrollNode.position = CGPoint()
+        scrollNode.zPosition = 0.1
+        parentNode.addChild(scrollNode)
+        
+        // test
+        for i in 0..<10 {
+            let n = SKShapeNode(rect: CGRect(x: i*100, y: i*100, width: 50, height: 50).convToSK())
+            n.fillColor = .red
+            scrollNode.addChild(n)
+        }
         
         // 枠
         if frameW > 0 || frameH > 0 {
@@ -408,6 +422,10 @@ public class UWindow : UDrawable, UButtonCallbacks {
      */
     public func drawContent(offset : CGPoint?) {
         // 抽象クラス　サブクラスでオーバーライドして使用する
+        
+        // test
+        scrollNode.position = CGPoint(x: -contentTop.x, y: -contentTop.y).convToSK()
+        
     }
     
     /**

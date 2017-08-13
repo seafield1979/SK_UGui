@@ -47,6 +47,20 @@ public class SKNodeUtil {
     }
     
     /**
+     * 四角形のノードを作成する
+     * 引数の座標系はUIKitなので、内部でSpriteKit座標系に変換する
+     */
+    public static func createRectNode(rect : CGRect, color : SKColor, pos : CGPoint) -> SKShapeNode
+    {
+        let n = SKShapeNode(rect : rect.convToSK())
+        n.fillColor = color
+        n.strokeColor = .clear
+        n.position = pos.convToSK()
+        
+        return n
+    }
+    
+    /**
      ＋のSKNodeを作成する
      */
     public static func createCrossPoint( pos : CGPoint, length : CGFloat, lineWidth : CGFloat, color : SKColor) -> SKNode
