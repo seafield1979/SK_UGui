@@ -78,11 +78,15 @@ public class PageViewTest7 : UPageView, UWindowCallbacks {
         
         let scene = TopScene.getInstance()
         
-//        let window = UWindow(parentView: scene, callbacks: self, priority: 100, x: 50, y: 50, width: 200, height: 200, bgColor: .white)
         let window = UScrollWindow(parentView: scene, callbacks: self, priority: 100, x: 50, y: 50, width: 200, height: 200, color: .white, topBarH: 0, frameW: 0, frameH: 0)
         
         window.setContentSize(width: 1000, height: 1000, update: true)
         window.addToDrawManager()
+        
+        // アイテムを追加
+        for i in 0..<10 {
+            window.addItem(name: "item \(i+1)", pos: CGPoint(x: CGFloat(i) * 100.0, y: CGFloat(i) * 100.0), size: CGSize(width: 50, height: 50))
+        }
     }
     
     /**

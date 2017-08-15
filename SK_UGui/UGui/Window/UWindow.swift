@@ -71,6 +71,8 @@ public class UWindow : UDrawable, UButtonCallbacks {
     var topBarColor : UIColor? = nil
     var frameSize = CGSize()       // ウィンドウのフレームのサイズ
     var contentTop = CGPoint()  // クライアント領域のうち画面に表示する領域の左上の座標
+    
+    var mItems2 : [WindowItem] = []
     var mScrollBarH : UScrollBar?
     var mScrollBarV : UScrollBar?
     var closeIcon : UButtonClose?            // 閉じるボタン
@@ -211,7 +213,7 @@ public class UWindow : UDrawable, UButtonCallbacks {
         self.frameColor = UWindow.FRAME_COLOR
         
         // シーン
-        let scene = TopScene.getInstance()
+        let scene = parentView
         
         // ノードを作成
         // mask
@@ -233,13 +235,6 @@ public class UWindow : UDrawable, UButtonCallbacks {
         scrollNode.zPosition = 0.1
         parentNode.addChild(scrollNode)
         
-        // test
-        for i in 0..<10 {
-            let n = SKShapeNode(rect: CGRect(x: i*100, y: i*100, width: 50, height: 50).convToSK())
-            n.fillColor = .red
-            scrollNode.addChild(n)
-        }
-        
         // 枠
         if frameW > 0 || frameH > 0 {
             self.frameNode = SKShapeNode(rect: CGRect(x: 0, y: 0, width: width, height: SKUtil.convY(fromView: height)))
@@ -258,17 +253,6 @@ public class UWindow : UDrawable, UButtonCallbacks {
         bgNode.strokeColor = .clear
         parentNode.addChild(bgNode)
         
-        // test
-//        let n = SKShapeNode(rect: CGRect(x:0, y:0, width: 50, height: -50))
-//        n.fillColor = .red
-//        n.strokeColor = .clear
-//        parentNode.addChild(n)
-//        
-//        let n2 = SKShapeNode(rect: CGRect(x:50, y:-50, width: 50, height: -50))
-//        n2.fillColor = .blue
-//        n2.strokeColor = .clear
-//        parentNode.addChild(n2)
-//        
         super.init(priority: priority, x: x,y: y,width: width,height: height)
         
         updateRect()
@@ -318,6 +302,13 @@ public class UWindow : UDrawable, UButtonCallbacks {
     /**
      * Methods
      */
+    
+    public func addItem(name: String, pos: CGPoint, size: CGSize) {
+        // test
+        let item = WindowItem(name: name, pos: pos, size: size)
+        mItems2.append(item)
+        self.scrollNode.addChild(item.node)
+    }
     
     /**
      * Windowのサイズを更新する
@@ -613,7 +604,24 @@ public class UWindow : UDrawable, UButtonCallbacks {
                 return true;
             }
         }
-        return false;
+        
+        // test
+        // アイテムのタッチ処理
+        for item in mItems2 {
+            let offsetX = offset!.x - contentTop.x
+            let offsetY = offset!.y - contentTop.y
+            
+            if vt.isTouchUp {
+                if CGRect(x: item.pos.x + offsetX, y: item.pos.y + offsetY,
+                          width: item.size.width, height: item.size.height).contains(CGPoint(x: vt.touchX, y: vt.touchY))
+                {
+                    print("touch: \(item.name)")
+                    break   
+                }
+            }
+        }
+        
+        return false
     }
     
     /**

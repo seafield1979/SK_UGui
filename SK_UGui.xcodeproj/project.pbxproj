@@ -83,8 +83,9 @@
 		8A22B34D1F3DEDBF0094D5C0 /* SKNodeUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A22B34C1F3DEDBF0094D5C0 /* SKNodeUtil.swift */; };
 		8A22B34F1F3F32220094D5C0 /* PageViewTest7.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A22B34E1F3F32220094D5C0 /* PageViewTest7.swift */; };
 		8A22B3511F400A6A0094D5C0 /* CGPoint+ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A22B3501F400A6A0094D5C0 /* CGPoint+ex.swift */; };
-		8A22B3551F4040570094D5C0 /* ScrollWindowTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A22B3541F4040570094D5C0 /* ScrollWindowTest.swift */; };
 		8A22B3571F4046DF0094D5C0 /* WindowItemNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A22B3561F4046DF0094D5C0 /* WindowItemNode.swift */; };
+		8A22B3591F41CDB20094D5C0 /* WindowItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A22B3581F41CDB10094D5C0 /* WindowItem.swift */; };
+		8A22B35B1F41D6EA0094D5C0 /* CGSize+ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A22B35A1F41D6EA0094D5C0 /* CGSize+ex.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -166,8 +167,9 @@
 		8A22B34C1F3DEDBF0094D5C0 /* SKNodeUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SKNodeUtil.swift; path = SK_UGui/SpriteKit/SKNodeUtil.swift; sourceTree = "<group>"; };
 		8A22B34E1F3F32220094D5C0 /* PageViewTest7.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageViewTest7.swift; sourceTree = "<group>"; };
 		8A22B3501F400A6A0094D5C0 /* CGPoint+ex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGPoint+ex.swift"; sourceTree = "<group>"; };
-		8A22B3541F4040570094D5C0 /* ScrollWindowTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollWindowTest.swift; sourceTree = "<group>"; };
 		8A22B3561F4046DF0094D5C0 /* WindowItemNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WindowItemNode.swift; path = SK_UGui/UGui/Window/WindowItemNode.swift; sourceTree = "<group>"; };
+		8A22B3581F41CDB10094D5C0 /* WindowItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WindowItem.swift; sourceTree = "<group>"; };
+		8A22B35A1F41D6EA0094D5C0 /* CGSize+ex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGSize+ex.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -185,13 +187,13 @@
 			isa = PBXGroup;
 			children = (
 				8A22B3561F4046DF0094D5C0 /* WindowItemNode.swift */,
+				8A22B2BC1F3C277F0094D5C0 /* extension */,
 				8A22B3471F3C33790094D5C0 /* SpriteKit */,
 				8A22B3191F3C27BA0094D5C0 /* ColorView.swift */,
 				8A22B3341F3C2DAC0094D5C0 /* TopView.swift */,
 				8A22B31A1F3C27BA0094D5C0 /* ViewTouch.swift */,
 				8A22B31D1F3C299D0094D5C0 /* PageView */,
 				8A22B33A1F3C2E6E0094D5C0 /* Resource */,
-				8A22B2BC1F3C277F0094D5C0 /* extension */,
 				8A22B2BE1F3C277F0094D5C0 /* UGui */,
 				8A22B2E41F3C277F0094D5C0 /* UUtil */,
 				8A22B2A31F3C267D0094D5C0 /* SK_UGui */,
@@ -228,6 +230,7 @@
 			children = (
 				8A22B3501F400A6A0094D5C0 /* CGPoint+ex.swift */,
 				8A22B2BD1F3C277F0094D5C0 /* CGRect+U.swift */,
+				8A22B35A1F41D6EA0094D5C0 /* CGSize+ex.swift */,
 			);
 			name = extension;
 			path = SK_UGui/extension;
@@ -244,12 +247,12 @@
 				8A22B2CC1F3C277F0094D5C0 /* ScrollBar */,
 				8A22B2CE1F3C277F0094D5C0 /* Text */,
 				8A22B2D11F3C277F0094D5C0 /* UAlignment.swift */,
+				8A22B2DE1F3C277F0094D5C0 /* Window */,
 				8A22B2D21F3C277F0094D5C0 /* UDraw */,
 				8A22B2D81F3C277F0094D5C0 /* UDraw.swift */,
 				8A22B2D91F3C277F0094D5C0 /* UImageView.swift */,
 				8A22B2DC1F3C277F0094D5C0 /* URect.swift */,
 				8A22B2DD1F3C277F0094D5C0 /* UView.swift */,
-				8A22B2DE1F3C277F0094D5C0 /* Window */,
 				8A22B34A1F3DAD9C0094D5C0 /* SKUtil.swift */,
 			);
 			name = UGui;
@@ -332,7 +335,7 @@
 				8A22B2E11F3C277F0094D5C0 /* UPopupWindow.swift */,
 				8A22B2E21F3C277F0094D5C0 /* UScrollWindow.swift */,
 				8A22B2E31F3C277F0094D5C0 /* UWindow.swift */,
-				8A22B3541F4040570094D5C0 /* ScrollWindowTest.swift */,
+				8A22B3581F41CDB10094D5C0 /* WindowItem.swift */,
 			);
 			path = Window;
 			sourceTree = "<group>";
@@ -486,6 +489,7 @@
 				8A22B30E1F3C277F0094D5C0 /* EnumEnumerable.swift in Sources */,
 				8A22B2FE1F3C277F0094D5C0 /* DrawList.swift in Sources */,
 				8A22B32A1F3C299D0094D5C0 /* PageViewTemplate.swift in Sources */,
+				8A22B3591F41CDB20094D5C0 /* WindowItem.swift in Sources */,
 				8A22B3081F3C277F0094D5C0 /* UView.swift in Sources */,
 				8A22B2FB1F3C277F0094D5C0 /* UTextView.swift in Sources */,
 				8A22B2F61F3C277F0094D5C0 /* MenuBarTest1.swift in Sources */,
@@ -502,7 +506,7 @@
 				8A22B3291F3C299D0094D5C0 /* PageViewManager.swift in Sources */,
 				8A22B3161F3C277F0094D5C0 /* ULog.swift in Sources */,
 				8A22B3171F3C277F0094D5C0 /* UResourceManager.swift in Sources */,
-				8A22B3551F4040570094D5C0 /* ScrollWindowTest.swift in Sources */,
+				8A22B35B1F41D6EA0094D5C0 /* CGSize+ex.swift in Sources */,
 				8A22B3121F3C277F0094D5C0 /* Random.swift in Sources */,
 				8A22B2F41F3C277F0094D5C0 /* UButtonText.swift in Sources */,
 				8A22B3321F3C299D0094D5C0 /* UPageView.swift in Sources */,
