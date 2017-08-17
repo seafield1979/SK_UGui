@@ -52,7 +52,6 @@ public class MenuBarTest1 : UMenuBar {
         
         instance.initMenuBar()
         
-        instance.bgNode.fillColor = .yellow
         return instance
     }
     

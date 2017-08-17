@@ -23,6 +23,7 @@ public class UScrollWindow : UWindow {
                 topBarH : CGFloat, frameW : CGFloat, frameH : CGFloat)
     {
         super.init(parentView: parentView, callbacks: callbacks, priority: priority,
+                   cropping: true,
                    x: x, y: y,
                    width: width, height: height,
                    bgColor: color,

@@ -52,10 +52,11 @@ public class UWindow : UDrawable, UButtonCallbacks {
      * Member Variables
      */
     // SpriteKit nodes
-    var parentNode : SKCropNode
-    var bgNode : SKShapeNode
-    var scrollNode : SKNode                 // スクロールする子ノードの親
-    var frameNode : SKShapeNode? = nil
+    var parentNode : SKNode
+    var frameNode : SKShapeNode?
+    var bgNode : SKShapeNode?
+    var cropNode : SKCropNode?
+    var clientNode : SKNode           // スクロールする子ノードの親
     
     var windowCallbacks : UWindowCallbacks? = nil
     var parentView : TopScene? = nil
@@ -184,17 +185,19 @@ public class UWindow : UDrawable, UButtonCallbacks {
     /**
      * 外部からインスタンスを生成できないようにprivateでコンストラクタを定義する
      */
-    convenience init(parentView : TopScene, callbacks: UWindowCallbacks?, priority : Int,
+    convenience init(parentView : TopScene, callbacks: UWindowCallbacks?, priority : Int, cropping: Bool,
          x : CGFloat, y : CGFloat, width : CGFloat, height : CGFloat,
          bgColor : UIColor?)
     {
         self.init(parentView : parentView,
                   callbacks: callbacks!, priority: priority,
+                  cropping: cropping,
              x: x, y: y, width: width, height: height,
              bgColor: bgColor, topBarH: 0, frameW: 0, frameH: 0)
     }
     
     init(parentView: TopScene, callbacks: UWindowCallbacks?, priority : Int,
+         cropping : Bool,
          x : CGFloat, y : CGFloat, width : CGFloat, height : CGFloat,
          bgColor : UIColor?, topBarH : CGFloat, frameW : CGFloat, frameH : CGFloat)
     {
@@ -218,29 +221,50 @@ public class UWindow : UDrawable, UButtonCallbacks {
         parentNode.position = scene.convertPoint(fromView: CGPoint(x:x, y:y))
         scene.addChild(parentNode)
         
-        // scrollNode
-        scrollNode = SKNode()
-        scrollNode.position = CGPoint()
-        scrollNode.zPosition = 0.1
-        parentNode.addChild(scrollNode)
-        
-        // 枠
-        if frameW > 0 || frameH > 0 {
-            self.frameNode = SKShapeNode(rect: CGRect(x: 0, y: 0, width: width, height: SKUtil.convY(fromView: height)))
-            if frameColor != nil {
-                frameNode!.fillColor = frameColor!
-            }
+        // frame
+        if frameColor != nil && (frameW > 0 || (topBarH + frameH) > 0) {
+            frameNode = SKShapeNode(rect: CGRect(x: 0, y: 0, width: width, height: height).convToSK(), cornerRadius: 10.0)
+            frameNode!.fillColor = frameColor!
             frameNode!.strokeColor = .clear
             parentNode.addChild(frameNode!)
         }
         
-        // BG
-        self.bgNode = SKShapeNode(rect: CGRect(x: frameW, y: frameH, width: clientSize.width, height: SKUtil.convY(fromView: clientSize.height)))
+        // bg
+        bgNode = SKShapeNode(rect: CGRect(x: frameW, y: topBarH + frameH,
+                                          width: clientSize.width, height: clientSize.height).convToSK())
         if bgColor != nil {
-            bgNode.fillColor = bgColor!
+            bgNode!.fillColor = bgColor!
+            bgNode!.strokeColor = .clear
         }
-        bgNode.strokeColor = .clear
-        parentNode.addChild(bgNode)
+        parentNode.addChild( bgNode! )
+        
+        // crop
+        if cropping {
+            let maskNode = SKShapeNode(rect: CGRect(x:0, y:0, width: clientSize.width, height: clientSize.height).convToSK())
+            maskNode.fillColor = .black
+            maskNode.strokeColor = .clear
+            
+            cropNode = SKCropNode()
+            cropNode!.maskNode = maskNode
+            cropNode!.position = CGPoint(x: frameW, y: topBarH + frameH).convToSK()
+            
+            parentNode.addChild(cropNode!)
+        }
+        
+        // clientNode
+        clientNode = SKNode()
+        clientNode.position = CGPoint()
+        clientNode.zPosition = 0.1
+        
+        if cropping {
+            cropNode!.addChild( clientNode )
+        } else {
+            if bgNode != nil {
+                bgNode!.addChild( clientNode )
+            } else {
+                parentNode.addChild( clientNode )
+            }
+        }
         
         super.init(priority: priority, x: x,y: y,width: width,height: height)
         
@@ -268,7 +292,7 @@ public class UWindow : UDrawable, UButtonCallbacks {
                 type: ScrollBarType.Vertical,
                 showType: showType, parentPos: pos,
                 x: size.width - frameSize.width - scrollBarW,
-                y: frameSize.height,// + topBarH,
+                y: topBarH + frameH,
                 bgLength: clientSize.height,
                 bgWidth: scrollBarW,
                 pageLen: height - scrollBarW,
@@ -292,25 +316,25 @@ public class UWindow : UDrawable, UButtonCallbacks {
      * Methods
      */
     
-    public func setCropping(_ cropping : Bool) {
-        // ノードを作成
-        // クロッピング(ウィンドウ外にはみ出したノードを描画しない)
-        if cropping {
-            let maskNode = SKShapeNode(rect: bgNode.frame,
-                                   cornerRadius: 5.0)
-            maskNode.fillColor = .black
-            maskNode.strokeColor = .clear
-            parentNode.maskNode = maskNode
-        } else {
-            parentNode.maskNode = nil
-        }
-    }
+//    public func setCropping(_ cropping : Bool) {
+//        // ノードを作成
+//        // クロッピング(ウィンドウ外にはみ出したノードを描画しない)
+//        if cropping {
+//            let maskNode = SKShapeNode(rect: bgNode.frame,
+//                                   cornerRadius: 5.0)
+//            maskNode.fillColor = .black
+//            maskNode.strokeColor = .clear
+//            parentNode.maskNode = maskNode
+//        } else {
+//            parentNode.maskNode = nil
+//        }
+//    }
     
     public func addItem(name: String, pos: CGPoint, size: CGSize) {
         // test
         let item = WindowItem(name: name, pos: pos, size: size)
         mItems2.append(item)
-        self.scrollNode.addChild(item.node)
+        self.clientNode.addChild(item.node)
     }
     
     /**
@@ -418,7 +442,7 @@ public class UWindow : UDrawable, UButtonCallbacks {
         // 抽象クラス　サブクラスでオーバーライドして使用する
         
         // test
-        scrollNode.position = CGPoint(x: -contentTop.x, y: -contentTop.y).convToSK()
+        clientNode.position = CGPoint(x: -contentTop.x, y: -contentTop.y).convToSK()
         
     }
     

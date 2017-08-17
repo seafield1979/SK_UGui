@@ -149,7 +149,7 @@ public class UDialogWindow : UWindow {
         screenSize.width = screenW
         screenSize.height = screenH
         
-        super.init(parentView: parentView, callbacks: nil, priority: DrawPriority.Dialog.rawValue,
+        super.init(parentView: parentView, callbacks: nil, priority: DrawPriority.Dialog.rawValue, cropping: false,
                    x: x, y: y,
                    width: screenW, height: screenH,
                    bgColor: dialogColor,

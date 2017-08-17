@@ -172,7 +172,7 @@ public class UScrollBar {
         parentNode.zPosition = 1.0
         
         // BG
-        bgColor = .gray
+        bgColor = .clear
         if bgColor != nil {
             if type == .Horizontal {
                 bgNode = SKShapeNode(rect: CGRect(x: 0, y: 0, width: bgLength, height: -bgWidth))
