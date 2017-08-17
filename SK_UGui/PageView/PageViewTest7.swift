@@ -78,7 +78,7 @@ public class PageViewTest7 : UPageView, UWindowCallbacks {
         
         let scene = TopScene.getInstance()
         
-        let window = UScrollWindow(parentView: scene, callbacks: self, priority: 100, x: 50, y: 50, width: 200, height: 200, color: .white, topBarH: 0, frameW: 0, frameH: 0)
+        let window = UScrollWindow(parentView: scene, callbacks: self, priority: 100, x: 50, y: 50, width: 200, height: 200, color: .white, topBarH: 50, frameW: 20, frameH: 20)
         
         window.setContentSize(width: 1000, height: 1000, update: true)
         window.setCropping(true)

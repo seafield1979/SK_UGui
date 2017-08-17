@@ -80,28 +80,22 @@ public class PageViewTest5 : UPageView, UListItemCallbacks {
             windowCallbacks : nil,
             listItemCallbacks : self,
             priority : 100,
-            x : 50.0, y : 50.0,
-            width : 300, height : 400, color : UIColor.red)
+            x : 10.0, y : 0.0,
+            width : mTopView!.frame.size.width - 20.0,
+            height : mTopView!.frame.size.height - 100.0,
+            color : UIColor.blue)
   
         // アイテムを追加
         for _ in 0...19 {
             let item = ListItemTest1(callbacks: self,
                                      text: "hoge",
                                      x: 0, width: listView!.size.width,
-                                     color:UIColor.yellow)
+                                     color: UColor.makeColor(argb: UColor.getRandomColor()))
             listView?.add(item: item)
         }
-        listView?.updateWindow()
+        listView!.updateWindow()
         
         listView?.addToDrawManager()
-        
-        // ULogWindow
-        // 自動で描画リストに追加される
-        logWindow = ULogWindow.createInstance(
-            parentView: mTopView!, type: LogWindowType.Fix,
-            x: 0, y: CGFloat(UUtil.screenHeight()) - 450.0,
-            width: CGFloat(UUtil.screenWidth()),
-            height: CGFloat(UUtil.screenHeight()) / 2 - UUtil.navigationBarHeight())
     }
     
     // ダイアログを表示する
@@ -134,7 +128,7 @@ public class PageViewTest5 : UPageView, UListItemCallbacks {
      * @param item
      */
     public func ListItemClicked(item : UListItem) {
-        logWindow!.addLog("item : " + item.getIndex().description)
+//        logWindow!.addLog("item : " + item.getIndex().description)
     }
     
     /**

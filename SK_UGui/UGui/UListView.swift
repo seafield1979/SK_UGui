@@ -55,6 +55,7 @@ public class UListView : UScrollWindow
                     color: color,
                     topBarH: 0, frameW: 0, frameH: UDpi.toPixel(10))
         
+        self.setCropping(true)
     }
     
     /**
@@ -72,6 +73,8 @@ public class UListView : UScrollWindow
         item.setPos( 0, mBottomY )
         item.setIndex( mItems.count )
         item.setListItemCallbacks( mListItemCallbacks )
+        item.parentNode.position = CGPoint(x:0, y:mBottomY).convToSK()
+        scrollNode.addChild(item.parentNode)
         
         mItems.append(item)
         
@@ -130,19 +133,14 @@ public class UListView : UScrollWindow
     
     // ウィンドウの内部領域の描画
     override public func drawContent( offset : CGPoint? ) {
+        super.drawContent(offset: offset)
+        
         var _pos = CGPoint(x: pos.x, y: pos.y)
         
         if offset != nil {
             _pos.x += offset!.x
             _pos.y += offset!.y
         }
-        
-        // クリッピングを設定        
-        mClipRect = CGRect( x: _pos.x, y: _pos.y,
-                            width: clientSize.width, height: clientSize.height)
-        
-        UIGraphicsGetCurrentContext()!.saveGState()
-        UIGraphicsGetCurrentContext()!.clip(to: mClipRect)
         
         // アイテムを描画
         let _offset = CGPoint(x:_pos.x, y:_pos.y - contentTop.y)
@@ -158,8 +156,6 @@ public class UListView : UScrollWindow
                 break
             }
         }
-        // クリッピングを解除
-        UIGraphicsGetCurrentContext()!.restoreGState()
     }
 
     override public func touchEvent(vt : ViewTouch, offset : CGPoint?) -> Bool {
@@ -216,7 +212,7 @@ public class UListView : UScrollWindow
         for i in 0...19 {
             let item = ListItemTest1(callbacks: nil,
                                      text: "hoge",
-                                     x: 0, width: size.width, color:UIColor.yellow)
+                                     x: 0, width: size.width, color: UColor.makeColor(argb: UColor.getRandomColor()))
             add(item: item)
         }
         updateWindow()

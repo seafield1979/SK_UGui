@@ -6,8 +6,7 @@
 //  Copyright © 2017年 Shusuke Unno. All rights reserved.
 //
 
-import Foundation
-import UIKit
+import SpriteKit
 
 /**
  * リストビューの項目のコールバック
@@ -43,6 +42,10 @@ public class UListItem : UDrawable {
     var mFrameW : CGFloat = 0         // 枠の幅
     var mFrameColor : UIColor?        // 枠の色
     
+    // SpriteKit Node
+    public var parentNode : SKNode
+    var bgNode : SKShapeNode?
+    
     /**
      * Get/Set
      */
@@ -68,6 +71,9 @@ public class UListItem : UDrawable {
                 bgColor : UIColor?,
                 frameW : CGFloat, frameColor : UIColor?)
     {
+        // SpriteKit Node
+        parentNode = SKNode()
+        
         // yはリスト追加時に更新されるので0
         super.init(priority: 0, x: x, y: 0, width: width, height: height)
         
@@ -82,6 +88,19 @@ public class UListItem : UDrawable {
         if isTouchable && color != nil{
             // 押された時の色（暗くする)
             pressedColor = UColor.addBrightness(argb: color!, addY: -0.2)
+        }
+        
+        // SpriteKit Node
+        if bgColor != nil {
+            bgNode = SKShapeNode(rect : CGRect(x: 0, y: 0, width: width, height: height))
+            bgNode!.fillColor = bgColor!
+            bgNode!.convPoint()
+            
+            if frameW > 0 && frameColor != nil {
+                bgNode!.strokeColor = frameColor!
+                bgNode!.lineWidth = frameW
+            }
+            self.parentNode.addChild(bgNode!)
         }
     }
     
@@ -151,14 +170,14 @@ public class UListItem : UDrawable {
         }
         
         if mFrameW > 0 && color != nil {
-            UDraw.drawRectFill( rect: rect, color: _color!,
-                                strokeWidth: mFrameW, strokeColor: mFrameColor )
+//            UDraw.drawRectFill( rect: rect, color: _color!,
+//                                strokeWidth: mFrameW, strokeColor: mFrameColor )
         }
         else if color != nil {
-            UDraw.drawRectFill( rect: rect, color: _color! )
+//            UDraw.drawRectFill( rect: rect, color: _color! )
         }
         else if mFrameW > 0 {
-            UDraw.drawRect( rect: rect, width: mFrameW, color: mFrameColor! )
+//            UDraw.drawRect( rect: rect, width: mFrameW, color: mFrameColor! )
         }
     }
     

@@ -61,13 +61,13 @@ public class ListItemTest1 : UListItem {
         // BG
         let _rect = CGRect(x:_pos.x, y:_pos.y,
                            width: size.width, height: size.height)
-        UDraw.drawRectFill(rect: _rect, color: color!,
-                           strokeWidth: 4, strokeColor: UIColor.black)
+//        UDraw.drawRectFill(rect: _rect, color: color!,
+//                           strokeWidth: 4, strokeColor: UIColor.black)
         
         // text
         let text = mText
-        UDraw.drawText(text: text!, alignment: UAlignment.Center, textSize: mTextSize,
-                       x: _pos.x + size.width / 2, y: _pos.y + size.height / 2, color: ListItemTest1.TEXT_COLOR )
+//        UDraw.drawText(text: text!, alignment: UAlignment.Center, textSize: mTextSize,
+//                       x: _pos.x + size.width / 2, y: _pos.y + size.height / 2, color: ListItemTest1.TEXT_COLOR )
     }
     
     /**

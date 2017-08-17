@@ -43,7 +43,7 @@ public class UWindow : UDrawable, UButtonCallbacks {
     
     static let SCROLL_BAR_W : Int = 17;
     static let TOP_BAR_COLOR = UColor.makeColor(100, 100, 200)
-    static let FRAME_COLOR : UIColor? = nil
+    static let FRAME_COLOR : UIColor? = .yellow
     private static let TOUCH_MARGIN : Int = 13
     private static let BG_RADIUS : Int = 7
     private static let BG_FRAME_W : Int = 1
@@ -268,7 +268,7 @@ public class UWindow : UDrawable, UButtonCallbacks {
                 type: ScrollBarType.Vertical,
                 showType: showType, parentPos: pos,
                 x: size.width - frameSize.width - scrollBarW,
-                y: frameSize.height + topBarH,
+                y: frameSize.height,// + topBarH,
                 bgLength: clientSize.height,
                 bgWidth: scrollBarW,
                 pageLen: height - scrollBarW,

@@ -168,7 +168,7 @@ public class UScrollBar {
         // SpriteKit のノード
         // 親
         parentNode = SKNode()
-        parentNode.position = CGPoint(x:x, y: y).convToSK()
+        parentNode.position = CGPoint(x: x, y: y).convToSK()
         parentNode.zPosition = 1.0
         
         // BG
