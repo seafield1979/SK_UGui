@@ -458,10 +458,10 @@ public class UWindow : UDrawable, UButtonCallbacks {
     public func drawBG(rect : CGRect) {
         let frameWidth = (frameColor == nil) ? 0 : UDpi.toPixel(UWindow.BG_FRAME_W)
         
-        UDraw.drawRoundRectFill( rect: rect,
-                                 cornerR: UDpi.toPixel(UWindow.BG_RADIUS),
-                                 color: bgColor!,
-                                 strokeWidth: frameWidth, strokeColor: frameColor)
+//        UDraw.drawRoundRectFill( rect: rect,
+//                                 cornerR: UDpi.toPixel(UWindow.BG_RADIUS),
+//                                 color: bgColor!,
+//                                 strokeWidth: frameWidth, strokeColor: frameColor)
     }
     
     public func drawBG() {

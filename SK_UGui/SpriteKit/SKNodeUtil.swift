@@ -70,6 +70,7 @@ public class SKNodeUtil {
         // ２本の線の親
         let parentNode = SKNode()
         parentNode.position = scene.convertPoint(fromView: pos)
+        parentNode.zPosition = 1000.0
         
         // line1
         var points = [ CGPoint(x: -length / 2, y:0),
@@ -102,7 +103,7 @@ public class SKNodeUtil {
         n.fontSize = textSize
         n.fontName = "HiraKakuProN-W6"
         if offset != nil {
-            n.position = offset!
+            n.position = offset!.convToSK()
         }
         
         switch alignment {

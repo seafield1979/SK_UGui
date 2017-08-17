@@ -6,8 +6,7 @@
 //  Copyright © 2017年 Shusuke Unno. All rights reserved.
 //
 
-import Foundation
-import UIKit
+import SpriteKit
 
 
 public enum LogWindowType : Int {
@@ -34,6 +33,9 @@ public class ULogWindow : UWindow {
     private var count : Int = 1
     private var maxLog : Int = 0
     
+    // SpriteKit Node
+    private var labelNodes : [SKLabelNode] = []
+    
     private init( parentView: TopScene,
                   x : CGFloat, y : CGFloat,
                   width : CGFloat, height : CGFloat,
@@ -48,7 +50,16 @@ public class ULogWindow : UWindow {
         if type == LogWindowType.AutoDisappear {
             startTimer(time: ULogWindow.SHOW_TIME)
         }
-        maxLog = Int(height / UDpi.toPixel(ULogWindow.TEXT_SIZE)) + 1
+        let textSize = UDpi.toPixel(ULogWindow.TEXT_SIZE)
+        maxLog = Int(height / textSize) + 1
+        
+        var y : CGFloat = 0
+        for _ in 0..<maxLog {
+            let n = SKNodeUtil.createLabelNode(text: "", textSize: textSize, color: .white, alignment: .Left, offset: CGPoint(x:10, y: y))
+            labelNodes.append(n)
+            clientNode.addChild(n)
+            y += textSize
+        }
     }
     
     /**
@@ -233,56 +244,18 @@ public class ULogWindow : UWindow {
             return
         }
         
-        // 背景
-        drawBG()
-        
         // テキスト表示
         drawText()
     }
     
     private func drawText() {
-
-        let lineH = UDpi.toPixel(ULogWindow.TEXT_SIZE)
-
-        // クリッピングを設定
-        let mClipRect = CGRect( x: pos.x, y: pos.y,
-                            width: clientSize.width,
-                            height: clientSize.height - lineH)
-        
-        UIGraphicsGetCurrentContext()!.saveGState()
-        UIGraphicsGetCurrentContext()!.clip(to: mClipRect)
-        
-        
-        // 文字描画に使用するフォントの指定
-        let font = UIFont.boldSystemFont(ofSize:lineH)
-        
-        // パラグラフ関連の情報の指定
-        let style = NSMutableParagraphStyle()
-        style.alignment = NSTextAlignment.left
-        style.lineBreakMode = NSLineBreakMode.byClipping
-        
-        let textFontAttributes = [
-            NSFontAttributeName: font,
-            NSParagraphStyleAttributeName: style,
-            NSForegroundColorAttributeName: UIColor.white,
-            NSBackgroundColorAttributeName: UIColor.clear
-            ] as [String : Any]
-        
-        
-        let drawX : CGFloat = pos.x + UDpi.toPixel(ULogWindow.MARGIN)
-        var drawY : CGFloat = pos.y + UDpi.toPixel(ULogWindow.MARGIN)
         // 全ログを表示
+        var i = 0
         for msg in logs {
-            let size = msg!.text.size(attributes: [NSFontAttributeName : font])
-        
-            msg!.text.draw(in: CGRect(x: drawX, y: drawY,
-                                     width: size.width, height:size.height),
-                          withAttributes: textFontAttributes)
-            drawY += lineH
+            labelNodes[i].text = msg!.text
+            labelNodes[i].color = msg!.color
+            i += 1
         }
-        
-        // クリッピングを解除
-        UIGraphicsGetCurrentContext()!.restoreGState()
     }
     
     /**

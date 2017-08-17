@@ -1,7 +1,7 @@
 //
 //  PageViewTest3.swift
 //  UGui
-//
+//      ULogWindowのサンプル
 //  Created by Shusuke Unno on 2017/07/15.
 //  Copyright © 2017年 Shusuke Unno. All rights reserved.
 //
