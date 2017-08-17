@@ -69,8 +69,14 @@ public class MenuBarTest1 : UMenuBar {
         // Debug
         item = addTopMenuItem( menuId: MenuItemId.DebugTop.rawValue, image: image! )
         item2 = addMenuItem(parent: item!, menuId: MenuItemId.Debug1.rawValue, image: image2!)
-//        item2 = addMenuItem(parent: item!, menuId: MenuItemId.Debug2.rawValue, image: image2!)
-//        item2 = addMenuItem(parent: item!, menuId: MenuItemId.Debug3.rawValue, image: image2!)
+        item2 = addMenuItem(parent: item!, menuId: MenuItemId.Debug2.rawValue, image: image2!)
+        item2 = addMenuItem (parent: item!, menuId: MenuItemId.Debug3.rawValue, image: image2!)
+        
+        // Debug
+        item = addTopMenuItem( menuId: MenuItemId.DebugTop.rawValue, image: image! )
+        item2 = addMenuItem(parent: item!, menuId: MenuItemId.Debug1.rawValue, image: image2!)
+        item2 = addMenuItem(parent: item!, menuId: MenuItemId.Debug2.rawValue, image: image2!)
+        item2 = addMenuItem (parent: item!, menuId: MenuItemId.Debug3.rawValue, image: image2!)
         
         self.addToDrawManager()
         
