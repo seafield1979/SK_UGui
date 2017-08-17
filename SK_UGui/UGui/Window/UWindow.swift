@@ -43,7 +43,7 @@ public class UWindow : UDrawable, UButtonCallbacks {
     
     static let SCROLL_BAR_W : Int = 17;
     static let TOP_BAR_COLOR = UColor.makeColor(100, 100, 200)
-    static let FRAME_COLOR : UIColor? = .yellow
+    static let FRAME_COLOR : UIColor? = .darkGray
     private static let TOUCH_MARGIN : Int = 13
     private static let BG_RADIUS : Int = 7
     private static let BG_FRAME_W : Int = 1
@@ -114,6 +114,9 @@ public class UWindow : UDrawable, UButtonCallbacks {
     
     public func setFrameColor(frameColor : UIColor?) {
         self.frameColor = frameColor
+        if frameNode != nil {
+            self.frameNode!.fillColor = frameColor!
+        }
     }
     
     public func setTopBar(height : CGFloat, color : UIColor?) {

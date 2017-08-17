@@ -80,7 +80,7 @@ public class PageViewTest5 : UPageView, UListItemCallbacks {
             windowCallbacks : nil,
             listItemCallbacks : self,
             priority : 100,
-            x : 10.0, y : 0.0,
+            x : 10.0, y : 20.0,
             width : mTopView!.frame.size.width - 20.0,
             height : mTopView!.frame.size.height - 100.0,
             color : UIColor.blue)
@@ -89,7 +89,8 @@ public class PageViewTest5 : UPageView, UListItemCallbacks {
         for _ in 0...19 {
             let item = ListItemTest1(callbacks: self,
                                      text: "hoge",
-                                     x: 0, width: listView!.size.width,
+                                     x: listView!.frameSize.width,
+                                     width: listView!.clientSize.width,
                                      color: UColor.makeColor(argb: UColor.getRandomColor()))
             listView?.add(item: item)
         }

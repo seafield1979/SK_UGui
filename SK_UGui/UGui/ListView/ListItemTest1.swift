@@ -6,8 +6,7 @@
 //  Copyright © 2017年 Shusuke Unno. All rights reserved.
 //
 
-import Foundation
-import UIKit
+import SpriteKit
 
 public class ListItemTest1 : UListItem {
     /**
@@ -25,6 +24,9 @@ public class ListItemTest1 : UListItem {
     private var mText : String? = nil
     private var mTextSize : Int = 10
     
+    // SpriteKit Node
+    private var labelNode : SKLabelNode?
+    
     /**
      * Constructor
      */
@@ -39,6 +41,11 @@ public class ListItemTest1 : UListItem {
         self.color = color
         mText = text
         mTextSize = Int(UDpi.toPixel(ListItemTest1.TEXT_SIZE))
+        
+        // SpriteKit Node
+        labelNode = SKNodeUtil.createLabelNode(text: text, textSize: CGFloat(mTextSize), color: .white, alignment: .Center, offset: nil)
+        labelNode!.position = CGPoint(x: size.width / 2, y: size.height / 2)
+        bgNode?.addChild(labelNode!)
     }
     
     /**

@@ -315,7 +315,6 @@ public class UScrollBar {
      */
     public func barMove(_ move : CGFloat) {
         barPos += move
-        print("barMode: \(move) \(barPos)")
         if (barPos < 0) {
             barPos = 0;
         }

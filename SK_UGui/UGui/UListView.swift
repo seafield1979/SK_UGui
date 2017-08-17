@@ -53,7 +53,7 @@ public class UListView : UScrollWindow
                     x: x, y: y,
                     width: width, height: height,
                     color: color,
-                    topBarH: 0, frameW: 0, frameH: UDpi.toPixel(10))
+                    topBarH: 0, frameW: UDpi.toPixel(3), frameH: UDpi.toPixel(10))
     }
     
     /**
@@ -71,7 +71,7 @@ public class UListView : UScrollWindow
         item.setPos( 0, mBottomY )
         item.setIndex( mItems.count )
         item.setListItemCallbacks( mListItemCallbacks )
-        item.parentNode.position = CGPoint(x:0, y:mBottomY).convToSK()
+        item.parentNode.position = CGPoint(x:item.pos.x, y:mBottomY).convToSK()
         clientNode.addChild(item.parentNode)
         
         mItems.append(item)
