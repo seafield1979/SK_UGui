@@ -8,8 +8,7 @@
 //  Copyright © 2017年 Shusuke Unno. All rights reserved.
 //
 
-import Foundation
-import UIKit
+import SpriteKit
 
 public protocol UMenuItemCallbacks {
     // メニューの項目がクリックされたときのコールバック
@@ -40,6 +39,13 @@ public class UMenuItem : UDrawable {
     var mStateMax : Int = 0         // 状態の最大値 addState で増える
     var mShowTitle : Bool = false
     
+    
+    // SpriteKit Node
+    var parentNode : SKNode
+    var spriteNode : SKSpriteNode?
+//    var textNode : SKLabelNode?
+//    var textBGNode : SKShapeNode?
+    
     // 親アイテム
     var mParentItem : UMenuItem? = nil
     // 子アイテムリスト
@@ -49,7 +55,7 @@ public class UMenuItem : UDrawable {
     var isOpened : Bool = false
     
     // アイコン用画像
-    var icons : List<UIImage> = List()
+    var icons : List<SKTexture> = List()
     
     // 閉じている移動中かどうか
     var isClosing : Bool = false
@@ -58,12 +64,21 @@ public class UMenuItem : UDrawable {
     /**
      イニシャライザ
      */
-    public init( menuBar: UMenuBar, id: Int, isTop : Bool, icon : UIImage?) {
+    public init( menuBar: UMenuBar, parentItem : UMenuItem?, id: Int, isTop : Bool, icon : UIImage?) {
+        
         let width = isTop ? UDpi.toPixel(UMenuItem.TOP_ITEM_W) : UDpi.toPixel(UMenuItem.ITEM_W)
         let height = UDpi.toPixel(isTop ? UMenuItem.TOP_ITEM_W : UMenuItem.ITEM_W)
         
         self.mMenuBar = menuBar
         self.mTextTitle = nil
+        
+        // SpriteKit Node
+        parentNode = SKNode()
+        if parentItem != nil {
+            parentItem!.parentNode.addChild( parentNode )
+        } else {
+            menuBar.parentNode.addChild(parentNode)
+        }
         
         super.init(priority: UMenuItem.DRAW_PRIORITY, x: 0, y: 0,
                     width: width,
@@ -74,7 +89,12 @@ public class UMenuItem : UDrawable {
         self.animeFrame = 0
         self.animeFrameMax = 10
         if icon != nil {
-            icons.append(icon!)
+            let texture = SKTexture(image: icon!)
+            icons.append(texture)
+            spriteNode = SKSpriteNode(texture: texture)
+            spriteNode!.size = size
+            spriteNode!.anchorPoint = CGPoint(x:0, y:1)
+            parentNode.addChild(spriteNode!)
         }
     }
     
@@ -97,6 +117,8 @@ public class UMenuItem : UDrawable {
         
         mShowTitle = true
         mTextTitle?.setMargin( 15, 15)
+        
+        parentNode.addChild(mTextTitle!.parentNode)
     }
     
     /**
@@ -119,7 +141,9 @@ public class UMenuItem : UDrawable {
      * @param icon 追加した状態の場合に表示するアイコン
      */
     public func addState(icon : UIImage) {
-        icons.append(icon)
+        let texture = SKTexture( image: icon)
+        icons.append(texture)
+        
         mStateMax += 1
     }
     
@@ -147,22 +171,14 @@ public class UMenuItem : UDrawable {
      * @param parentPos
      */
     override public func draw(_ parentPos: CGPoint) {
+        spriteNode!.isHidden = !isShow
         if !isShow {
             return
         }
         
-        // スタイル(内部を塗りつぶし)
-//        paint.setStyle(Paint.Style.FILL);
-//        // 色
-//        paint.setColor(0);
-//        
-        var drawPos = CGPoint()
-        drawPos.x = pos.x + parentPos.x
-        drawPos.y = pos.y + parentPos.y
-        
         if icons.count > 0 {
             // 次の状態のアイコンを表示する
-            let icon : UIImage = icons[getNextStateId()]
+            let texture = icons[getNextStateId()]
             
             // アニメーション処理
             // フラッシュする
@@ -175,24 +191,26 @@ public class UMenuItem : UDrawable {
                     alpha = 1.0 - alpha
                 }
             }
+            
+            spriteNode!.texture = texture
+            spriteNode!.alpha = alpha
+            spriteNode!.blendMode = .alpha
+            parentNode.position = CGPoint(x: pos.x, y: pos.y).convToSK()
         
             // 領域の幅に合わせて伸縮
-            icon.draw(in: CGRect(x:drawPos.x, y:drawPos.y,
-                                 width: size.width, height: size.width),
-                      blendMode: CGBlendMode.sourceAtop, alpha: alpha)
+//            icon.draw(in: CGRect(x:drawPos.x, y:drawPos.y,
+//                                 width: size.width, height: size.width),
+//                      blendMode: CGBlendMode.sourceAtop, alpha: alpha)
             // タイトル
-            if !isMoving && !isClosing {
-                mTextTitle?.draw(drawPos)
-            }
+//            if !isMoving && !isClosing {
+//                mTextTitle?.draw(drawPos)
+//            }
         }
         
         // 子要素
         if mChildItem != nil {
             for item in mChildItem! {
-                if item!.isShow == false {
-                    continue
-                }
-                item!.draw(drawPos)
+                item!.draw(parentPos)
             }
         }
     }
@@ -310,18 +328,12 @@ public class UMenuItem : UDrawable {
             item!.isClosing = false
             item!.isShow = true
             
-            if (mNestCount == 0) {
-                // 縦方向
-                item!.startMoving(
-                    dstX: 0, dstY: CGFloat(-count) * UDpi.toPixel(UMenuItem.ITEM_W + UMenuItem.CHILD_MARGIN_V),
-                    frame: animeFrameMax )
-            } else if (mNestCount == 1) {
-                // 横方向
-                item!.startMoving(
-                    dstX: CGFloat(count) * UDpi.toPixel(UMenuItem.ITEM_W + UMenuItem.CHILD_MARGIN_H),
-                    dstY: 0,
-                    frame: animeFrameMax )
-            }
+            // 縦方向
+            item!.startMoving(
+                dstX: 0,
+                dstY: CGFloat(-count) * UDpi.toPixel(UMenuItem.ITEM_W + UMenuItem.CHILD_MARGIN_V),
+                frame: animeFrameMax )
+            
             count += 1
         }
     }

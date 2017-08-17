@@ -65,7 +65,7 @@ public class UMenuBar : UWindow {
      * @param image
      */
     func addTopMenuItem(menuId : Int, image : UIImage) -> UMenuItem {
-        let item = UMenuItem(menuBar: self, id: menuId, isTop: true, icon: image)
+        let item = UMenuItem(menuBar: self, parentItem: nil, id: menuId, isTop: true, icon: image)
         item.mCallbacks = mMenuItemCallbacks
         item.isShow = true
         
@@ -74,7 +74,8 @@ public class UMenuBar : UWindow {
         
         // 座標設定
         item.setPos(
-            UDpi.toPixel(UMenuBar.MARGIN_H + UMenuItem.TOP_ITEM_W + UMenuBar.MARGIN_H * (topItems.count - 1)), UDpi.toPixel(UMenuBar.MARGIN_TOP))
+            UDpi.toPixel(UMenuBar.MARGIN_H + UMenuBar.MARGIN_H * (topItems.count - 1)),
+            UDpi.toPixel(UMenuBar.MARGIN_TOP))
         return item
     }
     
@@ -87,7 +88,7 @@ public class UMenuBar : UWindow {
      */
     func addMenuItem(parent : UMenuItem, menuId : Int, image : UIImage) -> UMenuItem
     {
-        let item = UMenuItem(menuBar: self,
+        let item = UMenuItem(menuBar: self, parentItem: parent,
                              id: menuId, isTop: false, icon: image)
         item.mCallbacks = mMenuItemCallbacks
         item.mParentItem = parent
@@ -216,7 +217,7 @@ public class UMenuBar : UWindow {
         // トップのアイテムから描画
         for item in topItems {
             if item != nil && item!.isShow {
-                item!.draw(pos)
+                item!.draw(CGPoint())
             }
         }
         return;

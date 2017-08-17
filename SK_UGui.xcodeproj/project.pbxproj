@@ -86,6 +86,7 @@
 		8A22B3571F4046DF0094D5C0 /* WindowItemNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A22B3561F4046DF0094D5C0 /* WindowItemNode.swift */; };
 		8A22B3591F41CDB20094D5C0 /* WindowItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A22B3581F41CDB10094D5C0 /* WindowItem.swift */; };
 		8A22B35B1F41D6EA0094D5C0 /* CGSize+ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A22B35A1F41D6EA0094D5C0 /* CGSize+ex.swift */; };
+		8A9C722A1F452AC30004DEC8 /* SKNode+ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A9C72291F452AC30004DEC8 /* SKNode+ex.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -170,6 +171,7 @@
 		8A22B3561F4046DF0094D5C0 /* WindowItemNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WindowItemNode.swift; path = SK_UGui/UGui/Window/WindowItemNode.swift; sourceTree = "<group>"; };
 		8A22B3581F41CDB10094D5C0 /* WindowItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WindowItem.swift; sourceTree = "<group>"; };
 		8A22B35A1F41D6EA0094D5C0 /* CGSize+ex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGSize+ex.swift"; sourceTree = "<group>"; };
+		8A9C72291F452AC30004DEC8 /* SKNode+ex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SKNode+ex.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -231,6 +233,7 @@
 				8A22B3501F400A6A0094D5C0 /* CGPoint+ex.swift */,
 				8A22B2BD1F3C277F0094D5C0 /* CGRect+U.swift */,
 				8A22B35A1F41D6EA0094D5C0 /* CGSize+ex.swift */,
+				8A9C72291F452AC30004DEC8 /* SKNode+ex.swift */,
 			);
 			name = extension;
 			path = SK_UGui/extension;
@@ -516,6 +519,7 @@
 				8A22B3351F3C2DAC0094D5C0 /* TopView.swift in Sources */,
 				8A22B2F71F3C277F0094D5C0 /* UMenuBar.swift in Sources */,
 				8A22B34F1F3F32220094D5C0 /* PageViewTest7.swift in Sources */,
+				8A9C722A1F452AC30004DEC8 /* SKNode+ex.swift in Sources */,
 				8A22B2F01F3C277F0094D5C0 /* CGRect+U.swift in Sources */,
 				8A22B31B1F3C27BA0094D5C0 /* ColorView.swift in Sources */,
 				8A22B3331F3C299D0094D5C0 /* UPageViewManager.swift in Sources */,

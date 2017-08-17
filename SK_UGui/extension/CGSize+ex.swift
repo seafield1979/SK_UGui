@@ -12,7 +12,7 @@ extension CGSize {
     /** 
      UIKitの座標系から SpriteKitの座標系に変換する
      */
-    public func convToSK() -> CGSize {
-        return CGSize(width: self.width, height: -self.height)
-    }
+//    public func convToSK() -> CGSize {
+//        return CGSize(width: self.width, height: -self.height)
+//    }
 }

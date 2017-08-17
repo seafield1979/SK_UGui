@@ -292,7 +292,8 @@ public class UDrawable {
     
     public func startMoving(dstX: CGFloat, dstY: CGFloat, frame : Int) {
         startMoving(movingType: MovingType.UniformMotion,
-                    dstX: dstX, dstY: dstY, frame: frame);
+                    dstX: dstX, dstY: dstY,
+                    frame: frame);
     }
     
     /**

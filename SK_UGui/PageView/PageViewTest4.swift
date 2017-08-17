@@ -77,14 +77,6 @@ public class PageViewTest4 : UPageView, UMenuItemCallbacks {
         menuBar = MenuBarTest1.createInstance(parentView: mTopView!, callbacks: self,
                                               parentW: mTopView!.frame.size.width,
                                               parentH: mTopView!.frame.size.height, bgColor: nil)
-        
-        // ULogWindow
-        // 自動で描画リストに追加される
-        logWindow = ULogWindow.createInstance(
-            parentView: mTopView!, type: LogWindowType.Fix,
-            x: 0, y: UUtil.navigationBarHeight(),
-            width: CGFloat(UUtil.screenWidth()),
-            height: CGFloat(UUtil.screenHeight()) / 2 - UUtil.navigationBarHeight())
     }
     
     /**

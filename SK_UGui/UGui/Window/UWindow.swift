@@ -56,9 +56,6 @@ public class UWindow : UDrawable, UButtonCallbacks {
     var bgNode : SKShapeNode
     var scrollNode : SKNode                 // スクロールする子ノードの親
     var frameNode : SKShapeNode? = nil
-    var sbHNode : SKShapeNode? = nil        // スクロールバー 横
-    var sbVNode : SKShapeNode? = nil        // スクロールバー 縦
-    
     
     var windowCallbacks : UWindowCallbacks? = nil
     var parentView : TopScene? = nil
@@ -215,16 +212,8 @@ public class UWindow : UDrawable, UButtonCallbacks {
         // シーン
         let scene = parentView
         
-        // ノードを作成
-        // mask
-        let maskNode = SKShapeNode(rect: CGRect(x:0, y:0, width:width, height:height).convToSK(),
-                                   cornerRadius: 5.0)
-        maskNode.fillColor = .black
-        maskNode.strokeColor = .clear
-        
         // parent
         parentNode = SKCropNode()
-        parentNode.maskNode = maskNode
         parentNode.zPosition = CGFloat(priority)
         parentNode.position = scene.convertPoint(fromView: CGPoint(x:x, y:y))
         scene.addChild(parentNode)
@@ -302,6 +291,20 @@ public class UWindow : UDrawable, UButtonCallbacks {
     /**
      * Methods
      */
+    
+    public func setCropping(_ cropping : Bool) {
+        // ノードを作成
+        // クロッピング(ウィンドウ外にはみ出したノードを描画しない)
+        if cropping {
+            let maskNode = SKShapeNode(rect: bgNode.frame,
+                                   cornerRadius: 5.0)
+            maskNode.fillColor = .black
+            maskNode.strokeColor = .clear
+            parentNode.maskNode = maskNode
+        } else {
+            parentNode.maskNode = nil
+        }
+    }
     
     public func addItem(name: String, pos: CGPoint, size: CGSize) {
         // test
@@ -503,6 +506,8 @@ public class UWindow : UDrawable, UButtonCallbacks {
         // スクロールバー
         if (mScrollBarV != nil && mScrollBarV!.isShow()) {
             mScrollBarV!.draw(offset: offset)
+        } else {
+            
         }
         if (mScrollBarH != nil && mScrollBarH!.isShow()) {
             mScrollBarH!.draw(offset: offset)

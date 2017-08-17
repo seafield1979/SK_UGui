@@ -107,12 +107,14 @@ public class UScrollBar {
             topPos = 0
             if (showType != ScrollBarShowType.ShowAllways) {
                 _isShow = false
+                parentNode.isHidden = true
             }
         } else {
             barLength = self.bgLength *
                 (CGFloat(pageLen) / (CGFloat(contentLen))
             )
             _isShow = true;
+            parentNode.isHidden = false
         }
     }
     
@@ -133,6 +135,7 @@ public class UScrollBar {
     
     public func setShow(show : Bool) {
         self._isShow = show
+        parentNode.isHidden = !show
     }
     
     /**

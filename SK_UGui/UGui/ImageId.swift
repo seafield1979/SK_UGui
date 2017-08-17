@@ -12,8 +12,8 @@ public enum ImageName : String {
     case miro = "miro.jpg"
     case ume = "ume.png"
     
-    case close = "close"
-    case debug = "debug"
+    case close = "close.png"
+    case debug = "debug.png"
     case hogeman = "hogeman.png"
     case hogeman2 = "hogeman2.png"
 }

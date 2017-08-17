@@ -1,7 +1,7 @@
 //
 //  PageViewTest6.swift
 //  UGui
-//
+//      UITextViewのテストページ
 //  Created by Shusuke Unno on 2017/07/17.
 //  Copyright © 2017年 Shusuke Unno. All rights reserved.
 //
