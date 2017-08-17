@@ -26,7 +26,6 @@ public class UTextView : UDrawable {
     /**
      * Member variables
      */
-    public var parentNode : SKNode
     private var labelNode : SKLabelNode?
     private var bgNode : SKShapeNode?
     
@@ -81,22 +80,18 @@ public class UTextView : UDrawable {
         self.isDrawBG = isDrawBG
         self.textSize = textSize
         
-        // シーン
-        let scene = TopScene.getInstance()
-
         labelNode = SKLabelNode(text: text)
-        // ノードを作成
-        // parent
-        self.parentNode = SKNode()
-        self.parentNode.zPosition = CGFloat(priority)
-        self.parentNode.position = scene.convertPoint(fromView: CGPoint(x:x, y:y))
-        scene.addChild(parentNode)
-
+        
         super.init( priority: priority, x: x, y: y, width: width, height: CGFloat(textSize))
 
         self.color = color
         self.bgColor = bgColor
 
+        // ノードを作成
+        // parent
+        self.parentNode.zPosition = CGFloat(priority)
+        self.parentNode.position = CGPoint(x:x, y:y)
+        
         // Label
         self.labelNode = SKNodeUtil.createLabelNode(text: text, textSize: CGFloat(textSize), color: color, alignment: .Left, offset: nil)
         
@@ -177,7 +172,9 @@ public class UTextView : UDrawable {
             }
 
             
-            self.bgNode!.fillColor = bgColor!
+            if bgColor != nil {
+                self.bgNode!.fillColor = bgColor!
+            }
             self.bgNode!.strokeColor = .clear
             parentNode.addChild(self.bgNode!)
         }
@@ -256,85 +253,6 @@ public class UTextView : UDrawable {
      * @param offset 独自の座標系を持つオブジェクトをスクリーン座標系に変換するためのオフセット値
      */
     public override func draw(_ offset : CGPoint?) {
-//        var _pos = CGPoint(x:pos.x, y:pos.y)
-//        if (offset != nil) {
-//            _pos.x += offset!.x
-//            _pos.y += offset!.y
-//        }
-//        let _linePos = CGPoint(x:_pos.x, y:_pos.y)
-//        
-//        var _alignment : UAlignment = alignment
-//        
-//        if (isDrawBG) {
-//            var bgPos = CGPoint(x:_pos.x, y:_pos.y)
-//            switch (alignment) {
-//            case .CenterX:
-//                bgPos.x -= size.width / 2
-//                _pos.y += mMargin.height
-//            case .CenterY:
-//                _pos.x += mMargin.height
-//                bgPos.y -= size.height / 2
-//            case .Center:
-//                bgPos.x -= size.width / 2
-//                bgPos.y -= size.height / 2
-//            case .None:
-//                _pos.x += mMargin.width
-//                _pos.y += mMargin.height
-//            case .Right:
-//                bgPos.x -= size.width
-//                _pos.x -= mMargin.width
-//                _pos.y += mMargin.height
-//            case .Right_CenterY:
-//                bgPos.x -= size.width
-//                _pos.x -= mMargin.width
-//                bgPos.y -= size.height / 2
-//            default:
-//                break
-//            }
-//            
-//            if (!multiLine) {
-//                if (alignment == UAlignment.CenterX ||
-//                    alignment == UAlignment.None ||
-//                    alignment == UAlignment.Right)
-//                {
-//                    _pos.y += CGFloat(textSize) / 2.0
-//                }
-//            }
-//            
-//            // Background
-//            if (isDrawBG && bgColor != nil) {
-//                drawBG(bgPos)
-//            }
-//            
-//            // BGの中央にテキストを表示したいため、aligmentを書き換える
-//            if (!multiLine) {
-//                switch (alignment) {
-//                case .CenterX:
-//                    _alignment = UAlignment.Center
-//                    
-//                case .None:
-//                    _alignment = UAlignment.CenterY
-//                    
-//                case .Right:
-//                    _alignment = UAlignment.Right_CenterY
-//                default:
-//                    break
-//                }
-//            }
-//        }
-////        if (multiLine) {
-//            UDraw.drawText( text: text, alignment: _alignment, textSize: textSize,
-//                            x: _pos.x, y: _pos.y, color: color!)
-////        } else {
-////            UDraw.drawTextOneLine( text, _alignment, textSize,
-////                                  _pos.x, _pos.y,
-////                                  color);
-////        }
-//        
-//        // x,yにラインを表示 for Debug
-//        if (UDebug.drawTextBaseLine) {
-//            UDraw.drawCheck(x: _linePos.x,y: _linePos.y,color: UIColor.red)
-//        }
     }
     
     /**

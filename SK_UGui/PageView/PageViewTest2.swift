@@ -90,10 +90,11 @@ public class PageViewTest2 : UPageView, UButtonCallbacks, UDialogCallbacks {
         var y : CGFloat = UUtil.navigationBarHeight() + PageViewTest1.MARGIN
         
         for button in buttonInfo {
-            let textButton = UButtonText(callbacks: self, type: UButtonType.BGColor, id: button.id, priority: 100, text: button.name,
+            let textButton = UButtonText(callbacks: self, type: UButtonType.BGColor, id: button.id, priority: 0, text: button.name,
                                          x: x, y: y,
                                          width: 200.0, height: 50.0, textSize: 20,
                                          textColor: UColor.White, color: UColor.Blue)
+            mTopView?.addChild2( textButton.parentNode )
             textButton.addToDrawManager()
             
             y += 60.0
@@ -109,8 +110,8 @@ public class PageViewTest2 : UPageView, UButtonCallbacks, UDialogCallbacks {
         let dialog = UPopupWindow(parentView : mTopView!,
                                   popupType: UPopupType.OKCancel,
                                   title: "hoge", isAnimation: true,
-                                  screenW: CGFloat(UUtil.screenWidth()),
-                                  screenH: CGFloat(UUtil.screenHeight()))
+                                  screenW: mTopView!.size.width,
+                                  screenH: mTopView!.size.height )
         dialog.addToDrawManager()
     }
     

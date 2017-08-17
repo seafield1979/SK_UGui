@@ -52,11 +52,11 @@ public class UWindow : UDrawable, UButtonCallbacks {
      * Member Variables
      */
     // SpriteKit nodes
-    var parentNode : SKNode
     var frameNode : SKShapeNode?
     var bgNode : SKShapeNode?
     var cropNode : SKCropNode?
     var clientNode : SKNode           // スクロールする子ノードの親
+    var animatingBgNode : SKShapeNode?  // アニメーション中のBG
     
     var windowCallbacks : UWindowCallbacks? = nil
     var parentView : TopScene? = nil
@@ -217,9 +217,11 @@ public class UWindow : UDrawable, UButtonCallbacks {
         
         // シーン
         let scene = parentView
+        clientNode = SKNode()
+
+        super.init(priority: priority, x: x,y: y,width: width,height: height)
         
         // parent
-        parentNode = SKCropNode()
         parentNode.zPosition = CGFloat(priority)
         parentNode.position = scene.convertPoint(fromView: CGPoint(x:x, y:y))
         scene.addChild(parentNode)
@@ -255,7 +257,6 @@ public class UWindow : UDrawable, UButtonCallbacks {
         }
         
         // clientNode
-        clientNode = SKNode()
         clientNode.position = CGPoint()
         clientNode.zPosition = 0.1
         
@@ -268,8 +269,6 @@ public class UWindow : UDrawable, UButtonCallbacks {
                 parentNode.addChild( clientNode )
             }
         }
-        
-        super.init(priority: priority, x: x,y: y,width: width,height: height)
         
         updateRect()
         

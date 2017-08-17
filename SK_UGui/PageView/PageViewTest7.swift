@@ -1,7 +1,7 @@
 //
 //  PageViewTest7.swift
 //  SK_UGui
-//
+//    UWindowのサンプル
 //  Created by Shusuke Unno on 2017/08/12.
 //  Copyright © 2017年 Sun Sun Soft. All rights reserved.
 //

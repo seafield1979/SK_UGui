@@ -41,10 +41,7 @@ public class UMenuItem : UDrawable {
     
     
     // SpriteKit Node
-    var parentNode : SKNode
     var spriteNode : SKSpriteNode?
-//    var textNode : SKLabelNode?
-//    var textBGNode : SKShapeNode?
     
     // 親アイテム
     var mParentItem : UMenuItem? = nil
@@ -72,17 +69,17 @@ public class UMenuItem : UDrawable {
         self.mMenuBar = menuBar
         self.mTextTitle = nil
         
+        super.init(priority: UMenuItem.DRAW_PRIORITY, x: 0, y: 0,
+                    width: width,
+                    height: height)
+        
         // SpriteKit Node
-        parentNode = SKNode()
         if parentItem != nil {
             parentItem!.parentNode.addChild( parentNode )
         } else {
             menuBar.parentNode.addChild(parentNode)
         }
         
-        super.init(priority: UMenuItem.DRAW_PRIORITY, x: 0, y: 0,
-                    width: width,
-                    height: height)
         self.mItemId = id
         self.mStateId = 0
         self.mStateMax = 1

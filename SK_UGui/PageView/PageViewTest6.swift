@@ -132,6 +132,7 @@ public class PageViewTest6 : UPageView {
                               isDrawBG: true, isMargin: isMargin,
                               x: x, y: y, width: 0, color: .white, bgColor: .gray)
         text.parentNode.zPosition = 10.0
+        scene.addChild2( text.parentNode )
         text.addToDrawManager()
     }
     

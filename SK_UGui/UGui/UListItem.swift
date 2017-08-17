@@ -43,7 +43,6 @@ public class UListItem : UDrawable {
     var mFrameColor : UIColor?        // 枠の色
     
     // SpriteKit Node
-    public var parentNode : SKNode
     var bgNode : SKShapeNode?
     
     /**
@@ -71,9 +70,6 @@ public class UListItem : UDrawable {
                 bgColor : UIColor?,
                 frameW : CGFloat, frameColor : UIColor?)
     {
-        // SpriteKit Node
-        parentNode = SKNode()
-        
         // yはリスト追加時に更新されるので0
         super.init(priority: 0, x: x, y: 0, width: width, height: height)
         
@@ -100,7 +96,7 @@ public class UListItem : UDrawable {
                 bgNode!.strokeColor = frameColor!
                 bgNode!.lineWidth = frameW
             }
-            self.parentNode.addChild(bgNode!)
+            parentNode.addChild(bgNode!)
         }
     }
     

@@ -6,8 +6,7 @@
 //  Copyright © 2017年 Shusuke Unno. All rights reserved.
 //
 
-import Foundation
-import UIKit
+import SpriteKit
 
 /**
  *
@@ -29,6 +28,7 @@ public class UPopupWindow : UDialogWindow {
     /**
      * Member variables
      */
+    var titleNode : SKLabelNode
     
     /**
      * Constructor
@@ -39,6 +39,8 @@ public class UPopupWindow : UDialogWindow {
                  isAnimation : Bool,
                  screenW : CGFloat, screenH : CGFloat)
     {
+        titleNode = SKNodeUtil.createLabelNode(text: title, textSize: 20, color: .black, alignment: .Center, offset: CGPoint(x:0, y:0))
+        
         super.init( parentView: parentView,
                     type: DialogType.Mordal,
                     buttonCallbacks: nil,

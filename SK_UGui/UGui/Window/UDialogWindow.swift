@@ -1,13 +1,12 @@
 //
 //  UDialogWindow.swift
 //  UGui
-//
+//      ダイアログを表示するクラス
 //  Created by Shusuke Unno on 2017/07/08.
 //  Copyright © 2017年 Shusuke Unno. All rights reserved.
 //
 
-import Foundation
-import UIKit
+import SpriteKit
 
 
 /**
@@ -51,7 +50,7 @@ public class UDialogWindow : UWindow {
     
     static let MARGIN_H : Int = 17
     static let MARGIN_V : Int = 5
-    static let ANIMATION_FRAME : Int = 10
+    static let ANIMATION_FRAME : Int = 100
     
     static let TEXT_MARGIN_V : Int = 17
     static let BUTTON_H : Int =  47
@@ -108,13 +107,13 @@ public class UDialogWindow : UWindow {
     }
     
     private func updateBasePos() {
-        if posType == DialogPosType.Point {
-            basePos = CGPoint(x: pos.x + size.width / 2,
-                              y: pos.y + size.height / 2)
-        } else {
-            basePos = CGPoint(x: screenSize.width / 2,
-                              y: screenSize.height / 2)
-        }
+//        if posType == DialogPosType.Point {
+//            basePos = CGPoint(x: pos.x + size.width / 2,
+//                              y: pos.y + size.height / 2)
+//        } else {
+//            basePos = CGPoint(x: screenSize.width / 2,
+//                              y: screenSize.height / 2)
+//        }
     }
     
     public func isClosing() -> Bool {
@@ -158,11 +157,6 @@ public class UDialogWindow : UWindow {
         size = CGSize(width: screenW - marginH * 2,
                       height: screenH - marginH * 2)
         
-        
-        if isAnimation {
-            updateBasePos()
-            startAnimation( type: AnimationType.Opening )
-        }
         if (type == DialogType.Mordal) {
             dialogBGColor = UColor.makeColor(160,0,0,0)
         }        
@@ -370,6 +364,10 @@ public class UDialogWindow : UWindow {
                                   textSize: UDraw.getFontSize(FontSize.M),
                                   textColor: textColor, color: color)
         mButtons.append(button)
+        
+        // SpriteKit
+        clientNode.addChild( button.parentNode )
+        
         isUpdate = true
         return button
     }
@@ -399,6 +397,9 @@ public class UDialogWindow : UWindow {
             textColor: textColor, color: bgColor)
         
         mButtons.append(button)
+        
+        clientNode.addChild(button.parentNode)
+        
         isUpdate = true
     }
     
@@ -437,6 +438,10 @@ public class UDialogWindow : UWindow {
      * ボタンの数によってレイアウトは自動で変わる
      */
     func updateLayout() {
+        // ダイアログのアイテムは clientNode 以下に配置する
+        clientNode.removeAllChildren()
+        
+        
         // タイトル、メッセージ
         var y : CGFloat = UDpi.toPixel(UDialogWindow.TEXT_MARGIN_V)
         if title != nil && mTitleView == nil {
@@ -445,26 +450,29 @@ public class UDialogWindow : UWindow {
                 textSize: UDraw.getFontSize(FontSize.L),
                 priority: 0,
                 alignment: UAlignment.CenterX,
-                multiLine: true, isDrawBG: true,
-                x: size.width / 2, y: y,
-                width: size.width, color: color!, bgColor: nil)
+                multiLine: true, isDrawBG: false,
+                x: 0, y: y,
+                width: size.width, color: .black, bgColor: nil)
             
+            clientNode.addChild( mTitleView!.parentNode )
             y += mTitleView!.getHeight() + UDpi.toPixel( UDialogWindow.MARGIN_V )
+            
         }
         
         // テキスト
         for textView in mTextViews {
-            textView!.setY(y)
-            textView!.updateRect();
+            textView!.parentNode.position = CGPoint(x:0, y:y)
+            clientNode.addChild( textView!.parentNode )
             y += textView!.getHeight() + UDpi.toPixel( UDialogWindow.MARGIN_V )
         }
         
         // Drawables
         // ダイアログの中央に配置
         for obj in mDrawables {
-            obj!.setX((size.width - obj!.getWidth()) / 2)
-            obj!.setY(y)
-            obj!.updateRect()
+//            obj!.setX((size.width - obj!.getWidth()) / 2)
+//            obj!.setY(y)
+//            obj!.updateRect()
+            
             y += obj!.getHeight() + 20
         }
         
@@ -542,19 +550,20 @@ public class UDialogWindow : UWindow {
         if (!isShow) {
             return
         }
-        if (isUpdate) {
-            isUpdate = false
-            updateLayout()
-        }
+//        if (isUpdate) {
+//            isUpdate = false
+//            updateLayout()
+//        }
         
         // BG のブラインド
         if type == DialogType.Mordal {
-            UDraw.drawRectFill( rect: CGRect(x:0, y:0,
-                                             width: screenSize.width,
-                                             height: screenSize.height),
-                                color: dialogBGColor!,
-                                strokeWidth: 0,
-                                strokeColor: nil);
+            
+//            UDraw.drawRectFill( rect: CGRect(x:0, y:0,
+//                                             width: screenSize.width,
+//                                             height: screenSize.height),
+//                                color: dialogBGColor!,
+//                                strokeWidth: 0,
+//                                strokeColor: nil);
         }
         
         // Window内部
@@ -572,48 +581,29 @@ public class UDialogWindow : UWindow {
      * @param paint
      */
     public func drawContent( offset : CGPoint ) {
-        if isAnimating {
-            // Open/Close animation
-            var ratio : CGFloat = 0
-            if animationType == AnimationType.Opening {
-                ratio = sin(animeRatio * 90 * UDrawable.RAD)
-            } else {
-                ratio = cos(animeRatio * 90 * UDrawable.RAD)
-            }
-            
-            var width, height, x, y : CGFloat
-            var _rect : CGRect
-            
-            width = size.width * ratio
-            height = size.height * ratio
-            x = basePos.x - width / 2
-            y = basePos.y - height / 2
-            _rect = CGRect(x: x, y: y, width: width, height: height)
-            
-            drawBG(rect: _rect)
-        } else {
-            // BG
-            drawBG(rect: rect!)
-            let _offset : CGPoint = pos
-            
-            // Title
-            if mTitleView != nil {
-                mTitleView!.draw(_offset)
-            }
-            
-            // TextViews
-            for textView in mTextViews {
-                textView!.draw(_offset)
-            }
-            
-            // Drawables
-            for obj in mDrawables {
-                obj!.draw(_offset)
-            }
-            // Buttons
-            for button in mButtons {
-                button!.draw(_offset)
-            }
+        if animatingBgNode != nil {
+            animatingBgNode!.removeFromParent()
+            animatingBgNode = nil
+        }
+        let _offset : CGPoint = pos
+        
+        // Title
+        if mTitleView != nil {
+            mTitleView!.draw(_offset)
+        }
+        
+        // TextViews
+        for textView in mTextViews {
+            textView!.draw(_offset)
+        }
+        
+        // Drawables
+        for obj in mDrawables {
+            obj!.draw(_offset)
+        }
+        // Buttons
+        for button in mButtons {
+            button!.draw(_offset)
         }
     }
     

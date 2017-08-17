@@ -6,8 +6,6 @@
 //  Copyright © 2017年 Shusuke Unno. All rights reserved.
 //
 
-import Foundation
-import UIKit
 import SpriteKit
 
 /**
@@ -31,6 +29,9 @@ public class UDrawable {
     /**
      * Member variables
      */
+    // SpriteKit
+    public var parentNode : SKNode
+    
     var drawList : DrawList? = nil    // DrawManagerに描画登録するとnull以外になる
     var pos = CGPoint()
     var size = CGSize()
@@ -63,6 +64,8 @@ public class UDrawable {
     // Constructor
     init(priority: Int, x: CGFloat, y: CGFloat, width : CGFloat, height : CGFloat)
     {
+        parentNode = SKNode()
+        
         setPos(x, y)
         setSize(width, height)
         updateRect()

@@ -87,6 +87,7 @@
 		8A22B3591F41CDB20094D5C0 /* WindowItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A22B3581F41CDB10094D5C0 /* WindowItem.swift */; };
 		8A22B35B1F41D6EA0094D5C0 /* CGSize+ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A22B35A1F41D6EA0094D5C0 /* CGSize+ex.swift */; };
 		8A9C722A1F452AC30004DEC8 /* SKNode+ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A9C72291F452AC30004DEC8 /* SKNode+ex.swift */; };
+		8A9C722C1F45E6B20004DEC8 /* SKScene+ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A9C722B1F45E6B20004DEC8 /* SKScene+ex.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -172,6 +173,7 @@
 		8A22B3581F41CDB10094D5C0 /* WindowItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WindowItem.swift; sourceTree = "<group>"; };
 		8A22B35A1F41D6EA0094D5C0 /* CGSize+ex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGSize+ex.swift"; sourceTree = "<group>"; };
 		8A9C72291F452AC30004DEC8 /* SKNode+ex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SKNode+ex.swift"; sourceTree = "<group>"; };
+		8A9C722B1F45E6B20004DEC8 /* SKScene+ex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SKScene+ex.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -234,6 +236,7 @@
 				8A22B2BD1F3C277F0094D5C0 /* CGRect+U.swift */,
 				8A22B35A1F41D6EA0094D5C0 /* CGSize+ex.swift */,
 				8A9C72291F452AC30004DEC8 /* SKNode+ex.swift */,
+				8A9C722B1F45E6B20004DEC8 /* SKScene+ex.swift */,
 			);
 			name = extension;
 			path = SK_UGui/extension;
@@ -531,6 +534,7 @@
 				8A22B2A51F3C267D0094D5C0 /* AppDelegate.swift in Sources */,
 				8A22B30F1F3C277F0094D5C0 /* List.swift in Sources */,
 				8A22B3311F3C299D0094D5C0 /* PageViewTitle.swift in Sources */,
+				8A9C722C1F45E6B20004DEC8 /* SKScene+ex.swift in Sources */,
 				8A22B3101F3C277F0094D5C0 /* MyUserDefault.swift in Sources */,
 				8A22B3061F3C277F0094D5C0 /* UListView.swift in Sources */,
 				8A22B32D1F3C299D0094D5C0 /* PageViewTest3.swift in Sources */,

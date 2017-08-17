@@ -33,12 +33,11 @@ public class UButtonText : UButton {
      * Member Variables
      */
     // SpriteKitのノード
-    private var parentNode : SKNode
     private var labelNode : SKLabelNode
-    private var bgNode : SKShapeNode
-    private var bg2Node : SKShapeNode? = nil
-    private var imageNode : SKSpriteNode? = nil
-    private var pullNode : SKShapeNode? = nil
+    private var bgNode : SKShapeNode?
+    private var bg2Node : SKShapeNode?
+    private var imageNode : SKSpriteNode?
+    private var pullNode : SKShapeNode?
     
     private var mText : String?
     private var mTextColor : UIColor
@@ -68,7 +67,7 @@ public class UButtonText : UButton {
         imageNode = SKSpriteNode(imageNamed: imageName.rawValue)
         if imageNode != nil {
             imageNode!.size = imageSize
-            bgNode.addChild( imageNode! )
+            bgNode!.addChild( imageNode! )
             imageNode!.position = CGPoint(x: 100.0, y: -20)
             
             mImageSize = imageSize
@@ -92,19 +91,19 @@ public class UButtonText : UButton {
         switch mImageAlignment {
         case .None:
             baseX = 0
-            baseY = bgNode.frame.size.height / 2
+            baseY = bgNode!.frame.size.height / 2
             break
         case .CenterX:
             break
         case .CenterY:
             break
         case .Center:
-            baseX = bgNode.frame.size.width / 2
-            baseY = bgNode.frame.size.height / 2
+            baseX = bgNode!.frame.size.width / 2
+            baseY = bgNode!.frame.size.height / 2
             break
         case .Left:
             baseX = 50
-            baseY = bgNode.frame.size.height / 2
+            baseY = bgNode!.frame.size.height / 2
             break
         case .Right:
             break
@@ -149,39 +148,35 @@ public class UButtonText : UButton {
         let w = width
         let h = height
         
-        // シーン
-        let scene = TopScene.getInstance()
+        self.labelNode = SKLabelNode(text: text)
         
+        super.init(callbacks: callbacks, type: type, id: id, priority: priority,
+                   x: x, y: y, width: width, height: height, color: color)
+
         // ノードを作成
         // parent
         self.parentNode = SKNode()
         self.parentNode.zPosition = CGFloat(priority)
-        self.parentNode.position = scene.convertPoint(fromView: CGPoint(x:x, y:y))
-        scene.addChild(parentNode)
+        self.parentNode.position = CGPoint(x:x, y:y)
         
         // BG
         let bgH = (type == .BGColor) ? h : (h - UDpi.toPixel(UButton.PRESS_Y))
-            
+        
         self.bgNode = SKShapeNode(rect: CGRect(x:0, y:0, width: w, height: bgH).convToSK(),
                                   cornerRadius: 10.0)
-        self.bgNode.fillColor = color!
-        self.bgNode.strokeColor = .clear
-        self.bgNode.zPosition = 0.1
-        self.parentNode.addChild(self.bgNode)
+        self.bgNode!.fillColor = color!
+        self.bgNode!.strokeColor = .clear
+        self.bgNode!.zPosition = 0.1
+        self.parentNode.addChild(bgNode!)
         
         // Label
-        self.labelNode = SKLabelNode(text: text)
         self.labelNode.fontColor = textColor
         self.labelNode.fontSize = CGFloat(textSize)
         self.labelNode.fontName = "HiraKakuProN-W6"
         self.labelNode.horizontalAlignmentMode = .center
         self.labelNode.verticalAlignmentMode = .center
         self.labelNode.position = CGPoint(x: w / 2, y: bgH / 2).convToSK()
-        self.bgNode.addChild(self.labelNode)
-        
-
-        super.init(callbacks: callbacks, type: type, id: id, priority: priority,
-                   x: x, y: y, width: width, height: height, color: color)
+        self.bgNode!.addChild(self.labelNode)
         
         var textColor = textColor   // 引数はletなのでvarで再定義
         if textColor == nil {
@@ -231,7 +226,7 @@ public class UButtonText : UButton {
                 color: UButtonText.PULL_DOWN_COLOR)
             pullNode!.position = CGPoint(x: size.width - UDpi.toPixel(30), y: SKUtil.convY(fromView: size.height / 2))
 
-            bgNode.addChild(pullNode!)
+            bgNode!.addChild(pullNode!)
         }
     }
     
@@ -269,7 +264,7 @@ public class UButtonText : UButton {
             _height -= UDpi.toPixel(UButton.PRESS_Y)
             
         }
-        self.bgNode.position = CGPoint(x: 0, y: SKUtil.convY(fromView: _pos.y))
-        self.bgNode.fillColor = _color!
+        self.bgNode!.position = CGPoint(x: 0, y: SKUtil.convY(fromView: _pos.y))
+        self.bgNode!.fillColor = _color!
     }
 }
