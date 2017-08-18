@@ -84,13 +84,21 @@ public class PageViewTest3 : UPageView, UButtonCallbacks {
         let buttonH : CGFloat = 50.0
         
         // UButtonText
-        let textButton = UButtonText(callbacks: self, type: UButtonType.Press, id: PageViewTest3.buttonId1, priority: 100, text: "button1", x: x, y: y, width: buttonW, height: buttonH, textSize: 20, textColor: UIColor.white, color: UIColor.blue)
+        let textButton = UButtonText(
+            callbacks: self, type: UButtonType.Press, id: PageViewTest3.buttonId1,
+            priority: 100, text: "button1", createNode: true,
+            x: x, y: y, width: buttonW, height: buttonH,
+            textSize: 20, textColor: UIColor.white, bgColor: UIColor.blue)
         mTopView?.addChild2( textButton.parentNode )
         textButton.addToDrawManager()
         
         y += 70.0
         
-        let textButton2 = UButtonText(callbacks: self, type: UButtonType.Press2, id: PageViewTest3.buttonId2, priority: 100, text: "button2", x: x, y: y, width: buttonW, height: buttonH, textSize: 20, textColor: UIColor.white, color: UIColor.blue)
+        let textButton2 = UButtonText(
+            callbacks: self, type: UButtonType.Press2, id: PageViewTest3.buttonId2,
+            priority: 100, text: "button2", createNode : true,
+            x: x, y: y, width: buttonW, height: buttonH,
+            textSize: 20, textColor: UIColor.white, bgColor: UIColor.blue)
         mTopView?.addChild2( textButton2.parentNode )
         textButton2.addToDrawManager()
         

@@ -107,7 +107,7 @@ public class UButton : UDrawable {
         
         super.init(priority: priority,x: x,y: y,width: width,height: height)
         
-        self.color = color
+        self.color = color!
         self.id = id
         self.enabled = true
         self.buttonCallback = callbacks

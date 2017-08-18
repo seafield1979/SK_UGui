@@ -31,6 +31,7 @@ public class UTextView : UDrawable {
     
     var text : String
     var alignment : UAlignment
+    var isMargin : Bool
     var mMargin : CGSize = CGSize()
     var textSize : Int = 0
     var bgColor : UIColor? = nil
@@ -68,14 +69,14 @@ public class UTextView : UDrawable {
      * Constructor
      */
     public init(text : String, textSize : Int, priority : Int,
-                          alignment : UAlignment,
-                          multiLine : Bool, isDrawBG : Bool, isMargin : Bool,
-                          x : CGFloat, y : CGFloat,
-                          width : CGFloat,
-                          color : UIColor, bgColor : UIColor?)
+                alignment : UAlignment, createNode: Bool,
+                multiLine : Bool, isDrawBG : Bool, isMargin : Bool,
+                x : CGFloat, y : CGFloat,
+                width : CGFloat, color : UIColor, bgColor : UIColor?)
     {
         self.text = text
         self.alignment = alignment
+        self.isMargin = isMargin
         self.multiLine = multiLine
         self.isDrawBG = isDrawBG
         self.textSize = textSize
@@ -87,10 +88,61 @@ public class UTextView : UDrawable {
         self.color = color
         self.bgColor = bgColor
 
+        if createNode {
+            initSKNode()
+        }
+        
+        updateSize()
+    }
+    
+    public static func createInstance(text: String, textSize : Int, priority : Int,
+                                      alignment : UAlignment, createNode : Bool,
+                                      multiLine : Bool, isDrawBG : Bool,
+                                      x: CGFloat, y: CGFloat,
+                                      width : CGFloat,
+                                      color : UIColor, bgColor : UIColor?) -> UTextView
+    {
+        let instance = UTextView(text: text,
+                             textSize: textSize,
+                             priority: priority,
+                             alignment: alignment,
+                             createNode : createNode,
+                             multiLine : multiLine,
+                             isDrawBG : isDrawBG,
+                             isMargin: true,
+                             x: x, y: y,
+                             width: width,
+                             color: color, bgColor: bgColor)
+        
+        return instance
+    }
+    
+    // シンプルなTextViewを作成
+    public static func createInstance(text : String, priority : Int, createNode : Bool,
+                                      canvasW : Int, isDrawBG : Bool,
+                                      x : CGFloat, y : CGFloat) -> UTextView
+    {
+        let instance = UTextView(text:text,
+                                 textSize: UTextView.DEFAULT_TEXT_SIZE,
+                                 priority:priority,
+                                 alignment: UAlignment.None, createNode : createNode,
+                                 multiLine: false,
+                                 isDrawBG: isDrawBG,
+                                 isMargin: true,
+                                 x:x, y:y,
+                                 width: 0,
+                                 color: DEFAULT_COLOR, bgColor: DEFAULT_BG_COLOR)
+        return instance
+    }
+    
+    /**
+     * SpriteKitのノードを作成する
+     */
+    public override func initSKNode() {
         // ノードを作成
         // parent
-        self.parentNode.zPosition = CGFloat(priority)
-        self.parentNode.position = CGPoint(x:x, y:y)
+        self.parentNode.zPosition = CGFloat( drawPriority )
+        self.parentNode.position = pos
         
         // Label
         self.labelNode = SKNodeUtil.createLabelNode(text: text, textSize: CGFloat(textSize), color: color, alignment: .Left, offset: nil)
@@ -103,7 +155,7 @@ public class UTextView : UDrawable {
             size = CGSize(width: size.width + mMargin.width * 2,
                           height: size.height + mMargin.height * 2)
         }
-
+        
         self.labelNode!.zPosition = 0.1
         switch alignment {
         case .None:
@@ -150,7 +202,7 @@ public class UTextView : UDrawable {
         
         parentNode.addChild(self.labelNode!)
         
-
+        
         // BG
         if isDrawBG {
             
@@ -170,7 +222,7 @@ public class UTextView : UDrawable {
             case .Right_CenterY:
                 self.bgNode = SKShapeNode(rect: CGRect(x: -size.width, y: size.height / 2, width: size.width, height: SKUtil.convY(fromView: size.height)))
             }
-
+            
             
             if bgColor != nil {
                 self.bgNode!.fillColor = bgColor!
@@ -178,47 +230,6 @@ public class UTextView : UDrawable {
             self.bgNode!.strokeColor = .clear
             parentNode.addChild(self.bgNode!)
         }
-        
-        updateSize()
-    }
-    
-    public static func createInstance(text: String, textSize : Int, priority : Int,
-                                      alignment : UAlignment, 
-                                      multiLine : Bool, isDrawBG : Bool,
-                                      x: CGFloat, y: CGFloat,
-                                      width : CGFloat,
-                                      color : UIColor, bgColor : UIColor?) -> UTextView
-    {
-        let instance = UTextView(text: text,
-                             textSize: textSize,
-                             priority: priority,
-                             alignment: alignment,
-                             multiLine : multiLine,
-                             isDrawBG : isDrawBG,
-                             isMargin: true,
-                             x: x, y: y,
-                             width: width,
-                             color: color, bgColor: bgColor)
-        
-        return instance
-    }
-    
-    // シンプルなTextViewを作成
-    public static func createInstance(text : String, priority : Int,
-                                      canvasW : Int, isDrawBG : Bool,
-                                      x : CGFloat, y : CGFloat) -> UTextView
-    {
-        let instance = UTextView(text:text,
-                                 textSize: UTextView.DEFAULT_TEXT_SIZE,
-                                 priority:priority,
-                                 alignment: UAlignment.None,
-                                 multiLine: false,
-                                 isDrawBG: isDrawBG,
-                                 isMargin: true,
-                                 x:x, y:y,
-                                 width: 0,
-                                 color: DEFAULT_COLOR, bgColor: DEFAULT_BG_COLOR)
-        return instance
     }
     
     /**

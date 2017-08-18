@@ -32,7 +32,7 @@ public class ListItemTest1 : UListItem {
      */
     public init(callbacks : UListItemCallbacks?,
                               text : String,
-                              x : CGFloat, width : CGFloat, color : UIColor?)
+                              x : CGFloat, width : CGFloat, color : UIColor)
     {
         super.init(callbacks: callbacks,
                    isTouchable: true,
@@ -66,13 +66,13 @@ public class ListItemTest1 : UListItem {
         }
         
         // BG
-        let _rect = CGRect(x:_pos.x, y:_pos.y,
+        _ = CGRect(x:_pos.x, y:_pos.y,
                            width: size.width, height: size.height)
 //        UDraw.drawRectFill(rect: _rect, color: color!,
 //                           strokeWidth: 4, strokeColor: UIColor.black)
         
         // text
-        let text = mText
+        _ = mText
 //        UDraw.drawText(text: text!, alignment: UAlignment.Center, textSize: mTextSize,
 //                       x: _pos.x + size.width / 2, y: _pos.y + size.height / 2, color: ListItemTest1.TEXT_COLOR )
     }

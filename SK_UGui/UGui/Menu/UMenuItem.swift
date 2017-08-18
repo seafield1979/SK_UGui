@@ -109,6 +109,7 @@ public class UMenuItem : UDrawable {
         mTextTitle = UTextView.createInstance(
             text: title,
             textSize: UMenuItem.TEXT_SIZE, priority: 0, alignment: alignment,
+            createNode : true,
             multiLine: false, isDrawBG: true,
             x: x, y: y, width: 0, color: color, bgColor: bgColor)
         

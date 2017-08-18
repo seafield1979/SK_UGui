@@ -156,6 +156,7 @@ public class UButtonImage : UButton {
         mTextTitle = UTextView.createInstance(text: title,
                                               textSize:Int(UDpi.toPixel(UButtonImage.TEXT_SIZE)),
                                               priority: 0, alignment: alignment,
+                                              createNode : true,
                                               multiLine:false, isDrawBG: true,
                                               x:x, y:y,
                                               width:0,

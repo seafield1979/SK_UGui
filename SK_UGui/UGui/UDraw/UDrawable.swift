@@ -36,7 +36,7 @@ public class UDrawable {
     var pos = CGPoint()
     var size = CGSize()
     var rect : CGRect? = nil
-    var color : UIColor? = UIColor()
+    var color : UIColor = UIColor()
     var drawPriority = 0     // DrawManagerに渡す描画優先度
     
     // 自動移動、サイズ変更、色変更
@@ -196,7 +196,7 @@ public class UDrawable {
     }
     
     public func getColor() -> UIColor {
-        return color!
+        return color
     }
     public func setColor(color : UIColor) {
         self.color = color
@@ -210,19 +210,28 @@ public class UDrawable {
     }
     
     /**
-     * 描画処理
-     * @param offset 独自の座標系を持つオブジェクトをスクリーン座標系に変換するためのオフセット値
+     * SpriteKitのノードを生成する(抽象メソッド)
      */
-    public func draw(_ offset : CGPoint) {
-        // 抽象クラス(Swiftではサポートされていないので仕方なく実装)
+    public func initSKNode() {
+        print("UDrawable initSKNode() オーバーライドされていません")
     }
     
     /**
-     * 毎フレームの処理
+     * 描画処理(抽象メソッド)
+     * @param offset 独自の座標系を持つオブジェクトをスクリーン座標系に変換するためのオフセット値
+     */
+    public func draw(_ offset : CGPoint) {
+        // 抽象メソッド(Swiftではサポートされていないので仕方なく実装)
+        print("UDrawable draw() オーバーライドされていません")
+    }
+    
+    /**
+     * 毎フレームの処理(抽象メソッド)
      * サブクラスでオーバーライドして使用する
      * @return true:処理中 / false:処理完了
      */
     public func doAction() -> DoActionRet{
+        print("UDrawable doAction() オーバーライドされていません")
         return DoActionRet.None;
     }
     
@@ -243,20 +252,24 @@ public class UDrawable {
     }
     
     /**
-     * タッチアップ処理
+     * タッチアップ処理(抽象メソッド)
      * @param vt
      * @return
      */
-    public func touchUpEvent(vt: ViewTouch) -> Bool { return false; }
+    public func touchUpEvent(vt: ViewTouch) -> Bool {
+        print("UDrawable touchUpEvent() オーバーライドされていません")
+        return false
+    }
     
     /**
-     * タッチ処理
+     * タッチ処理 (抽象メソッド)
      * @param vt
      * @return
      */
     public func touchEvent(vt : ViewTouch, offset : CGPoint?) -> Bool
     {
         // サブクラスでオーバーライドして使用する
+        print("UDrawable touchEvent() オーバーライドされていません")
         return false
     }
     

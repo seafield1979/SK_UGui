@@ -100,7 +100,7 @@ public class PageViewTest7 : UPageView, UWindowCallbacks {
         let point = SKNodeUtil.createCrossPoint(pos: CGPoint(x:x, y:y), length: 10.0, lineWidth: 2.0, color: .yellow)
         scene.addChild(point)
         
-        let text = UTextView(text: "hello world", textSize: 20, priority: 100, alignment: alignment, multiLine: false,
+        let text = UTextView(text: "hello world", textSize: 20, priority: 100, alignment: alignment, createNode: true, multiLine: false,
                              isDrawBG: true, isMargin: isMargin,
                              x: x, y: y, width: 0, color: .white, bgColor: .gray)
         text.parentNode.zPosition = 10.0

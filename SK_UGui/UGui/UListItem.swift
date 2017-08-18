@@ -74,16 +74,16 @@ public class UListItem : UDrawable {
         super.init(priority: 0, x: x, y: 0, width: width, height: height)
         
         mListItemCallbacks = callbacks
-        color = bgColor
+        color = bgColor!
         self.isTouchable = isTouchable
         mFrameW = frameW
         mFrameColor = frameColor
         
         rect = CGRect(x:0, y:0, width:width, height:height)
         
-        if isTouchable && color != nil{
+        if isTouchable {
             // 押された時の色（暗くする)
-            pressedColor = UColor.addBrightness(argb: color!, addY: -0.2)
+            pressedColor = UColor.addBrightness(argb: color, addY: -0.2)
         }
         
         // SpriteKit Node
@@ -155,7 +155,7 @@ public class UListItem : UDrawable {
         var _color = color
         
         if isTouchable && isTouching {
-            _color = pressedColor
+            _color = pressedColor!
         }
         
         var rect = CGRect(x: 0, y: 0,
@@ -165,7 +165,7 @@ public class UListItem : UDrawable {
             rect.y += offset!.y
         }
         
-        if mFrameW > 0 && color != nil {
+        if mFrameW > 0 {
 //            UDraw.drawRectFill( rect: rect, color: _color!,
 //                                strokeWidth: mFrameW, strokeColor: mFrameColor )
         }
@@ -177,4 +177,7 @@ public class UListItem : UDrawable {
         }
     }
     
+    public override func doAction() -> DoActionRet {
+        return .None
+    }
 }

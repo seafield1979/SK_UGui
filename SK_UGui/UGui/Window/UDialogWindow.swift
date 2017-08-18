@@ -336,6 +336,7 @@ public class UDialogWindow : UWindow {
                                      textSize: textSize,
                                      priority: 0,
                                      alignment: alignment,
+                                     createNode: false,
                                      multiLine: multiLine,
                                      isDrawBG: isDrawBG,
                                      x: x, y: 0,
@@ -358,11 +359,11 @@ public class UDialogWindow : UWindow {
         let button = UButtonText( callbacks: buttonCallbacks!,
                                   type: UButtonType.Press,
                                   id: id, priority: 0,
-                                  text: text,
+                                  text: text, createNode: false,
                                   x: 0, y: 0,
                                   width: 0, height: 0,
                                   textSize: UDraw.getFontSize(FontSize.M),
-                                  textColor: textColor, color: color)
+                                  textColor: textColor, bgColor: color)
         mButtons.append(button)
         
         // SpriteKit
@@ -390,11 +391,11 @@ public class UDialogWindow : UWindow {
         let button = UButtonText(
             callbacks: self, type: UButtonType.Press,
             id: UDialogWindow.CloseDialogId, priority: 0,
-            text: text,
+            text: text, createNode: false,
             x: 0, y: 0,
             width: 0, height: 0,
             textSize: UDraw.getFontSize(FontSize.M),
-            textColor: textColor, color: bgColor)
+            textColor: textColor, bgColor: bgColor)
         
         mButtons.append(button)
         
@@ -450,6 +451,7 @@ public class UDialogWindow : UWindow {
                 textSize: UDraw.getFontSize(FontSize.L),
                 priority: 0,
                 alignment: UAlignment.CenterX,
+                createNode : true,
                 multiLine: true, isDrawBG: false,
                 x: 0, y: y,
                 width: size.width, color: .black, bgColor: nil)
@@ -493,8 +495,8 @@ public class UDialogWindow : UWindow {
             }
             var buttonW : CGFloat = 0
             if num > imageNum {
-                buttonW = (size.width - ((CGFloat(num + 1) * buttonMarginH) + imagesWidth))
-                    / CGFloat(num - imageNum)
+                buttonW = (size.width - ((CGFloat(num + 1) * buttonMarginH) +
+                    imagesWidth)) / CGFloat(num - imageNum)
             }
             var x : CGFloat = buttonMarginH
             var heightMax : CGFloat = 0
@@ -504,14 +506,26 @@ public class UDialogWindow : UWindow {
                 if button is UButtonImage {
                     let _button = button as! UButtonImage
                     _button.setPos(x, y)
+                    
+                    // SpriteKit
+                    button.parentNode.position = CGPoint(x: x, y: y).convToSK()
+                    clientNode.addChild( _button.parentNode )
+                    
                     x += _button.getWidth() + buttonMarginH
                     _height = _button.getHeight()
                 } else {
                     button.setPos(x, y)
+                    
+                    // SpriteKit
+                    button.parentNode.position = CGPoint(x: x, y: y).convToSK()
+                    clientNode.addChild( button.parentNode )
+                    
                     button.setSize(buttonW, buttonH)
                     x += buttonW + buttonMarginH
                     _height = buttonH
                 }
+                
+                
                 if _height > heightMax {
                     heightMax = _height
                 }
@@ -523,11 +537,22 @@ public class UDialogWindow : UWindow {
             for button in mButtons {
                 if button! is UButtonImage {
                     let _button = button! as! UButtonImage
+                    
                     _button.setPos((size.width - _button.getWidth()) / 2, y)
+                    
+                    // SpriteKit
+                    _button.parentNode.position = CGPoint(x: _button.pos.x, y: _button.pos.y).convToSK()
+                    clientNode.addChild( _button.parentNode )
+                    
                     y += button!.getHeight() + buttonMarginV
                 } else {
                     button!.setPos(buttonMarginH, y)
                     button!.setSize(size.width - buttonMarginH * 2, buttonH)
+                    
+                    // SpriteKit
+                    button!.parentNode.position = CGPoint(x: button!.pos.x, y: button!.pos.y).convToSK()
+                    clientNode.addChild( button!.parentNode )
+                    
                     y += buttonH + buttonMarginV
                 }
             }
@@ -535,9 +560,9 @@ public class UDialogWindow : UWindow {
         size.height = y;
         
         // センタリング
-        pos.x = (screenSize.width - size.width) / 2;
-        pos.y = (screenSize.height - size.height) / 2;
-        updateRect();
+        clientNode.position = CGPoint(
+            x: size.width / 2,
+            y: ((screenSize.height - size.height) / 2)).convToSK()
     }
     
     /**

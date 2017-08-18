@@ -116,10 +116,10 @@ public class PageViewTitle : UPageView, UButtonCallbacks {
         mTopView!.addChild(parent)
         
         for button in buttonInfo {
-            let textButton = UButtonText(callbacks: self, type: UButtonType.BGColor, id: button.id, priority: 100, text: button.name,
+            let textButton = UButtonText(callbacks: self, type: UButtonType.BGColor, id: button.id, priority: 100, text: button.name, createNode: true,
                                          x: x, y: y,
                                          width: width, height: 50.0, textSize: 20,
-                                         textColor: .white, color: .blue)
+                                         textColor: .white, bgColor: .blue)
             textButton.parentNode.position.toSK(fromView: mTopView!)
             mTopView?.addChild( textButton.parentNode )
             textButton.addToDrawManager()

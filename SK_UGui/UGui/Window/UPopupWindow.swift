@@ -65,6 +65,7 @@ public class UPopupWindow : UDialogWindow {
                       color: UIColor.lightGray)
             addCloseButton(text: UResourceManager.getStringByName("cancel"))
         }
+        updateLayout()
     }
     
     /**

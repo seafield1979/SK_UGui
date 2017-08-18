@@ -20,6 +20,6 @@ class UCircle : UDrawable {
      */
     override func draw(_ offset : CGPoint) {
         // 抽象クラス(Swiftではサポートされていないので仕方なく実装)
-        UDraw.drawCircleFill(x: pos.x, y: pos.y, radius: radius, color: color!)
+        UDraw.drawCircleFill(x: pos.x, y: pos.y, radius: radius, color: color)
     }
 }
