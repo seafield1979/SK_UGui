@@ -62,6 +62,7 @@ public class UWindow : UDrawable, UButtonCallbacks {
     var parentView : TopScene? = nil
     var bgColor : UIColor? = nil
     var frameColor : UIColor? = nil
+    var mCropping : Bool
     
     var contentSize = CGSize()     // 領域全体のサイズ
     var clientSize = CGSize()      // ウィンドウの幅からスクロールバーのサイズを引いたサイズ
@@ -188,19 +189,20 @@ public class UWindow : UDrawable, UButtonCallbacks {
     /**
      * 外部からインスタンスを生成できないようにprivateでコンストラクタを定義する
      */
-    convenience init(parentView : TopScene, callbacks: UWindowCallbacks?, priority : Int, cropping: Bool,
+    convenience init(parentView : TopScene, callbacks: UWindowCallbacks?, priority : Int,
+                     createNode: Bool, cropping: Bool,
          x : CGFloat, y : CGFloat, width : CGFloat, height : CGFloat,
          bgColor : UIColor?)
     {
         self.init(parentView : parentView,
                   callbacks: callbacks!, priority: priority,
-                  cropping: cropping,
+                  createNode : createNode, cropping: cropping,
              x: x, y: y, width: width, height: height,
              bgColor: bgColor, topBarH: 0, frameW: 0, frameH: 0)
     }
     
     init(parentView: TopScene, callbacks: UWindowCallbacks?, priority : Int,
-         cropping : Bool,
+         createNode : Bool, cropping : Bool,
          x : CGFloat, y : CGFloat, width : CGFloat, height : CGFloat,
          bgColor : UIColor?, topBarH : CGFloat, frameW : CGFloat, frameH : CGFloat)
     {
@@ -214,29 +216,39 @@ public class UWindow : UDrawable, UButtonCallbacks {
         self.topBarColor = UWindow.TOP_BAR_COLOR
         self.frameSize = CGSize(width: frameW, height: frameH)
         self.frameColor = UWindow.FRAME_COLOR
+        self.mCropping = cropping
         
-        // シーン
-        let scene = parentView
         clientNode = SKNode()
 
         super.init(priority: priority, x: x,y: y,width: width,height: height)
         
+        if createNode {
+            initSKNode()
+        }
+    }
+    
+    /**
+     * SpriteKitノードを生成
+     */
+    public override func initSKNode() {
         // parent
-        parentNode.zPosition = CGFloat(priority)
-        parentNode.position = scene.convertPoint(fromView: CGPoint(x:x, y:y))
-        scene.addChild(parentNode)
+        parentNode.zPosition = CGFloat(drawPriority)
+        parentNode.position = parentView!.convertPoint(fromView: CGPoint(x:pos.x, y: pos.y))
+        parentView!.addChild(parentNode)
         
         // frame
-        if frameColor != nil && (frameW > 0 || (topBarH + frameH) > 0) {
-            frameNode = SKShapeNode(rect: CGRect(x: 0, y: 0, width: width, height: height).convToSK(), cornerRadius: 10.0)
+        if frameColor != nil && (frameSize.width > 0 || (topBarH + frameSize.height) > 0) {
+            frameNode = SKShapeNode(rect: CGRect(x: 0, y: 0, width: size.width, height: size.height).convToSK(), cornerRadius: 10.0)
             frameNode!.fillColor = frameColor!
             frameNode!.strokeColor = .clear
             parentNode.addChild(frameNode!)
         }
         
         // bg
-        bgNode = SKShapeNode(rect: CGRect(x: frameW, y: topBarH + frameH,
-                                          width: clientSize.width, height: clientSize.height).convToSK())
+        bgNode = SKShapeNode(rect:
+            CGRect(x: frameSize.width, y: topBarH + frameSize.height,
+                    width: clientSize.width, height: clientSize.height).convToSK(),
+                             cornerRadius: UDpi.toPixel(5))
         if bgColor != nil {
             bgNode!.fillColor = bgColor!
             bgNode!.strokeColor = .clear
@@ -244,14 +256,14 @@ public class UWindow : UDrawable, UButtonCallbacks {
         parentNode.addChild( bgNode! )
         
         // crop
-        if cropping {
+        if mCropping {
             let maskNode = SKShapeNode(rect: CGRect(x:0, y:0, width: clientSize.width, height: clientSize.height).convToSK())
             maskNode.fillColor = .black
             maskNode.strokeColor = .clear
             
             cropNode = SKCropNode()
             cropNode!.maskNode = maskNode
-            cropNode!.position = CGPoint(x: frameW, y: topBarH + frameH).convToSK()
+            cropNode!.position = CGPoint(x: frameSize.width, y: topBarH + frameSize.height).convToSK()
             
             parentNode.addChild(cropNode!)
         }
@@ -260,7 +272,7 @@ public class UWindow : UDrawable, UButtonCallbacks {
         clientNode.position = CGPoint()
         clientNode.zPosition = 0.1
         
-        if cropping {
+        if mCropping {
             cropNode!.addChild( clientNode )
         } else {
             if bgNode != nil {
@@ -289,15 +301,15 @@ public class UWindow : UDrawable, UButtonCallbacks {
         
         if (mSBType != WindowSBShowType.Hidden) {
             let scrollBarW = UDpi.toPixel(UWindow.SCROLL_BAR_W)
-        
+            
             mScrollBarV = UScrollBar(
                 type: ScrollBarType.Vertical,
                 showType: showType, parentPos: pos,
                 x: size.width - frameSize.width - scrollBarW,
-                y: topBarH + frameH,
+                y: topBarH + frameSize.height,
                 bgLength: clientSize.height,
                 bgWidth: scrollBarW,
-                pageLen: height - scrollBarW,
+                pageLen: size.height - scrollBarW,
                 contentLen: contentSize.height)
             parentNode.addChild( mScrollBarV!.parentNode )
             
@@ -308,7 +320,7 @@ public class UWindow : UDrawable, UButtonCallbacks {
                 y: size.height - frameSize.height - scrollBarW,
                 bgLength: clientSize.width,
                 bgWidth: scrollBarW,
-                pageLen: width - scrollBarW,
+                pageLen: size.width - scrollBarW,
                 contentLen: contentSize.width)
             parentNode.addChild( mScrollBarH!.parentNode )
         }
@@ -366,6 +378,9 @@ public class UWindow : UDrawable, UButtonCallbacks {
     }
     
     public func updateWindow() {
+        self.clientSize.width = size.width - frameSize.width * 2
+        self.clientSize.height = size.height - topBarH - frameSize.height * 2
+        
         // clientSize
         if (clientSize.width < contentSize.width &&
             mSBType != WindowSBShowType.Show2)

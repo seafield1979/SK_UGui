@@ -43,7 +43,7 @@ public class ULogWindow : UWindow {
     {
         super.init(parentView: parentView,
                    callbacks: nil, priority: ULogWindow.DRAW_PRIORITY,
-                   cropping: true,
+                   createNode: true, cropping: true,
                    x: x, y: y, width: width, height: height,
                    bgColor: color, topBarH: 0, frameW: 0, frameH: 0)
         isShow = true

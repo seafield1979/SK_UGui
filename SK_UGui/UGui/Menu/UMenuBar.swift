@@ -37,7 +37,8 @@ public class UMenuBar : UWindow {
     {
         super.init(parentView: parentView,
                    callbacks : nil,
-                   priority: UMenuBar.DRAW_PRIORITY, cropping: false,
+                   priority: UMenuBar.DRAW_PRIORITY,
+                   createNode: true, cropping: false,
                    x:0, y:parentH - UDpi.toPixel(UMenuBar.MENU_BAR_H),
                    width: parentW, height: UDpi.toPixel(UMenuBar.MENU_BAR_H),
                    bgColor: bgColor,

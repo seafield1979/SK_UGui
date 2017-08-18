@@ -55,7 +55,7 @@ public class SKNodeUtil {
         let n = SKShapeNode(rect : rect.convToSK())
         n.fillColor = color
         n.strokeColor = .clear
-        n.position = pos.convToSK()
+        n.position = pos
         
         return n
     }

@@ -148,7 +148,8 @@ public class UDialogWindow : UWindow {
         screenSize.width = screenW
         screenSize.height = screenH
         
-        super.init(parentView: parentView, callbacks: nil, priority: DrawPriority.Dialog.rawValue, cropping: false,
+        super.init(parentView: parentView, callbacks: nil, priority: DrawPriority.Dialog.rawValue,
+                   createNode: false, cropping: false,
                    x: x, y: y,
                    width: screenW, height: screenH,
                    bgColor: dialogColor,
@@ -292,6 +293,8 @@ public class UDialogWindow : UWindow {
     public func closeDialog() {
         isShow = false
         self.removeFromDrawManager()
+        self.parentNode.removeFromParent()
+        
         if dialogCallbacks != nil {
             dialogCallbacks!.dialogClosed(dialog: self)
         }
@@ -303,11 +306,11 @@ public class UDialogWindow : UWindow {
     public func startClosing() {
         updateBasePos()
         
-        if isAnimation {
-            startAnimation(type: AnimationType.Closing)
-        } else {
+//        if isAnimation {
+//            startAnimation(type: AnimationType.Closing)
+//        } else {
             closeDialog()
-        }
+//        }
     }
     
     /**
@@ -318,19 +321,19 @@ public class UDialogWindow : UWindow {
                             textSize : Int, textColor : UIColor,
                             bgColor : UIColor? ) -> UTextView
     {
-        var x : CGFloat = 0.0
-        switch(alignment) {
-        case .CenterX:
-            fallthrough
-        case .Center:
-            x = size.width / 2
-        case .CenterY:
-            fallthrough
-        case .None:
-            x = marginH
-        default:
-            break
-        }
+//        var x : CGFloat = 0.0
+//        switch(alignment) {
+//        case .CenterX:
+//            fallthrough
+//        case .Center:
+//            x = size.width / 2
+//        case .CenterY:
+//            fallthrough
+//        case .None:
+//            x = marginH
+//        default:
+//            break
+//        }
         let textView : UTextView =
             UTextView.createInstance(text: text,
                                      textSize: textSize,
@@ -339,7 +342,7 @@ public class UDialogWindow : UWindow {
                                      createNode: false,
                                      multiLine: multiLine,
                                      isDrawBG: isDrawBG,
-                                     x: x, y: 0,
+                                     x: 0, y: 0,
                                      width: size.width - marginH * 2,
                                      color: textColor, bgColor: bgColor)
         mTextViews.append(textView)
@@ -442,7 +445,6 @@ public class UDialogWindow : UWindow {
         // ダイアログのアイテムは clientNode 以下に配置する
         clientNode.removeAllChildren()
         
-        
         // タイトル、メッセージ
         var y : CGFloat = UDpi.toPixel(UDialogWindow.TEXT_MARGIN_V)
         if title != nil && mTitleView == nil {
@@ -453,29 +455,16 @@ public class UDialogWindow : UWindow {
                 alignment: UAlignment.CenterX,
                 createNode : true,
                 multiLine: true, isDrawBG: false,
-                x: 0, y: y,
+                x: size.width / 2, y: y,
                 width: size.width, color: .black, bgColor: nil)
             
-            clientNode.addChild( mTitleView!.parentNode )
-            y += mTitleView!.getHeight() + UDpi.toPixel( UDialogWindow.MARGIN_V )
-            
+            y += mTitleView!.getHeight() + UDpi.toPixel( UDialogWindow.MARGIN_V * 2)
         }
         
         // テキスト
         for textView in mTextViews {
-            textView!.parentNode.position = CGPoint(x:0, y:y)
-            clientNode.addChild( textView!.parentNode )
+            textView!.setPos( size.width / 2, y)
             y += textView!.getHeight() + UDpi.toPixel( UDialogWindow.MARGIN_V )
-        }
-        
-        // Drawables
-        // ダイアログの中央に配置
-        for obj in mDrawables {
-//            obj!.setX((size.width - obj!.getWidth()) / 2)
-//            obj!.setY(y)
-//            obj!.updateRect()
-            
-            y += obj!.getHeight() + 20
         }
         
         // ボタン
@@ -501,30 +490,20 @@ public class UDialogWindow : UWindow {
             var x : CGFloat = buttonMarginH
             var heightMax : CGFloat = 0
             var _height : CGFloat = 0
-            for i in 0...(num-1) {
+            for i in 0..<num {
                 let button : UButton = mButtons[i]
                 if button is UButtonImage {
                     let _button = button as! UButtonImage
                     _button.setPos(x, y)
-                    
-                    // SpriteKit
-                    button.parentNode.position = CGPoint(x: x, y: y).convToSK()
-                    clientNode.addChild( _button.parentNode )
-                    
                     x += _button.getWidth() + buttonMarginH
                     _height = _button.getHeight()
+
                 } else {
                     button.setPos(x, y)
-                    
-                    // SpriteKit
-                    button.parentNode.position = CGPoint(x: x, y: y).convToSK()
-                    clientNode.addChild( button.parentNode )
-                    
                     button.setSize(buttonW, buttonH)
                     x += buttonW + buttonMarginH
                     _height = buttonH
                 }
-                
                 
                 if _height > heightMax {
                     heightMax = _height
@@ -539,30 +518,44 @@ public class UDialogWindow : UWindow {
                     let _button = button! as! UButtonImage
                     
                     _button.setPos((size.width - _button.getWidth()) / 2, y)
-                    
-                    // SpriteKit
-                    _button.parentNode.position = CGPoint(x: _button.pos.x, y: _button.pos.y).convToSK()
-                    clientNode.addChild( _button.parentNode )
-                    
                     y += button!.getHeight() + buttonMarginV
                 } else {
                     button!.setPos(buttonMarginH, y)
                     button!.setSize(size.width - buttonMarginH * 2, buttonH)
-                    
-                    // SpriteKit
-                    button!.parentNode.position = CGPoint(x: button!.pos.x, y: button!.pos.y).convToSK()
-                    clientNode.addChild( button!.parentNode )
-                    
                     y += buttonH + buttonMarginV
                 }
             }
         }
-        size.height = y;
         
-        // センタリング
-        clientNode.position = CGPoint(
-            x: size.width / 2,
-            y: ((screenSize.height - size.height) / 2)).convToSK()
+        // ダイアログのサイズが決まったのでUWindowのノードを作成
+        let margin = UDpi.toPixel(UDialogWindow.MARGIN_H)
+        self.size = CGSize(width: screenSize.width - margin * 2, height: y)
+        self.pos = CGPoint(x: margin, y: (screenSize.height - size.height) / 2)
+        
+        updateWindow()
+        initSKNode()
+        
+        // SpriteKit のノードを生成
+        if mTitleView != nil {
+            mTitleView!.parentNode.position.toSK()
+            clientNode.addChild( mTitleView!.parentNode )
+        }
+        
+        // テキスト
+        for textView in mTextViews {
+            textView!.initSKNode()
+            textView!.parentNode.position.toSK()
+            clientNode.addChild( textView!.parentNode )
+        }
+        
+        // ボタン
+        for button in mButtons {
+            button!.initSKNode()
+            button!.parentNode.position.toSK()
+            clientNode.addChild( button!.parentNode )
+        }
+        
+        size.height = y;
     }
     
     /**
@@ -622,10 +615,6 @@ public class UDialogWindow : UWindow {
             textView!.draw(_offset)
         }
         
-        // Drawables
-        for obj in mDrawables {
-            obj!.draw(_offset)
-        }
         // Buttons
         for button in mButtons {
             button!.draw(_offset)
@@ -659,11 +648,11 @@ public class UDialogWindow : UWindow {
             }
         }
         // タッチアップ処理(Drawable)
-        for obj in mDrawables {
-            if obj!.touchUpEvent(vt: vt) {
-                isRedraw = true
-            }
-        }
+//        for obj in mDrawables {
+//            if obj!.touchUpEvent(vt: vt) {
+//                isRedraw = true
+//            }
+//        }
         
         // タッチ処理(Button)
         for button in mButtons {
@@ -673,11 +662,11 @@ public class UDialogWindow : UWindow {
         }
         
         // タッチ処理(Drawable)
-        for obj in mDrawables {
-            if obj!.touchEvent(vt: vt, offset: offset) {
-                return true
-            }
-        }
+//        for obj in mDrawables {
+//            if obj!.touchEvent(vt: vt, offset: offset) {
+//                return true
+//            }
+//        }
         
         // 範囲外をタッチしたら閉じる
         if type == DialogType.Normal {
