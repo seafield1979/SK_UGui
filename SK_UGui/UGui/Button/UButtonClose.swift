@@ -7,8 +7,7 @@
 //  Copyright © 2017年 Shusuke Unno. All rights reserved.
 //
 
-import Foundation
-import UIKit
+import SpriteKit
 
 public class UButtonClose : UButton {
     /**
@@ -22,6 +21,9 @@ public class UButtonClose : UButton {
      * Member Variables
      */
     private var radius : CGFloat = 0.0
+    
+    // SpriteKit
+    private var buttonNode : SKSpriteNode
     
     /**
      * Get/Set
@@ -37,11 +39,19 @@ public class UButtonClose : UButton {
         self.radius = UDpi.toPixel(UButtonClose.BUTTON_W / 2)
         self.closeImage = UResourceManager.getImageByName(ImageName.close)!
 
+        let width = UDpi.toPixel(UButtonClose.BUTTON_W)
+        
+        buttonNode = SKSpriteNode(imageNamed: "close.png")
+        buttonNode.size = CGSize(width: width, height: width)
+        
         super.init(callbacks: callbacks, type: type, id: id, priority: priority,
                    x: x, y: y,
-                   width: UDpi.toPixel(UButtonClose.BUTTON_W),
-                   height: UDpi.toPixel(UButtonClose.BUTTON_W),
+                   width: width, height: width,
                    color: color)
+        
+        parentNode.position = CGPoint(x: x, y: y)
+        parentNode.addChild2( buttonNode )
+        
         
         self.updateRect()
     }
@@ -57,12 +67,12 @@ public class UButtonClose : UButton {
      * @param offset 独自の座標系を持つオブジェクトをスクリーン座標系に変換するためのオフセット値
      */
     override public func draw(_ offset : CGPoint?) {
-        var _rect = CGRect(origin: rect!.origin, size: rect!.size)
-        if offset != nil {
-            _rect.x += offset!.x
-            _rect.y += offset!.y
-        }
-        UDraw.drawImage(image: closeImage, rect: _rect)
+//        var _rect = CGRect(origin: rect!.origin, size: rect!.size)
+//        if offset != nil {
+//            _rect.x += offset!.x
+//            _rect.y += offset!.y
+//        }
+//        UDraw.drawImage(image: closeImage, rect: _rect)
     }
     
     /**

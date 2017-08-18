@@ -19,13 +19,13 @@ public class PageViewTest1 : UPageView, UButtonCallbacks {
      */
     public static let TAG = "PageViewTest1"
     
-    public static let buttonId1 = 100
-    public static let buttonId2 = 101
-    public static let buttonId3 = 102
-    public static let buttonId41 = 110
-    public static let buttonId42 = 111
-    public static let buttonId5 = 120
-    public static let buttonId6 = 130
+    public let buttonId1 = 100
+    public let buttonId2 = 101
+    public let buttonId3 = 102
+    public let buttonId41 = 110
+    public let buttonId42 = 111
+    public let buttonId5 = 120
+    public let buttonId6 = 130
     
     public static let MARGIN : CGFloat = 20.0
     
@@ -38,8 +38,8 @@ public class PageViewTest1 : UPageView, UButtonCallbacks {
     /**
      * Constructor
      */
-    public override init( topView : TopScene, title : String) {
-        super.init( topView: topView, title: title)
+    public override init( topScene : TopScene, title : String) {
+        super.init( topScene: topScene, title: title)
     }
     
     /**
@@ -89,9 +89,9 @@ public class PageViewTest1 : UPageView, UButtonCallbacks {
         let buttonW : CGFloat = CGFloat(UUtil.screenWidth()) - PageViewTest1.MARGIN * 2
         let buttonH : CGFloat = 50.0
         
-        let colorButton = UButtonText(callbacks: self, type: UButtonType.BGColor, id: PageViewTest1.buttonId1, priority: 100, text: "button1", createNode: true, x: x, y: y, width: buttonW, height: buttonH, textSize: 20, textColor: UIColor.white, bgColor: UIColor.blue)
+        let colorButton = UButtonText(callbacks: self, type: UButtonType.BGColor, id: buttonId1, priority: 100, text: "button1", createNode: true, x: x, y: y, width: buttonW, height: buttonH, textSize: 20, textColor: UIColor.white, bgColor: UIColor.blue)
         
-        mTopView.addChild2( colorButton.parentNode )
+        mTopScene.addChild2( colorButton.parentNode )
         colorButton.addToDrawManager()
         
         y += buttonH + PageViewTest1.MARGIN
@@ -99,11 +99,11 @@ public class PageViewTest1 : UPageView, UButtonCallbacks {
         // UButtonText
         // Press 押したら凹むボタン
         let textButton = UButtonText(
-            callbacks: self, type: UButtonType.Press, id: PageViewTest1.buttonId2,
+            callbacks: self, type: UButtonType.Press, id: buttonId2,
             priority: 100, text: "button2", createNode: true,
             x: x, y: y, width: buttonW, height: buttonH,
             textSize: 20, textColor: UIColor.white, bgColor: UIColor.blue)
-        mTopView.addChild2( textButton.parentNode )
+        mTopScene.addChild2( textButton.parentNode )
         textButton.addToDrawManager()
         
         textButton.setImage(imageName: ImageName.close, imageSize: CGSize(width: 30, height: 30))
@@ -113,11 +113,11 @@ public class PageViewTest1 : UPageView, UButtonCallbacks {
 
         // Press2 押すたびにON/OFFが切り替わるボタン
         let textButton2 = UButtonText(
-            callbacks: self, type: UButtonType.Press2, id: PageViewTest1.buttonId3,
+            callbacks: self, type: UButtonType.Press2, id: buttonId3,
             priority: 100, text: "button3", createNode: true,
             x: x, y: y, width: buttonW, height: buttonH,
             textSize: 20, textColor: UIColor.white, bgColor: UIColor.blue)
-        mTopView.addChild2( textButton2.parentNode )
+        mTopScene.addChild2( textButton2.parentNode )
         textButton2.addToDrawManager()
         textButton2.setPullDownIcon(true)
 
@@ -125,31 +125,40 @@ public class PageViewTest1 : UPageView, UButtonCallbacks {
 
         // Press3 
         // 押されたら凹んで戻らないボタン。戻すには isPressed を falseに設定する
-        pressedButton1 = UButtonText(callbacks: self, type: UButtonType.Press3, id: PageViewTest1.buttonId41, priority: 100, text: "button41", createNode: true, x: x, y: y, width: buttonW / 2, height: buttonH, textSize: 20, textColor: UIColor.white, bgColor: UIColor.blue)
-        mTopView.addChild2( pressedButton1!.parentNode )
+        pressedButton1 = UButtonText(callbacks: self, type: UButtonType.Press3, id: buttonId41, priority: 100, text: "button41", createNode: true, x: x, y: y, width: buttonW / 2, height: buttonH, textSize: 20, textColor: UIColor.white, bgColor: UIColor.blue)
+        mTopScene.addChild2( pressedButton1!.parentNode )
         pressedButton1?.addToDrawManager()
         
         pressedButton2 = UButtonText(
-            callbacks: self, type: UButtonType.Press3, id: PageViewTest1.buttonId42,
+            callbacks: self, type: UButtonType.Press3, id: buttonId42,
             priority: 100, text: "button42", createNode: true,
             x: x + buttonW / 2 + 10.0, y: y, width: buttonW / 2, height: buttonH,
             textSize: 20, textColor: UIColor.white, bgColor: UIColor.blue)
-        mTopView.addChild2( pressedButton2!.parentNode )
+        mTopScene.addChild2( pressedButton2!.parentNode )
         pressedButton2?.addToDrawManager()
         
         y += buttonH + PageViewTest1.MARGIN
 
         // 画像ボタン(ONとOFFで別の画像を設定している)
-//        let image1 = UResourceManager.getImageByName(ImageName.miro)
-//        let image2 = UResourceManager.getImageByName(ImageName.ume)
-//        let imageButton = UButtonImage.createButton(callbacks: nil, id: PageViewTest1.buttonId5, priority: 100, x: x, y: y, width: buttonW, height: buttonH, image: image1, pressedImage: image2)
-//        imageButton.addToDrawManager()
-//        
-//        y += buttonH + PageViewTest1.MARGIN
-//        
-//        // UButtonClose
-//        let closeButton = UButtonClose(callbacks: self, type: UButtonType.BGColor, id: PageViewTest1.buttonId6, priority: 100, x: x, y: y, color: UIColor.red)
-//        closeButton.addToDrawManager()
+        let image1 = UResourceManager.getImageByName(ImageName.ume)
+        let image2 = UResourceManager.getImageByName(ImageName.miro)
+        let imageButton = UButtonImage(callbacks: nil, id: buttonId5, priority: 100, x: x, y: y, width: buttonW, height: buttonH, image: image1!, pressedImage: image2)
+        mTopScene.addChild2(imageButton.parentNode)
+        imageButton.addToDrawManager()
+        
+        y += buttonH + PageViewTest1.MARGIN
+        
+        let imageButton2 = UButtonImage(callbacks: self, id: buttonId1, priority: 100, x: x, y: y, width: buttonW, height: buttonH, imageName: ImageName.hogeman, pressedImageName: nil)
+        mTopScene.addChild2(imageButton2.parentNode)
+        imageButton2.addToDrawManager()
+        
+        y += buttonH + PageViewTest1.MARGIN
+        
+        
+        // UButtonClose
+        let closeButton = UButtonClose(callbacks: self, type: UButtonType.BGColor, id: buttonId6, priority: 100, x: x, y: y, color: UIColor.red)
+        mTopScene.addChild2( closeButton.parentNode )
+        closeButton.addToDrawManager()
     }
     
     /**
@@ -168,20 +177,20 @@ public class PageViewTest1 : UPageView, UButtonCallbacks {
      */
     public func UButtonClicked(id : Int, pressedOn : Bool) -> Bool {
         switch(id) {
-        case PageViewTest1.buttonId1:
+        case buttonId1:
             print("button1 clicked")
-        case PageViewTest1.buttonId2:
+        case buttonId2:
             print("button2 clicked")
-        case PageViewTest1.buttonId3:
+        case buttonId3:
             print("button3 clicked")
-        case PageViewTest1.buttonId41:
+        case buttonId41:
             pressedButton2?.setPressedOn(pressedOn: false)
-        case PageViewTest1.buttonId42:
+        case buttonId42:
             pressedButton1?.setPressedOn(pressedOn: false)
             print("button4 clicked")
-        case PageViewTest1.buttonId5:
+        case buttonId5:
             print("button4 clicked")
-        case PageViewTest1.buttonId6:
+        case buttonId6:
             print("button4 clicked")
         default:
             break

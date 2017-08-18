@@ -33,7 +33,7 @@ public class UPopupWindow : UDialogWindow {
     /**
      * Constructor
      */
-    public init( parentView : TopScene,
+    public init( topScene : TopScene,
                   popupType : UPopupType,
                  title : String,
                  isAnimation : Bool,
@@ -41,7 +41,7 @@ public class UPopupWindow : UDialogWindow {
     {
         titleNode = SKNodeUtil.createLabelNode(text: title, textSize: 20, color: .black, alignment: .Center, offset: CGPoint(x:0, y:0))
         
-        super.init( parentView: parentView,
+        super.init( topScene: topScene,
                     type: DialogType.Mordal,
                     buttonCallbacks: nil,
                     dialogCallbacks: nil,

@@ -52,8 +52,8 @@ public class PageViewTitle : UPageView, UButtonCallbacks {
     /**
      * Constructor
      */
-    public override init( topView : TopScene, title : String) {
-        super.init( topView: topView, title: title)
+    public override init( topScene : TopScene, title : String) {
+        super.init( topScene: topScene, title: title)
         
         buttonInfo.append(ButtonInfo(id: PageViewTitle.buttonId1, name: "ボタン"))
         buttonInfo.append(ButtonInfo(id: PageViewTitle.buttonId2, name: "ダイアログ"))
@@ -109,19 +109,19 @@ public class PageViewTitle : UPageView, UButtonCallbacks {
         let x : CGFloat = 10.0
         var y : CGFloat = 10.0
         
-        let width = mTopView.frame.size.width - 20.0
+        let width = mTopScene.frame.size.width - 20.0
         
         // parent
         let parent = SKNode()
-        mTopView.addChild(parent)
+        mTopScene.addChild(parent)
         
         for button in buttonInfo {
             let textButton = UButtonText(callbacks: self, type: UButtonType.BGColor, id: button.id, priority: 100, text: button.name, createNode: true,
                                          x: x, y: y,
                                          width: width, height: 50.0, textSize: 20,
                                          textColor: .white, bgColor: .blue)
-            textButton.parentNode.position.toSK(fromView: mTopView)
-            mTopView.addChild( textButton.parentNode )
+            textButton.parentNode.position.toSK(fromView: mTopScene)
+            mTopScene.addChild( textButton.parentNode )
             textButton.addToDrawManager()
             
             y += 60.0

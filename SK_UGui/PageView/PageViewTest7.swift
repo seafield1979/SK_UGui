@@ -30,8 +30,8 @@ public class PageViewTest7 : UPageView, UWindowCallbacks {
     /**
      * Constructor
      */
-    public override init( topView : TopScene, title : String) {
-        super.init( topView: topView, title: title)
+    public override init( topScene : TopScene, title : String) {
+        super.init( topScene: topScene, title: title)
     }
     
     /**
@@ -78,7 +78,7 @@ public class PageViewTest7 : UPageView, UWindowCallbacks {
         
         let scene = TopScene.getInstance()
         
-        let window = UScrollWindow(parentView: scene, callbacks: self, priority: 60, x: 30, y: 30, width: mTopView.size.width - 100, height: mTopView.size.height - 60,
+        let window = UScrollWindow(topScene: scene, callbacks: self, priority: 60, x: 30, y: 30, width: mTopScene.size.width - 60, height: mTopScene.size.height - 60,
                                    color: .white, topBarH: 10, frameW: 3, frameH: 3)
         
         window.setContentSize(width: 1000, height: 1000, update: true)
@@ -109,7 +109,7 @@ public class PageViewTest7 : UPageView, UWindowCallbacks {
     
     // ダイアログを表示する
     func showDialog() {
-        let dialog = UPopupWindow(parentView: mTopView, popupType: UPopupType.OKCancel,
+        let dialog = UPopupWindow(topScene: mTopScene, popupType: UPopupType.OKCancel,
                                   title: "hoge", isAnimation: true,
                                   screenW: CGFloat(UUtil.screenWidth()),
                                   screenH: CGFloat(UUtil.screenHeight()))

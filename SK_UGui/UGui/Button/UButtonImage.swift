@@ -6,8 +6,7 @@
 //  Copyright © 2017年 Shusuke Unno. All rights reserved.
 //
 
-import Foundation
-import UIKit
+import SpriteKit
 
 /**
  * 画像を表示するボタン
@@ -18,16 +17,21 @@ public class UButtonImage : UButton {
     /**
      * Consts
      */
-    public static let TEXT_MARGIN : Int = 4
+    public let TEXT_MARGIN : Int = 4
     
-    private static let TEXT_SIZE : Int = 10
+    private let TEXT_SIZE : Int = 10
     
     /**
      * Member Variables
      */
-    var images : List<UIImage> = List()    // 画像
-    var pressedImage : UIImage? = nil      // タッチ時の画像
-    var disabledImage : UIImage? = nil     // disable時の画像
+    // SpriteKit Node
+    var bgNode : SKShapeNode        // タップ時に表示されるBG
+    var titleNode : SKLabelNode?    // ボタンの下に表示されるテキスト
+    var imageNode : SKSpriteNode   // ボタン用画像
+    var textures : [SKTexture] = []
+    var pressedTexture : SKTexture?
+    var disabledTexture : SKTexture?
+    
     var title : String? = nil             // 画像の下に表示するテキスト
     var titleSize : Int = 0
     var titleColor : UIColor = UIColor()
@@ -41,49 +45,62 @@ public class UButtonImage : UButton {
      */
     public func setEnabled(enabled : Bool) {
         self.enabled = enabled
-        if (!enabled) {
-            if (disabledImage == nil && images.count > 0) {
-                disabledImage = UUtil.convToGrayImage(image: images[0])
+        if !enabled {
+            if disabledTexture == nil && textures.count > 0 {
+                disabledTexture = textures[0]
             }
         }
     }
     
-    public func setImage(_ image : UIImage?) {
-        if (image != nil) {
-            self.images.append(image!)
-        }
+    public func addImage(_ image : UIImage) {
+        textures.append( SKTexture(image: image))
     }
-    public func setPressedImage(_ image : UIImage?) {
-        if (image != nil) {
-            pressedImage = image
-        }
+    public func setPressedImage(_ image : UIImage) {
+        pressedTexture = SKTexture(image: image)
     }
     
     /**
      * Constructor
      */
     public init(callbacks : UButtonCallbacks?,
-                             id : Int , priority : Int,
-                             x : CGFloat, y : CGFloat,
-                             width : CGFloat, height : CGFloat,
-                             imageName : ImageName?, pressedImageName : ImageName? )
+                            id : Int , priority : Int,
+                            x : CGFloat, y : CGFloat,
+                            width : CGFloat, height : CGFloat,
+                            image : UIImage, pressedImage : UIImage? )
     {
+        bgNode = SKShapeNode()
+        imageNode = SKSpriteNode()
+        
         super.init(callbacks: callbacks, type: UButtonType.BGColor,
                    id: id, priority: priority,
                    x: x, y: y, width: width, height: height,
                    color: UColor.Blue)
         
-        if imageName != nil {
-            images.append(UResourceManager.getImageByName(imageName!)!)
-        }
+        textures.append( SKTexture(image: image))
         
         if pressedImage != nil {
-            self.pressedImage = UResourceManager.getImageByName(pressedImageName!)
+            pressedTexture = SKTexture(image: pressedImage!)
         } else {
-            pressedColor = UColor.LightPink;
+            pressedColor = UColor.LightPink
         }
-        stateId = 0;
-        stateMax = 1;
+        stateId = 0
+        stateMax = 1
+        
+        initSKNode()
+    }
+    
+    public convenience init(callbacks : UButtonCallbacks?,
+                             id : Int , priority : Int,
+                             x : CGFloat, y : CGFloat,
+                             width : CGFloat, height : CGFloat,
+                             imageName : ImageName, pressedImageName : ImageName? )
+    {
+        var pressedImage : UIImage? = nil
+        if pressedImageName != nil {
+            pressedImage = UIImage(named: pressedImageName!.rawValue)
+        }
+        
+        self.init(callbacks: callbacks, id: id, priority: priority, x: x, y: y, width: width, height: height, image: UIImage(named: imageName.rawValue)!, pressedImage: pressedImage)
     }
     
     // 画像ボタン
@@ -91,7 +108,7 @@ public class UButtonImage : UButton {
                                     id : Int, priority : Int,
                                     x : CGFloat, y : CGFloat,
                                     width : CGFloat, height : CGFloat,
-                                    imageName : ImageName?,
+                                    imageName : ImageName,
                                     pressedImageName : ImageName?) -> UButtonImage
     {
         let button = UButtonImage(callbacks: callbacks, id: id, priority: priority,
@@ -101,21 +118,32 @@ public class UButtonImage : UButton {
         return button
     }
     
-    // 画像ボタン
-    public static func createButton(callbacks : UButtonCallbacks?,
-                                    id : Int, priority : Int,
-                                    x : CGFloat, y : CGFloat,
-                                    width : CGFloat, height : CGFloat,
-                                    image : UIImage?, pressedImage : UIImage?) -> UButtonImage
-    {
-        let button = UButtonImage(callbacks: callbacks,
-                                  id: id, priority: priority,
-                                  x:x, y:y,
-                                  width: width, height: height,
-                                  imageName: nil, pressedImageName: nil)
-        button.setImage(image)
-        button.setPressedImage(pressedImage)
-        return button
+    /**
+     * SpriteKitのノードの初期化
+     */
+    public override func initSKNode() {
+        parentNode.position = pos
+        
+        if title != nil {
+            titleNode = SKNodeUtil.createLabelNode(
+                text: title!,
+                textSize: UDpi.toPixel(TEXT_SIZE), color: titleColor,
+                alignment: .CenterX, offset: CGPoint(x: 0, y: UDpi.toPixel(TEXT_MARGIN)))
+            titleNode?.zPosition = 0.1
+            parentNode.addChild2(titleNode!)
+        }
+        
+        bgNode = SKNodeUtil.createRectNode(
+            rect: CGRect(x: 0, y:0, width: size.width, height: size.height),
+            color: UIColor.init(red: 1.0, green: 1.0, blue: 0, alpha: 0.5), pos: CGPoint(), cornerR: 5.0)
+        parentNode.addChild2(bgNode)
+        
+        imageNode = SKSpriteNode(texture: textures[0])
+        imageNode.size = size
+        imageNode.zPosition = 0.1
+        imageNode.anchorPoint = CGPoint(x:0, y:1.0)
+        parentNode.addChild2(imageNode)
+        
     }
     
     /**
@@ -138,11 +166,11 @@ public class UButtonImage : UButton {
      * @param imageId 追加した状態の場合に表示する画像
      */
     public func addState(imageName : ImageName) {
-        images.append(UResourceManager.getImageByName(imageName)!)
+        textures.append( SKTexture(imageNamed: imageName.rawValue) )
         stateMax += 1
     }
     public func addState(image : UIImage) {
-        images.append(image)
+        textures.append( SKTexture(image: image))
         stateMax += 1
     }
     
@@ -153,15 +181,16 @@ public class UButtonImage : UButton {
                          x : CGFloat, y : CGFloat,
                          color : UIColor, bgColor : UIColor?)
     {
-        mTextTitle = UTextView.createInstance(text: title,
-                                              textSize:Int(UDpi.toPixel(UButtonImage.TEXT_SIZE)),
-                                              priority: 0, alignment: alignment,
-                                              createNode : true,
-                                              multiLine:false, isDrawBG: true,
-                                              x:x, y:y,
-                                              width:0,
-                                              color: color, bgColor: bgColor)
-        mTextTitle?.setMargin(10, 10)
+        if titleNode != nil {
+            titleNode?.removeFromParent()
+        }
+        
+        titleNode = SKNodeUtil.createLabelNode(
+            text: title,
+            textSize: UDpi.toPixel(TEXT_SIZE), color: titleColor,
+            alignment: .CenterX, offset: CGPoint(x: 0, y: UDpi.toPixel(TEXT_MARGIN)))
+        titleNode?.zPosition = 0.1
+        parentNode.addChild2(titleNode!)
     }
     
     /**
@@ -197,50 +226,31 @@ public class UButtonImage : UButton {
      * @param offset 独自の座標系を持つオブジェクトをスクリーン座標系に変換するためのオフセット値
      */
     public override func draw(_ offset : CGPoint?) {
-        var _image : UIImage? = nil
+        var _texture : SKTexture? = nil
         
-        var _pos = CGPoint(x: pos.x, y: pos.y)
-        if (offset != nil) {
-            _pos.x += offset!.x
-            _pos.y += offset!.y
-        }
+//        var _pos = CGPoint(x: pos.x, y: pos.y)
+//        if (offset != nil) {
+//            _pos.x += offset!.x
+//            _pos.y += offset!.y
+//        }
         
+        // 表示するテクスチャは状態によって変わる
         if !enabled {
-            _image = disabledImage
+            _texture = disabledTexture
         } else {
-            _image = images[stateId]
+            _texture = textures[stateId]
         }
-        let _rect = CGRect(x:_pos.x, y:_pos.y,
-                           width: size.width,
-                           height: size.height)
-        if (isPressed) {
-            if pressedImage != nil {
-                _image = pressedImage
+        
+        if isPressed {
+            if pressedTexture != nil {
+                _texture = pressedTexture
             } else {
                 // BGの矩形を配置
-                UDraw.drawRoundRectFill( rect: CGRect(x:_rect.x - 10,
-                                                y: _rect.y - 10,
-                                                width: _rect.width + 10,
-                                                height: _rect.height + 10),
-                                         cornerR: 10.0, color: pressedColor,
-                                         strokeWidth: 0, strokeColor: nil)
+                bgNode.isHidden = false
             }
+        } else {
+            bgNode.isHidden = true
         }
-        
-        // 領域の幅に合わせて伸縮
-        UDraw.drawImage(image: _image!, rect: _rect)
-        
-        if UDebug.drawRectLine {
-            self.drawRectLine(offset: offset, color: UIColor.yellow)
-        }
-        
-        // 下にテキストを表示
-        if title != nil {
-            UDraw.drawText(text: title!, alignment: UAlignment.CenterX,
-                           textSize: titleSize,
-                           x:_rect.centerX(),
-                           y:_rect.bottom + UDpi.toPixel(UButtonImage.TEXT_MARGIN),
-                           color: titleColor)
-        }
+        imageNode.texture = _texture
     }
 }

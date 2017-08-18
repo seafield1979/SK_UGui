@@ -34,7 +34,7 @@ public class TopScene: SKScene {
         self.scaleMode = SKSceneScaleMode.resizeFill
         // ページマネージャーを初期化
         UDrawManager.getInstance().initialize()
-        mPageManager = PageViewManager.createInstance(topView: self)
+        mPageManager = PageViewManager.createInstance(topScene: self)
         if parentVC != nil {
             mPageManager?.mParentVC = parentVC
         }

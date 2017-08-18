@@ -27,8 +27,8 @@ public class PageViewTest4 : UPageView, UMenuItemCallbacks {
     /**
      * Constructor
      */
-    public override init( topView : TopScene, title : String) {
-        super.init( topView: topView, title: title)
+    public override init( topScene : TopScene, title : String) {
+        super.init( topScene: topScene, title: title)
     }
     
     /**
@@ -74,9 +74,9 @@ public class PageViewTest4 : UPageView, UMenuItemCallbacks {
         UDrawManager.getInstance().initialize()
         
         // MenuBar
-        menuBar = MenuBarTest1.createInstance(parentView: mTopView, callbacks: self,
-                                              parentW: mTopView.frame.size.width,
-                                              parentH: mTopView.frame.size.height, bgColor: nil)
+        menuBar = MenuBarTest1.createInstance(topScene: mTopScene, callbacks: self,
+                                              parentW: mTopScene.frame.size.width,
+                                              parentH: mTopScene.frame.size.height, bgColor: nil)
     }
     
     /**

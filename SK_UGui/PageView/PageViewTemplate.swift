@@ -26,8 +26,8 @@ public class PageViewTemplate : UPageView {
     /**
      * Constructor
      */
-    public override init( topView : TopScene, title : String) {
-        super.init( topView: topView, title: title)
+    public override init( topScene : TopScene, title : String) {
+        super.init( topScene: topScene, title: title)
     }
     
     /**

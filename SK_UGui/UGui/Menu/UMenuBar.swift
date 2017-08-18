@@ -30,12 +30,12 @@ public class UMenuBar : UWindow {
     /**
      * Constructor
      */
-    public init( parentView: TopScene,
+    public init( topScene: TopScene,
                 callbacks : UMenuItemCallbacks?,
                  parentW : CGFloat, parentH : CGFloat,
                  bgColor : UIColor? )
     {
-        super.init(parentView: parentView,
+        super.init(topScene: topScene,
                    callbacks : nil,
                    priority: UMenuBar.DRAW_PRIORITY,
                    createNode: true, cropping: false,

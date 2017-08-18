@@ -33,9 +33,7 @@ public protocol UWindowCallbacks {
     func windowClose(window : UWindow)
 }
 
-
 public class UWindow : UDrawable, UButtonCallbacks {
-    
     /**
      * Consts
      */
@@ -59,7 +57,7 @@ public class UWindow : UDrawable, UButtonCallbacks {
     var animatingBgNode : SKShapeNode?  // アニメーション中のBG
     
     var windowCallbacks : UWindowCallbacks? = nil
-    var parentView : TopScene? = nil
+    var topScene : TopScene? = nil
     var bgColor : UIColor? = nil
     var frameColor : UIColor? = nil
     var mCropping : Bool
@@ -189,25 +187,25 @@ public class UWindow : UDrawable, UButtonCallbacks {
     /**
      * 外部からインスタンスを生成できないようにprivateでコンストラクタを定義する
      */
-    convenience init(parentView : TopScene, callbacks: UWindowCallbacks?, priority : Int,
+    convenience init(topScene : TopScene, callbacks: UWindowCallbacks?, priority : Int,
                      createNode: Bool, cropping: Bool,
          x : CGFloat, y : CGFloat, width : CGFloat, height : CGFloat,
          bgColor : UIColor?)
     {
-        self.init(parentView : parentView,
+        self.init(topScene : topScene,
                   callbacks: callbacks!, priority: priority,
                   createNode : createNode, cropping: cropping,
              x: x, y: y, width: width, height: height,
              bgColor: bgColor, topBarH: 0, frameW: 0, frameH: 0)
     }
     
-    init(parentView: TopScene, callbacks: UWindowCallbacks?, priority : Int,
+    init(topScene: TopScene, callbacks: UWindowCallbacks?, priority : Int,
          createNode : Bool, cropping : Bool,
          x : CGFloat, y : CGFloat, width : CGFloat, height : CGFloat,
          bgColor : UIColor?, topBarH : CGFloat, frameW : CGFloat, frameH : CGFloat)
     {
         self.windowCallbacks = callbacks
-        self.parentView = parentView
+        self.topScene = topScene
         self.bgColor = bgColor
         self.mSBType = WindowSBShowType.Show2
         self.clientSize.width = width - frameW * 2
@@ -233,8 +231,8 @@ public class UWindow : UDrawable, UButtonCallbacks {
     public override func initSKNode() {
         // parent
         parentNode.zPosition = CGFloat(drawPriority)
-        parentNode.position = parentView!.convertPoint(fromView: CGPoint(x:pos.x, y: pos.y))
-        parentView!.addChild(parentNode)
+        parentNode.position = topScene!.convertPoint(fromView: CGPoint(x:pos.x, y: pos.y))
+        topScene!.addChild(parentNode)
         
         // frame
         if frameColor != nil && (frameSize.width > 0 || (topBarH + frameSize.height) > 0) {
@@ -329,21 +327,6 @@ public class UWindow : UDrawable, UButtonCallbacks {
     /**
      * Methods
      */
-    
-//    public func setCropping(_ cropping : Bool) {
-//        // ノードを作成
-//        // クロッピング(ウィンドウ外にはみ出したノードを描画しない)
-//        if cropping {
-//            let maskNode = SKShapeNode(rect: bgNode.frame,
-//                                   cornerRadius: 5.0)
-//            maskNode.fillColor = .black
-//            maskNode.strokeColor = .clear
-//            parentNode.maskNode = maskNode
-//        } else {
-//            parentNode.maskNode = nil
-//        }
-//    }
-    
     public func addItem(name: String, pos: CGPoint, size: CGSize) {
         // test
         let item = WindowItem(name: name, pos: pos, size: size)
@@ -434,7 +417,8 @@ public class UWindow : UDrawable, UButtonCallbacks {
      * @param offset 独自の座標系を持つオブジェクトをスクリーン座標系に変換するためのオフセット値
      */
     override public func draw(_ offset : CGPoint?) {
-        if (!isShow) {
+        parentNode.isHidden = !isShow
+        if !isShow {
             return
         }
         
@@ -464,86 +448,11 @@ public class UWindow : UDrawable, UButtonCallbacks {
     }
     
     /**
-     * Windowの背景を描画する
-     * @param canvas
-     * @param paint
-     * @param rect
-     */
-    public func drawBG(rect : CGRect) {
-        let frameWidth = (frameColor == nil) ? 0 : UDpi.toPixel(UWindow.BG_FRAME_W)
-        
-//        UDraw.drawRoundRectFill( rect: rect,
-//                                 cornerR: UDpi.toPixel(UWindow.BG_RADIUS),
-//                                 color: bgColor!,
-//                                 strokeWidth: frameWidth, strokeColor: frameColor)
-    }
-    
-    public func drawBG() {
-        self.drawBG(rect: rect!)
-    }
-    
-    public func drawBG( offset : CGPoint) {
-        self.drawBG(rect: CGRect(x: offset.x + rect!.left,
-                                 y: offset.y + rect!.top,
-                                 width: rect!.width,
-                                 height: rect!.height))
-    }
-    
-    /**
      * Windowの枠やバー、ボタンを描画する
      * @param canvas
      * @param paint
      */
     public func drawFrame(offset: CGPoint?) {
-        var _pos : CGPoint = CGPoint(x: pos.x, y: pos.y)
-        if offset != nil {
-            _pos.x += offset!.x
-            _pos.y += offset!.y
-        }
-        // Frame
-        if (frameSize.width > 0 && frameColor != nil) {
-            // 左右
-//            UDraw.drawRectFill( rect: CGRect(x: _pos.x, y: _pos.y,
-//                                       width: frameSize.width, height: size.height),
-//                                color: frameColor!,
-//                                strokeWidth: 0, strokeColor: nil)
-//            UDraw.drawRectFill( rect: CGRect(x: _pos.x + size.width - frameSize.width,
-//                                             y: _pos.y,
-//                                             width: size.width,
-//                                             height: size.height),
-//                                color:frameColor!,
-//                                strokeWidth: 0, strokeColor: nil)
-        }
-        
-        if (frameSize.height > 0 && frameColor != nil) {
-            // 上下
-//            UDraw.drawRectFill( rect: CGRect(x: _pos.x, y: _pos.y,
-//                                             width: size.width,
-//                                             height: frameSize.height),
-//                                color: frameColor!,
-//                                strokeWidth: 0, strokeColor: nil)
-//            UDraw.drawRectFill( rect: CGRect(x: _pos.x, y: _pos.y + size.height - frameSize.height,
-//                                             width: size.width,
-//                                             height: size.height),
-//                                color:frameColor!,
-//                                strokeWidth: 0, strokeColor: nil);
-        }
-        
-        // TopBar
-        if (topBarH > 0 && topBarColor != nil) {
-//            UDraw.drawRectFill( rect: CGRect(x: _pos.x, y: _pos.y + frameSize.height,
-//                                             width: size.width - frameSize.width,
-//                                             height: frameSize.height + topBarH),
-//                                color: topBarColor!,
-//                                strokeWidth: 0,
-//                                strokeColor: nil)
-        }
-        
-        // Close Button
-        if (closeIcon != nil && closeIcon!.isShow) {
-//            closeIcon!.draw(_pos);
-        }
-        
         // スクロールバー
         if (mScrollBarV != nil && mScrollBarV!.isShow()) {
             mScrollBarV!.draw(offset: offset)

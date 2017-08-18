@@ -36,12 +36,12 @@ public class ULogWindow : UWindow {
     // SpriteKit Node
     private var labelNodes : [SKLabelNode] = []
     
-    private init( parentView: TopScene,
+    private init( topScene: TopScene,
                   x : CGFloat, y : CGFloat,
                   width : CGFloat, height : CGFloat,
                   color: UIColor)
     {
-        super.init(parentView: parentView,
+        super.init(topScene: topScene,
                    callbacks: nil, priority: ULogWindow.DRAW_PRIORITY,
                    createNode: true, cropping: true,
                    x: x, y: y, width: width, height: height,
@@ -65,20 +65,20 @@ public class ULogWindow : UWindow {
     /**
      * インスタンスを生成する
      * @param context
-     * @param parentView
+     * @param topScene
      * @param width
      * @param height
      * @return
      */
-    public static func createInstance( parentView : TopScene,
+    public static func createInstance( topScene : TopScene,
                                        type : LogWindowType,
                                        x : CGFloat, y : CGFloat,
                                        width : CGFloat, height : CGFloat) -> ULogWindow
     {
-        let instance = ULogWindow( parentView : parentView, x:x, y:y,
+        let instance = ULogWindow( topScene : topScene, x:x, y:y,
                                    width:width, height:height,
                                    color: UColor.makeColor(128,0,0,0))
-        instance.parentView = parentView
+        instance.topScene = topScene
         instance.type = type
         instance.initialize()
         return instance
@@ -226,8 +226,8 @@ public class ULogWindow : UWindow {
     // タイマー処理
     @objc func timerFunc() {
         // 再描画
-//        if parentView != nil {
-//            parentView!.redraw = true
+//        if topScene != nil {
+//            topScene!.redraw = true
 //        }
     }
     

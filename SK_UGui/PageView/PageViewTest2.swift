@@ -34,8 +34,8 @@ public class PageViewTest2 : UPageView, UButtonCallbacks, UDialogCallbacks {
     /**
      * Constructor
      */
-    public override init( topView : TopScene, title : String) {
-        super.init( topView: topView, title: title)
+    public override init( topScene : TopScene, title : String) {
+        super.init( topScene: topScene, title: title)
         
         buttonInfo.append(ButtonInfo(id: PageViewTest2.buttonId1, name: "ダイアログ1"))
         buttonInfo.append(ButtonInfo(id: PageViewTest2.buttonId2, name: "ダイアログ2"))
@@ -92,9 +92,9 @@ public class PageViewTest2 : UPageView, UButtonCallbacks, UDialogCallbacks {
         for button in buttonInfo {
             let textButton = UButtonText(callbacks: self, type: UButtonType.BGColor, id: button.id, priority: 0, text: button.name, createNode: true,
                                          x: x, y: y,
-                                         width: mTopView.size.width - x * 2, height: 50.0, textSize: 20,
+                                         width: mTopScene.size.width - x * 2, height: 50.0, textSize: 20,
                                          textColor: UColor.White, bgColor: UColor.Blue)
-            mTopView.addChild2( textButton.parentNode )
+            mTopScene.addChild2( textButton.parentNode )
             textButton.addToDrawManager()
             
             y += 60.0
@@ -107,21 +107,21 @@ public class PageViewTest2 : UPageView, UButtonCallbacks, UDialogCallbacks {
     
     // OK/Cancelを選択 モーダル
     func showDialog1() {
-        let dialog = UPopupWindow(parentView : mTopView,
+        let dialog = UPopupWindow(topScene : mTopScene,
                                   popupType: UPopupType.OKCancel,
                                   title: "hoge", isAnimation: true,
-                                  screenW: mTopView.size.width,
-                                  screenH: mTopView.size.height )
+                                  screenW: mTopScene.size.width,
+                                  screenH: mTopScene.size.height )
         dialog.addToDrawManager()
     }
     
     // OK/Cancelを選択
     func showDialog2() {
         let dialog = UDialogWindow.createInstance(
-            parentView: mTopView,
+            topScene: mTopScene,
             buttonCallbacks: self, dialogCallbacks: nil,
             buttonDir: UDialogWindow.ButtonDir.Vertical,
-            screenW: mTopView.size.width, screenH: mTopView.size.height)
+            screenW: mTopScene.size.width, screenH: mTopScene.size.height)
         dialog.setTitle("ダイアログ")
         _ = dialog.addTextView(text: "テキスト1", alignment: UAlignment.Center,
                            multiLine: true, isDrawBG: false, textSize: 20,
@@ -143,7 +143,7 @@ public class PageViewTest2 : UPageView, UButtonCallbacks, UDialogCallbacks {
     
     func showDialog3() {
         let dialog = UDialogWindow.createInstance(
-            parentView: mTopView,
+            topScene: mTopScene,
             buttonCallbacks: self, dialogCallbacks: nil,
             buttonDir: UDialogWindow.ButtonDir.Horizontal,
             screenW: CGFloat(UUtil.screenWidth()), screenH: CGFloat(UUtil.screenHeight()))
@@ -160,15 +160,15 @@ public class PageViewTest2 : UPageView, UButtonCallbacks, UDialogCallbacks {
     }
     
     func showDialog4() {
-        let dialog = UPopupWindow(parentView : mTopView,
+        let dialog = UPopupWindow(topScene : mTopScene,
                                   popupType: UPopupType.OKCancel,
                                   title: "dialog4", isAnimation: true,
-                                  screenW: mTopView.size.width,
-                                  screenH: mTopView.size.height)
+                                  screenW: mTopScene.size.width,
+                                  screenH: mTopScene.size.height)
         dialog.addToDrawManager()
     }
     func showDialog5() {
-        let dialog = UPopupWindow(parentView : mTopView,
+        let dialog = UPopupWindow(topScene : mTopScene,
                                   popupType: UPopupType.OKCancel,
                                   title: "hoge", isAnimation: true,
                                   screenW: CGFloat(UUtil.screenWidth()),

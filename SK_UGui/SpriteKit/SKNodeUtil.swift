@@ -50,9 +50,9 @@ public class SKNodeUtil {
      * 四角形のノードを作成する
      * 引数の座標系はUIKitなので、内部でSpriteKit座標系に変換する
      */
-    public static func createRectNode(rect : CGRect, color : SKColor, pos : CGPoint) -> SKShapeNode
+    public static func createRectNode(rect : CGRect, color : SKColor, pos : CGPoint, cornerR : CGFloat) -> SKShapeNode
     {
-        let n = SKShapeNode(rect : rect.convToSK())
+        let n = SKShapeNode(rect : rect.convToSK(), cornerRadius: cornerR)
         n.fillColor = color
         n.strokeColor = .clear
         n.position = pos

@@ -22,7 +22,7 @@ public class UPageViewManager {
     /**
      * Member Variables
      */
-    var mTopView : TopScene
+    var mTopScene : TopScene
     var mParentVC : UIViewController? = nil
     var pages : List<UPageView?> = List()
     var pageIdStack : List<PageView> = List()   // ページ遷移のスタックを管理。このスタックを元に元のページに戻ることができる
@@ -32,18 +32,18 @@ public class UPageViewManager {
      * Get/Set
      */
     public func getTopScene() -> TopScene {
-        return mTopView
+        return mTopScene
     }
     
     /**
      * Constructor
      */
-    init(topView : TopScene) {
+    init(topScene : TopScene) {
         // 最初にページのリストに全ページ分の要素を追加しておく
         for _ in PageView.cases {
             pages.append(nil)
         }
-        mTopView = topView
+        mTopScene = topScene
         mParentVC = AppDelegate.rootViewController
         
         // 戻るボタン
@@ -121,7 +121,7 @@ public class UPageViewManager {
     public func pageChanged(_ pageId : PageView) {
         UDrawManager.clearDebugPoint()
         
-        self.mTopView.removeAllChildren()
+        self.mTopScene.removeAllChildren()
     }
     
     /**
@@ -260,6 +260,6 @@ public class UPageViewManager {
      */
     @objc func clickReturnButton() {
         _ = onBackKeyDown()
-//        mTopView.redraw = true
+//        mTopScene.redraw = true
     }
 }
