@@ -8,6 +8,15 @@
 
 import SpriteKit
 
+extension SKNode {
+    /**
+     * 座標系をSpriteKitのものに変換してから子ノードを追加
+     */
+    public func addChild2(_ node : SKNode) {
+        node.position.toSK()
+        self.addChild( node )
+    }
+}
 
 extension SKSpriteNode {
     /**
@@ -17,7 +26,8 @@ extension SKSpriteNode {
     public func convPoint()  {
         self.position = CGPoint( x: self.position.x, y: -(self.position.y + self.size.height))
     }
-}
+    
+    }
 
 extension SKShapeNode {
     /**

@@ -175,13 +175,13 @@ public class UScrollBar {
         bgColor = .clear
         if bgColor != nil {
             if type == .Horizontal {
-                bgNode = SKShapeNode(rect: CGRect(x: 0, y: 0, width: bgLength, height: -bgWidth))
+                bgNode = SKShapeNode(rect: CGRect(x: 0, y: 0, width: bgLength, height: bgWidth).convToSK())
             } else {
-                bgNode = SKShapeNode(rect: CGRect(x: 0, y: 0, width: bgWidth, height:-bgLength))
+                bgNode = SKShapeNode(rect: CGRect(x: 0, y: 0, width: bgWidth, height:bgLength).convToSK())
             }
             bgNode!.fillColor = bgColor!
             bgNode!.strokeColor = .clear
-            parentNode.addChild(bgNode!)
+            parentNode.addChild2(bgNode!)
         }
         
         updateBarLength()
@@ -283,7 +283,7 @@ public class UScrollBar {
         self.barNode!.fillColor = barColor
         self.barNode!.strokeColor = .clear
         self.barNode!.zPosition = 2.0
-        parentNode.addChild(barNode!)
+        parentNode.addChild2(barNode!)
     }
     
     

@@ -321,19 +321,6 @@ public class UDialogWindow : UWindow {
                             textSize : Int, textColor : UIColor,
                             bgColor : UIColor? ) -> UTextView
     {
-//        var x : CGFloat = 0.0
-//        switch(alignment) {
-//        case .CenterX:
-//            fallthrough
-//        case .Center:
-//            x = size.width / 2
-//        case .CenterY:
-//            fallthrough
-//        case .None:
-//            x = marginH
-//        default:
-//            break
-//        }
         let textView : UTextView =
             UTextView.createInstance(text: text,
                                      textSize: textSize,
@@ -452,17 +439,19 @@ public class UDialogWindow : UWindow {
                 text: title!,
                 textSize: UDraw.getFontSize(FontSize.L),
                 priority: 0,
-                alignment: UAlignment.CenterX,
+                alignment: UAlignment.Center,
                 createNode : true,
                 multiLine: true, isDrawBG: false,
                 x: size.width / 2, y: y,
                 width: size.width, color: .black, bgColor: nil)
             
+            print("1:\(y)")
             y += mTitleView!.getHeight() + UDpi.toPixel( UDialogWindow.MARGIN_V * 2)
         }
         
         // テキスト
         for textView in mTextViews {
+            print("2:\(y)")
             textView!.setPos( size.width / 2, y)
             y += textView!.getHeight() + UDpi.toPixel( UDialogWindow.MARGIN_V )
         }
@@ -520,6 +509,7 @@ public class UDialogWindow : UWindow {
                     _button.setPos((size.width - _button.getWidth()) / 2, y)
                     y += button!.getHeight() + buttonMarginV
                 } else {
+                    print("2:\(y)")
                     button!.setPos(buttonMarginH, y)
                     button!.setSize(size.width - buttonMarginH * 2, buttonH)
                     y += buttonH + buttonMarginV
@@ -537,22 +527,19 @@ public class UDialogWindow : UWindow {
         
         // SpriteKit のノードを生成
         if mTitleView != nil {
-            mTitleView!.parentNode.position.toSK()
-            clientNode.addChild( mTitleView!.parentNode )
+            clientNode.addChild2( mTitleView!.parentNode )
         }
         
         // テキスト
         for textView in mTextViews {
             textView!.initSKNode()
-            textView!.parentNode.position.toSK()
-            clientNode.addChild( textView!.parentNode )
+            clientNode.addChild2( textView!.parentNode )
         }
         
         // ボタン
         for button in mButtons {
             button!.initSKNode()
-            button!.parentNode.position.toSK()
-            clientNode.addChild( button!.parentNode )
+            clientNode.addChild2( button!.parentNode )
         }
         
         size.height = y;
@@ -568,22 +555,6 @@ public class UDialogWindow : UWindow {
         if (!isShow) {
             return
         }
-//        if (isUpdate) {
-//            isUpdate = false
-//            updateLayout()
-//        }
-        
-        // BG のブラインド
-        if type == DialogType.Mordal {
-            
-//            UDraw.drawRectFill( rect: CGRect(x:0, y:0,
-//                                             width: screenSize.width,
-//                                             height: screenSize.height),
-//                                color: dialogBGColor!,
-//                                strokeWidth: 0,
-//                                strokeColor: nil);
-        }
-        
         // Window内部
         var _pos = CGPoint(x: frameSize.width, y: frameSize.height + topBarH)
         if offset != nil {

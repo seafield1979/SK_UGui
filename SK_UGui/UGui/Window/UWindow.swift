@@ -241,7 +241,7 @@ public class UWindow : UDrawable, UButtonCallbacks {
             frameNode = SKShapeNode(rect: CGRect(x: 0, y: 0, width: size.width, height: size.height).convToSK(), cornerRadius: 10.0)
             frameNode!.fillColor = frameColor!
             frameNode!.strokeColor = .clear
-            parentNode.addChild(frameNode!)
+            parentNode.addChild2(frameNode!)
         }
         
         // bg
@@ -253,7 +253,7 @@ public class UWindow : UDrawable, UButtonCallbacks {
             bgNode!.fillColor = bgColor!
             bgNode!.strokeColor = .clear
         }
-        parentNode.addChild( bgNode! )
+        parentNode.addChild2( bgNode! )
         
         // crop
         if mCropping {
@@ -263,9 +263,9 @@ public class UWindow : UDrawable, UButtonCallbacks {
             
             cropNode = SKCropNode()
             cropNode!.maskNode = maskNode
-            cropNode!.position = CGPoint(x: frameSize.width, y: topBarH + frameSize.height).convToSK()
+            cropNode!.position = CGPoint(x: frameSize.width, y: topBarH + frameSize.height)
             
-            parentNode.addChild(cropNode!)
+            parentNode.addChild2(cropNode!)
         }
         
         // clientNode

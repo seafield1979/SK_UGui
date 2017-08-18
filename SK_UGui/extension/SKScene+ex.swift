@@ -14,7 +14,7 @@ extension SKScene {
      追加するノードの座標系をUIView -> SpriteKitに変換してから
      シーンに追加する
      */
-    public func addChild2(_ node : SKNode) {
+    public override func addChild2(_ node : SKNode) {
         node.position = self.convertPoint(fromView: node.position)
         self.addChild(node)
     }

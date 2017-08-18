@@ -71,8 +71,8 @@ public class UListView : UScrollWindow
         item.setPos( 0, mBottomY )
         item.setIndex( mItems.count )
         item.setListItemCallbacks( mListItemCallbacks )
-        item.parentNode.position = CGPoint(x:item.pos.x, y:mBottomY).convToSK()
-        clientNode.addChild(item.parentNode)
+        item.parentNode.position = CGPoint(x:item.pos.x, y:mBottomY)
+        clientNode.addChild2( item.parentNode )
         
         mItems.append(item)
         

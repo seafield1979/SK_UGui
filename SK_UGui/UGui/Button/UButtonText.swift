@@ -172,7 +172,7 @@ public class UButtonText : UButton {
         self.bgNode!.fillColor = color
         self.bgNode!.strokeColor = .clear
         self.bgNode!.zPosition = 0.1
-        self.parentNode.addChild(bgNode!)
+        self.parentNode.addChild2(bgNode!)
         
         // Label
         self.labelNode.fontColor = mTextColor
@@ -180,8 +180,8 @@ public class UButtonText : UButton {
         self.labelNode.fontName = "HiraKakuProN-W6"
         self.labelNode.horizontalAlignmentMode = .center
         self.labelNode.verticalAlignmentMode = .center
-        self.labelNode.position = CGPoint(x: size.width / 2, y: bgH / 2).convToSK()
-        self.bgNode!.addChild(self.labelNode)
+        self.labelNode.position = CGPoint(x: size.width / 2, y: bgH / 2)
+        self.bgNode!.addChild2(self.labelNode)
         
         if size.height == 0 {
             var size : CGSize
@@ -200,7 +200,7 @@ public class UButtonText : UButton {
                                        cornerRadius: 10.0)
             self.bg2Node!.fillColor = pressedColor
             self.bg2Node!.strokeColor = .clear
-            self.parentNode.addChild(self.bg2Node!)
+            self.parentNode.addChild2(self.bg2Node!)
         }
     }
 

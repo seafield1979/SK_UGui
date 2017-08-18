@@ -25,7 +25,7 @@ public class PageViewTest2 : UPageView, UButtonCallbacks, UDialogCallbacks {
     public static let buttonId5 = 105
     
     public static let MARGIN : CGFloat = 20.0
-
+    
     /**
      * Member variables
      */
@@ -121,7 +121,7 @@ public class PageViewTest2 : UPageView, UButtonCallbacks, UDialogCallbacks {
             parentView: mTopView!,
             buttonCallbacks: self, dialogCallbacks: nil,
             buttonDir: UDialogWindow.ButtonDir.Vertical,
-            screenW: CGFloat(UUtil.screenWidth()), screenH: CGFloat(UUtil.screenHeight()))
+            screenW: mTopView!.size.width, screenH: mTopView!.size.height)
         dialog.setTitle("ダイアログ")
         _ = dialog.addTextView(text: "テキスト1", alignment: UAlignment.Center,
                            multiLine: true, isDrawBG: false, textSize: 20,
@@ -129,23 +129,42 @@ public class PageViewTest2 : UPageView, UButtonCallbacks, UDialogCallbacks {
         _ = dialog.addTextView(text: "テキスト2", alignment: UAlignment.Center,
                            multiLine: true, isDrawBG: false, textSize: 20,
                            textColor: UIColor.green, bgColor: nil)
+        _ = dialog.addTextView(text: "テキスト3", alignment: UAlignment.Center,
+                               multiLine: true, isDrawBG: false, textSize: 20,
+                               textColor: UIColor.green, bgColor: nil)
+        _ = dialog.addTextView(text: "テキスト4", alignment: UAlignment.Center,
+                               multiLine: true, isDrawBG: false, textSize: 20,
+                               textColor: UIColor.green, bgColor: nil)
         dialog.addCloseButton(text: "閉じる")
+        
+        dialog.updateLayout()
         dialog.addToDrawManager()
     }
+    
     func showDialog3() {
-        let dialog = UPopupWindow(parentView : mTopView!,
-                                  popupType: UPopupType.OKCancel,
-                                  title: "hoge", isAnimation: true,
-                                  screenW: CGFloat(UUtil.screenWidth()),
-                                  screenH: CGFloat(UUtil.screenHeight()))
+        let dialog = UDialogWindow.createInstance(
+            parentView: mTopView!,
+            buttonCallbacks: self, dialogCallbacks: nil,
+            buttonDir: UDialogWindow.ButtonDir.Horizontal,
+            screenW: CGFloat(UUtil.screenWidth()), screenH: CGFloat(UUtil.screenHeight()))
+        dialog.setTitle("ダイアログ")
+        _ = dialog.addTextView(text: "テキスト1", alignment: UAlignment.Center,
+                               multiLine: true, isDrawBG: false, textSize: 20,
+                               textColor: UIColor.green, bgColor: nil)
+        _ = dialog.addButton(id: PageViewTest2.buttonId2, text: "button1", textColor: .white, color: .green)
+        
+        dialog.addCloseButton(text: "閉じる")
+        
+        dialog.updateLayout()
         dialog.addToDrawManager()
     }
+    
     func showDialog4() {
         let dialog = UPopupWindow(parentView : mTopView!,
                                   popupType: UPopupType.OKCancel,
-                                  title: "hoge", isAnimation: true,
-                                  screenW: CGFloat(UUtil.screenWidth()),
-                                  screenH: CGFloat(UUtil.screenHeight()))
+                                  title: "dialog4", isAnimation: true,
+                                  screenW: mTopView!.size.width,
+                                  screenH: mTopView!.size.height)
         dialog.addToDrawManager()
     }
     func showDialog5() {

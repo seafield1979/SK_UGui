@@ -24,8 +24,6 @@ public class WindowItem {
         self.pos = pos
         self.size = size
         
-//        let _pos = pos
-//        let _size = size.convToSK()
         node = SKShapeNode(rect: CGRect(x: 0, y: 0, width: size.width, height: size.height))
         node.name = name
         node.fillColor = .red
