@@ -109,19 +109,19 @@ public class PageViewTitle : UPageView, UButtonCallbacks {
         let x : CGFloat = 10.0
         var y : CGFloat = 10.0
         
-        let width = mTopView!.frame.size.width - 20.0
+        let width = mTopView.frame.size.width - 20.0
         
         // parent
         let parent = SKNode()
-        mTopView!.addChild(parent)
+        mTopView.addChild(parent)
         
         for button in buttonInfo {
             let textButton = UButtonText(callbacks: self, type: UButtonType.BGColor, id: button.id, priority: 100, text: button.name, createNode: true,
                                          x: x, y: y,
                                          width: width, height: 50.0, textSize: 20,
                                          textColor: .white, bgColor: .blue)
-            textButton.parentNode.position.toSK(fromView: mTopView!)
-            mTopView?.addChild( textButton.parentNode )
+            textButton.parentNode.position.toSK(fromView: mTopView)
+            mTopView.addChild( textButton.parentNode )
             textButton.addToDrawManager()
             
             y += 60.0

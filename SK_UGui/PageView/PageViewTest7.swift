@@ -78,7 +78,7 @@ public class PageViewTest7 : UPageView, UWindowCallbacks {
         
         let scene = TopScene.getInstance()
         
-        let window = UScrollWindow(parentView: scene, callbacks: self, priority: 100, x: 50, y: 50, width: 200, height: 200,
+        let window = UScrollWindow(parentView: scene, callbacks: self, priority: 60, x: 30, y: 30, width: mTopView.size.width - 100, height: mTopView.size.height - 60,
                                    color: .white, topBarH: 10, frameW: 3, frameH: 3)
         
         window.setContentSize(width: 1000, height: 1000, update: true)
@@ -109,7 +109,7 @@ public class PageViewTest7 : UPageView, UWindowCallbacks {
     
     // ダイアログを表示する
     func showDialog() {
-        let dialog = UPopupWindow(parentView: mTopView!, popupType: UPopupType.OKCancel,
+        let dialog = UPopupWindow(parentView: mTopView, popupType: UPopupType.OKCancel,
                                   title: "hoge", isAnimation: true,
                                   screenW: CGFloat(UUtil.screenWidth()),
                                   screenH: CGFloat(UUtil.screenHeight()))

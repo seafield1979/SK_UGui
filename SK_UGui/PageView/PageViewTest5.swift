@@ -76,13 +76,13 @@ public class PageViewTest5 : UPageView, UListItemCallbacks {
         UDrawManager.getInstance().initialize()
         
         listView = UListView(
-            parentView : mTopView!,
+            parentView : mTopView,
             windowCallbacks : nil,
             listItemCallbacks : self,
             priority : 100,
             x : 10.0, y : 20.0,
-            width : mTopView!.frame.size.width - 20.0,
-            height : mTopView!.frame.size.height - 100.0,
+            width : mTopView.frame.size.width - 20.0,
+            height : mTopView.frame.size.height - 100.0,
             color : UIColor.blue)
   
         // アイテムを追加
@@ -101,7 +101,7 @@ public class PageViewTest5 : UPageView, UListItemCallbacks {
     
     // ダイアログを表示する
     func showDialog() {
-        let dialog = UPopupWindow(parentView: mTopView!,
+        let dialog = UPopupWindow(parentView: mTopView,
                                   popupType: UPopupType.OKCancel,
                                   title: "hoge", isAnimation: true,
                                   screenW: CGFloat(UUtil.screenWidth()),

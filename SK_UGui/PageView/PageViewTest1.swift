@@ -91,7 +91,7 @@ public class PageViewTest1 : UPageView, UButtonCallbacks {
         
         let colorButton = UButtonText(callbacks: self, type: UButtonType.BGColor, id: PageViewTest1.buttonId1, priority: 100, text: "button1", createNode: true, x: x, y: y, width: buttonW, height: buttonH, textSize: 20, textColor: UIColor.white, bgColor: UIColor.blue)
         
-        mTopView?.addChild2( colorButton.parentNode )
+        mTopView.addChild2( colorButton.parentNode )
         colorButton.addToDrawManager()
         
         y += buttonH + PageViewTest1.MARGIN
@@ -103,7 +103,7 @@ public class PageViewTest1 : UPageView, UButtonCallbacks {
             priority: 100, text: "button2", createNode: true,
             x: x, y: y, width: buttonW, height: buttonH,
             textSize: 20, textColor: UIColor.white, bgColor: UIColor.blue)
-        mTopView?.addChild2( textButton.parentNode )
+        mTopView.addChild2( textButton.parentNode )
         textButton.addToDrawManager()
         
         textButton.setImage(imageName: ImageName.close, imageSize: CGSize(width: 30, height: 30))
@@ -117,7 +117,7 @@ public class PageViewTest1 : UPageView, UButtonCallbacks {
             priority: 100, text: "button3", createNode: true,
             x: x, y: y, width: buttonW, height: buttonH,
             textSize: 20, textColor: UIColor.white, bgColor: UIColor.blue)
-        mTopView?.addChild2( textButton2.parentNode )
+        mTopView.addChild2( textButton2.parentNode )
         textButton2.addToDrawManager()
         textButton2.setPullDownIcon(true)
 
@@ -126,7 +126,7 @@ public class PageViewTest1 : UPageView, UButtonCallbacks {
         // Press3 
         // 押されたら凹んで戻らないボタン。戻すには isPressed を falseに設定する
         pressedButton1 = UButtonText(callbacks: self, type: UButtonType.Press3, id: PageViewTest1.buttonId41, priority: 100, text: "button41", createNode: true, x: x, y: y, width: buttonW / 2, height: buttonH, textSize: 20, textColor: UIColor.white, bgColor: UIColor.blue)
-        mTopView?.addChild2( pressedButton1!.parentNode )
+        mTopView.addChild2( pressedButton1!.parentNode )
         pressedButton1?.addToDrawManager()
         
         pressedButton2 = UButtonText(
@@ -134,7 +134,7 @@ public class PageViewTest1 : UPageView, UButtonCallbacks {
             priority: 100, text: "button42", createNode: true,
             x: x + buttonW / 2 + 10.0, y: y, width: buttonW / 2, height: buttonH,
             textSize: 20, textColor: UIColor.white, bgColor: UIColor.blue)
-        mTopView?.addChild2( pressedButton2!.parentNode )
+        mTopView.addChild2( pressedButton2!.parentNode )
         pressedButton2?.addToDrawManager()
         
         y += buttonH + PageViewTest1.MARGIN

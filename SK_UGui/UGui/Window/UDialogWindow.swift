@@ -301,19 +301,6 @@ public class UDialogWindow : UWindow {
     }
     
     /**
-     * 閉じるアニメーション開始
-     */
-    public func startClosing() {
-        updateBasePos()
-        
-//        if isAnimation {
-//            startAnimation(type: AnimationType.Closing)
-//        } else {
-            closeDialog()
-//        }
-    }
-    
-    /**
      * TextViewを追加
      */
     public func addTextView(text : String, alignment : UAlignment,
@@ -644,7 +631,7 @@ public class UDialogWindow : UWindow {
             if vt.type == TouchType.Touch {
                 let point = CGPoint(x: vt.touchX, y: vt.touchY)
                 if getDialogRect().contains(point) == false {
-                    startClosing()
+                    closeDialog()
                 }
                 return true
             }
@@ -687,11 +674,7 @@ public class UDialogWindow : UWindow {
             if isClosing() {
                 return true
             }
-            if isAnimation {
-                startClosing()
-            } else {
-                closeDialog()
-            }
+            closeDialog()
             return true
         }
         return false
@@ -705,11 +688,7 @@ public class UDialogWindow : UWindow {
         case UDialogWindow.CloseButtonId:
             fallthrough
         case UDialogWindow.CloseDialogId:
-            if (isAnimation) {
-                startClosing()
-            } else {
-                closeDialog()
-            }
+            closeDialog()
             return true
         default:
             break

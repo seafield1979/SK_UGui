@@ -75,7 +75,7 @@ public class UPopupWindow : UDialogWindow {
         
         switch(id) {
         case UPopupWindow.OKButtonId:
-            startClosing()
+            closeDialog()
             return true
         default:
             _ = super.UButtonClicked(id: id, pressedOn: pressedOn)

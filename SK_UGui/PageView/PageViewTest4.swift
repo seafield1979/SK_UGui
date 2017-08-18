@@ -74,9 +74,9 @@ public class PageViewTest4 : UPageView, UMenuItemCallbacks {
         UDrawManager.getInstance().initialize()
         
         // MenuBar
-        menuBar = MenuBarTest1.createInstance(parentView: mTopView!, callbacks: self,
-                                              parentW: mTopView!.frame.size.width,
-                                              parentH: mTopView!.frame.size.height, bgColor: nil)
+        menuBar = MenuBarTest1.createInstance(parentView: mTopView, callbacks: self,
+                                              parentW: mTopView.frame.size.width,
+                                              parentH: mTopView.frame.size.height, bgColor: nil)
     }
     
     /**

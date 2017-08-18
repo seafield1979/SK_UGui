@@ -27,7 +27,7 @@ public class UPageView {
     /**
      * Member Variables
      */
-    public var mTopView : TopScene? = nil
+    public var mTopView : TopScene
     var mTitle : String
     
     // UDrawManagerで描画を行うページ番号
