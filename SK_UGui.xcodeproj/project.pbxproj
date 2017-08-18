@@ -56,7 +56,6 @@
 		8A22B3161F3C277F0094D5C0 /* ULog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A22B2ED1F3C277F0094D5C0 /* ULog.swift */; };
 		8A22B3171F3C277F0094D5C0 /* UResourceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A22B2EE1F3C277F0094D5C0 /* UResourceManager.swift */; };
 		8A22B3181F3C277F0094D5C0 /* UUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A22B2EF1F3C277F0094D5C0 /* UUtil.swift */; };
-		8A22B31B1F3C27BA0094D5C0 /* ColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A22B3191F3C27BA0094D5C0 /* ColorView.swift */; };
 		8A22B31C1F3C27BA0094D5C0 /* ViewTouch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A22B31A1F3C27BA0094D5C0 /* ViewTouch.swift */; };
 		8A22B3291F3C299D0094D5C0 /* PageViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A22B31E1F3C299D0094D5C0 /* PageViewManager.swift */; };
 		8A22B32A1F3C299D0094D5C0 /* PageViewTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A22B31F1F3C299D0094D5C0 /* PageViewTemplate.swift */; };
@@ -69,7 +68,6 @@
 		8A22B3311F3C299D0094D5C0 /* PageViewTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A22B3261F3C299D0094D5C0 /* PageViewTitle.swift */; };
 		8A22B3321F3C299D0094D5C0 /* UPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A22B3271F3C299D0094D5C0 /* UPageView.swift */; };
 		8A22B3331F3C299D0094D5C0 /* UPageViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A22B3281F3C299D0094D5C0 /* UPageViewManager.swift */; };
-		8A22B3351F3C2DAC0094D5C0 /* TopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A22B3341F3C2DAC0094D5C0 /* TopView.swift */; };
 		8A22B3371F3C2DE30094D5C0 /* RefDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A22B3361F3C2DE30094D5C0 /* RefDictionary.swift */; };
 		8A22B3391F3C2E650094D5C0 /* ImageId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A22B3381F3C2E650094D5C0 /* ImageId.swift */; };
 		8A22B3411F3C2E960094D5C0 /* close.png in Resources */ = {isa = PBXBuildFile; fileRef = 8A22B33B1F3C2E960094D5C0 /* close.png */; };
@@ -142,7 +140,6 @@
 		8A22B2ED1F3C277F0094D5C0 /* ULog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ULog.swift; sourceTree = "<group>"; };
 		8A22B2EE1F3C277F0094D5C0 /* UResourceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UResourceManager.swift; sourceTree = "<group>"; };
 		8A22B2EF1F3C277F0094D5C0 /* UUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UUtil.swift; sourceTree = "<group>"; };
-		8A22B3191F3C27BA0094D5C0 /* ColorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ColorView.swift; path = SK_UGui/ColorView.swift; sourceTree = "<group>"; };
 		8A22B31A1F3C27BA0094D5C0 /* ViewTouch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewTouch.swift; path = SK_UGui/ViewTouch.swift; sourceTree = "<group>"; };
 		8A22B31E1F3C299D0094D5C0 /* PageViewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageViewManager.swift; sourceTree = "<group>"; };
 		8A22B31F1F3C299D0094D5C0 /* PageViewTemplate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageViewTemplate.swift; sourceTree = "<group>"; };
@@ -155,7 +152,6 @@
 		8A22B3261F3C299D0094D5C0 /* PageViewTitle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageViewTitle.swift; sourceTree = "<group>"; };
 		8A22B3271F3C299D0094D5C0 /* UPageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UPageView.swift; sourceTree = "<group>"; };
 		8A22B3281F3C299D0094D5C0 /* UPageViewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UPageViewManager.swift; sourceTree = "<group>"; };
-		8A22B3341F3C2DAC0094D5C0 /* TopView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TopView.swift; path = SK_UGui/TopView.swift; sourceTree = "<group>"; };
 		8A22B3361F3C2DE30094D5C0 /* RefDictionary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RefDictionary.swift; sourceTree = "<group>"; };
 		8A22B3381F3C2E650094D5C0 /* ImageId.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageId.swift; sourceTree = "<group>"; };
 		8A22B33B1F3C2E960094D5C0 /* close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = close.png; path = SK_UGui/Resource/close.png; sourceTree = "<group>"; };
@@ -193,8 +189,6 @@
 				8A22B3561F4046DF0094D5C0 /* WindowItemNode.swift */,
 				8A22B2BC1F3C277F0094D5C0 /* extension */,
 				8A22B3471F3C33790094D5C0 /* SpriteKit */,
-				8A22B3191F3C27BA0094D5C0 /* ColorView.swift */,
-				8A22B3341F3C2DAC0094D5C0 /* TopView.swift */,
 				8A22B31A1F3C27BA0094D5C0 /* ViewTouch.swift */,
 				8A22B31D1F3C299D0094D5C0 /* PageView */,
 				8A22B33A1F3C2E6E0094D5C0 /* Resource */,
@@ -519,12 +513,10 @@
 				8A22B3391F3C2E650094D5C0 /* ImageId.swift in Sources */,
 				8A22B3071F3C277F0094D5C0 /* URect.swift in Sources */,
 				8A22B32C1F3C299D0094D5C0 /* PageViewTest2.swift in Sources */,
-				8A22B3351F3C2DAC0094D5C0 /* TopView.swift in Sources */,
 				8A22B2F71F3C277F0094D5C0 /* UMenuBar.swift in Sources */,
 				8A22B34F1F3F32220094D5C0 /* PageViewTest7.swift in Sources */,
 				8A9C722A1F452AC30004DEC8 /* SKNode+ex.swift in Sources */,
 				8A22B2F01F3C277F0094D5C0 /* CGRect+U.swift in Sources */,
-				8A22B31B1F3C27BA0094D5C0 /* ColorView.swift in Sources */,
 				8A22B3331F3C299D0094D5C0 /* UPageViewManager.swift in Sources */,
 				8A22B2AD1F3C267D0094D5C0 /* GameViewController.swift in Sources */,
 				8A22B3151F3C277F0094D5C0 /* UDpi.swift in Sources */,
