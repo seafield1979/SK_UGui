@@ -112,8 +112,6 @@ public class UButton : UDrawable {
         self.enabled = true
         self.buttonCallback = callbacks
         self.type = type
-        
-        
     }
 
     /**

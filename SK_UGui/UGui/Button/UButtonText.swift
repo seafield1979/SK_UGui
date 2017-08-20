@@ -6,8 +6,6 @@
 //  Copyright © 2017年 Shusuke Unno. All rights reserved.
 //
 
-import Foundation
-import UIKit
 import SpriteKit
 
 /**
