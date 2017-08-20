@@ -64,7 +64,7 @@ public class TopScene: SKScene {
         let touch = touches.first
         
         if touch != nil {
-            let pos = self.convertPoint(toView: touch!.location(in: self))
+            let pos = convertPoint(toView: touch!.location(in: self))
             _ = vt.checkTouchType(e: TouchEventType.Down,
                                   touch: touch!, pos: pos)
         }

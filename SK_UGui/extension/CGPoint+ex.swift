@@ -26,6 +26,6 @@ extension CGPoint {
      Sceneにappendする際の変換
      */
     public mutating func toSK(fromView scene: SKScene) {
-        self = scene.convertPoint(fromView: self)
+        
     }
 }

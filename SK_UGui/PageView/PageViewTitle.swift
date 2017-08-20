@@ -120,8 +120,7 @@ public class PageViewTitle : UPageView, UButtonCallbacks {
                                          x: x, y: y,
                                          width: width, height: 50.0, textSize: 20,
                                          textColor: .white, bgColor: .blue)
-            textButton.parentNode.position.toSK(fromView: mTopScene)
-            mTopScene.addChild( textButton.parentNode )
+            mTopScene.addChild2( textButton.parentNode )
             textButton.addToDrawManager()
             
             y += 60.0
