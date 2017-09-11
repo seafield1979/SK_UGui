@@ -43,7 +43,7 @@ public class UListItem : UDrawable {
     var mFrameColor : UIColor?        // 枠の色
     
     // SpriteKit Node
-    var bgNode : SKShapeNode?
+    var bgNode : SKShapeNode
     
     /**
      * Get/Set
@@ -70,6 +70,15 @@ public class UListItem : UDrawable {
                 bgColor : UIColor?,
                 frameW : CGFloat, frameColor : UIColor?)
     {
+        // SpriteKit Node
+        bgNode = SKShapeNode(rect : CGRect(x: 0, y: 0, width: width, height: height).convToSK())
+        bgNode.fillColor = bgColor!
+        
+        if frameW > 0 && frameColor != nil {
+            bgNode.strokeColor = frameColor!
+            bgNode.lineWidth = frameW
+        }
+
         // yはリスト追加時に更新されるので0
         super.init(priority: 0, x: x, y: 0, width: width, height: height)
         
@@ -86,18 +95,7 @@ public class UListItem : UDrawable {
             pressedColor = UColor.addBrightness(argb: color, addY: -0.2)
         }
         
-        // SpriteKit Node
-        if bgColor != nil {
-            bgNode = SKShapeNode(rect : CGRect(x: 0, y: 0, width: width, height: height))
-            bgNode!.fillColor = bgColor!
-            bgNode!.convPoint()
-            
-            if frameW > 0 && frameColor != nil {
-                bgNode!.strokeColor = frameColor!
-                bgNode!.lineWidth = frameW
-            }
-            parentNode.addChild(bgNode!)
-        }
+        parentNode.addChild(bgNode)
     }
     
     
@@ -150,31 +148,14 @@ public class UListItem : UDrawable {
         return isDraw
     }
     
-    override public func draw(_ offset : CGPoint?) {
+    override public func draw() {
         // BG　タッチ中は色を変更
         var _color = color
         
         if isTouchable && isTouching {
             _color = pressedColor!
         }
-        
-        var rect = CGRect(x: 0, y: 0,
-                         width:size.width, height:size.height)
-        if offset != nil {
-            rect.x += offset!.x
-            rect.y += offset!.y
-        }
-        
-        if mFrameW > 0 {
-//            UDraw.drawRectFill( rect: rect, color: _color!,
-//                                strokeWidth: mFrameW, strokeColor: mFrameColor )
-        }
-        else if color != nil {
-//            UDraw.drawRectFill( rect: rect, color: _color! )
-        }
-        else if mFrameW > 0 {
-//            UDraw.drawRect( rect: rect, width: mFrameW, color: mFrameColor! )
-        }
+        bgNode.fillColor = _color
     }
     
     public override func doAction() -> DoActionRet {

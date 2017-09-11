@@ -42,7 +42,7 @@ class DrawList {
     
     // リストから削除
     public func remove(_ obj : UDrawable) {
-        for i in 0...list.count-1 {
+        for i in 0..<list.count {
             let _obj = list[i]
             if obj === _obj {
                 _ = list.remove(at: i)
@@ -91,10 +91,10 @@ class DrawList {
             }
             ULog.count(UDrawManager.TAG)
             let offset = obj!.getDrawOffset()
-            obj!.draw(offset);
-            drawId(rect: obj!.rect!, priority: priority);
+            obj!.draw()
+            drawId(rect: obj!.rect!, priority: priority)
         }
-        return !allDone;
+        return !allDone
     }
     
     /**

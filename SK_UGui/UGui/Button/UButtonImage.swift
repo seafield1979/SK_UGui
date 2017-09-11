@@ -127,8 +127,8 @@ public class UButtonImage : UButton {
         if title != nil {
             titleNode = SKNodeUtil.createLabelNode(
                 text: title!,
-                textSize: UDpi.toPixel(TEXT_SIZE), color: titleColor,
-                alignment: .CenterX, offset: CGPoint(x: 0, y: UDpi.toPixel(TEXT_MARGIN)))
+                fontSize: UDpi.toPixel(TEXT_SIZE), color: titleColor,
+                alignment: .CenterX, pos: CGPoint(x: 0, y: UDpi.toPixel(TEXT_MARGIN))).node
             titleNode?.zPosition = 0.1
             parentNode.addChild2(titleNode!)
         }
@@ -187,8 +187,8 @@ public class UButtonImage : UButton {
         
         titleNode = SKNodeUtil.createLabelNode(
             text: title,
-            textSize: UDpi.toPixel(TEXT_SIZE), color: titleColor,
-            alignment: .CenterX, offset: CGPoint(x: 0, y: UDpi.toPixel(TEXT_MARGIN)))
+            fontSize: UDpi.toPixel(TEXT_SIZE), color: titleColor,
+            alignment: .CenterX, pos: CGPoint(x: 0, y: UDpi.toPixel(TEXT_MARGIN))).node
         titleNode?.zPosition = 0.1
         parentNode.addChild2(titleNode!)
     }
@@ -225,7 +225,7 @@ public class UButtonImage : UButton {
      * @param paint
      * @param offset 独自の座標系を持つオブジェクトをスクリーン座標系に変換するためのオフセット値
      */
-    public override func draw(_ offset : CGPoint?) {
+    public override func draw() {
         var _texture : SKTexture? = nil
         
 //        var _pos = CGPoint(x: pos.x, y: pos.y)

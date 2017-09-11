@@ -218,7 +218,7 @@ public class UMenuBar : UWindow {
         // トップのアイテムから描画
         for item in topItems {
             if item != nil && item!.isShow {
-                item!.draw(CGPoint())
+                item!.draw()
             }
         }
         return;

@@ -30,6 +30,7 @@ public class PageViewTest2 : UPageView, UButtonCallbacks, UDialogCallbacks {
      * Member variables
      */
     private var buttonInfo : [ButtonInfo] = []
+    private var mDialog : UDialogWindow?
     
     /**
      * Constructor
@@ -117,28 +118,32 @@ public class PageViewTest2 : UPageView, UButtonCallbacks, UDialogCallbacks {
     
     // OK/Cancelを選択
     func showDialog2() {
-        let dialog = UDialogWindow.createInstance(
+        mDialog = UDialogWindow.createInstance(
             topScene: mTopScene,
-            buttonCallbacks: self, dialogCallbacks: nil,
+            buttonCallbacks: self, dialogCallbacks: self,
             buttonDir: UDialogWindow.ButtonDir.Vertical,
             screenW: mTopScene.size.width, screenH: mTopScene.size.height)
-        dialog.setTitle("ダイアログ")
-        _ = dialog.addTextView(text: "テキスト1", alignment: UAlignment.Center,
+        mDialog!.setTitle("ダイアログ")
+        _ = mDialog!.addTextView(text: "テキスト1", alignment: UAlignment.Center,
                            multiLine: true, isDrawBG: false, textSize: 20,
                            textColor: UIColor.green, bgColor: nil)
-        _ = dialog.addTextView(text: "テキスト2", alignment: UAlignment.Center,
+        _ = mDialog!.addTextView(text: "テキスト2", alignment: UAlignment.Center,
                            multiLine: true, isDrawBG: false, textSize: 20,
                            textColor: UIColor.green, bgColor: nil)
-        _ = dialog.addTextView(text: "テキスト3", alignment: UAlignment.Center,
-                               multiLine: true, isDrawBG: false, textSize: 20,
-                               textColor: UIColor.green, bgColor: nil)
-        _ = dialog.addTextView(text: "テキスト4", alignment: UAlignment.Center,
-                               multiLine: true, isDrawBG: false, textSize: 20,
-                               textColor: UIColor.green, bgColor: nil)
-        dialog.addCloseButton(text: "閉じる")
+        for _ in 0..<20 {
+            _ = mDialog!.addTextView(text: "テキスト3", alignment: UAlignment.Center,
+                                   multiLine: true, isDrawBG: false, textSize: 20,
+                                   textColor: UIColor.green, bgColor: nil)
+        }
         
-        dialog.updateLayout()
-        dialog.addToDrawManager()
+        _ = mDialog!.addTextView(text: "テキスト4", alignment: UAlignment.Center,
+                               multiLine: true, isDrawBG: false, textSize: 20,
+                               textColor: UIColor.green, bgColor: nil)
+        mDialog!.addCloseButton(text: "閉じる")
+
+
+        mDialog!.updateLayout()
+        mDialog!.addToDrawManager()
     }
     
     func showDialog3() {
@@ -213,6 +218,6 @@ public class PageViewTest2 : UPageView, UButtonCallbacks, UDialogCallbacks {
      * UDialogCallback
      */
     public func dialogClosed(dialog : UDialogWindow) {
-        
+        mDialog = nil
     }
 }

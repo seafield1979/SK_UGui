@@ -141,13 +141,12 @@ public class UListView : UScrollWindow
         }
         
         // アイテムを描画
-        let _offset = CGPoint(x:_pos.x, y:_pos.y - contentTop.y)
         for item in mItems {
             if item!.getBottom() < contentTop.y {
                 continue
             }
             
-            item!.draw(_offset)
+            item!.draw()
             
             if (item!.getY() + item!.getHeight() > contentTop.y + size.height) {
                 // アイテムの下端が画面外にきたので以降のアイテムは表示されない

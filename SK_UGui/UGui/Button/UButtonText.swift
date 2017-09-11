@@ -107,6 +107,8 @@ public class UButtonText : UButton {
             break
         case .Right_CenterY:
             break
+        default:
+            break
         }
         
         var offset = CGPoint()
@@ -131,9 +133,7 @@ public class UButtonText : UButton {
         mImageOffset = CGPoint(x: x, y: y)
     }
     
-    /**
-     * Constructor
-     */
+    // MARK: Initializer
     init(callbacks : UButtonCallbacks?, type : UButtonType, id : Int,
          priority : Int, text : String, createNode : Bool,
                      x : CGFloat, y : CGFloat, width : CGFloat, height : CGFloat,
@@ -153,6 +153,18 @@ public class UButtonText : UButton {
         }
     }
 
+    /**
+     * 解放処理
+     * 関連する要素を全て解放する
+     */
+    deinit {
+        parentNode.removeAllChildren()
+        parentNode.removeFromParent()
+        removeFromDrawManager()
+        print("UButtonText.deinit")
+    }
+    
+    // MARK: Medthods
     /**
      * SpriteKitのノードを作成する
      */
@@ -240,7 +252,7 @@ public class UButtonText : UButton {
      * @param paint
      * @param offset 独自の座標系を持つオブジェクトをスクリーン座標系に変換するためのオフセット値
      */
-    public override func draw(_ offset : CGPoint?) {
+    public override func draw() {
         // 色
         // 押されていたら明るくする
         var _color = color

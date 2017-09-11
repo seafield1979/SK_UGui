@@ -8,9 +8,11 @@
 
 import SpriteKit
 
+
 /**
  * テキストを表示する
  */
+
 public class UTextView : UDrawable {
     /**
      * Constracts
@@ -65,9 +67,7 @@ public class UTextView : UDrawable {
         updateSize()
     }
     
-    /**
-     * Constructor
-     */
+    // MARK: Initializer
     public init(text : String, textSize : Int, priority : Int,
                 alignment : UAlignment, createNode: Bool,
                 multiLine : Bool, isDrawBG : Bool, isMargin : Bool,
@@ -81,13 +81,11 @@ public class UTextView : UDrawable {
         self.isDrawBG = isDrawBG
         self.textSize = textSize
         
-        labelNode = SKLabelNode(text: text)
-        
         super.init( priority: priority, x: x, y: y, width: width, height: CGFloat(textSize))
-
+        
         self.color = color
         self.bgColor = bgColor
-
+        
         if createNode {
             initSKNode()
         }
@@ -103,23 +101,23 @@ public class UTextView : UDrawable {
                                       color : UIColor, bgColor : UIColor?) -> UTextView
     {
         let instance = UTextView(text: text,
-                             textSize: textSize,
-                             priority: priority,
-                             alignment: alignment,
-                             createNode : createNode,
-                             multiLine : multiLine,
-                             isDrawBG : isDrawBG,
-                             isMargin: true,
-                             x: x, y: y,
-                             width: width,
-                             color: color, bgColor: bgColor)
+                                 textSize: textSize,
+                                 priority: priority,
+                                 alignment: alignment,
+                                 createNode : createNode,
+                                 multiLine : multiLine,
+                                 isDrawBG : isDrawBG,
+                                 isMargin: true,
+                                 x: x, y: y,
+                                 width: width,
+                                 color: color, bgColor: bgColor)
         
         return instance
     }
     
     // シンプルなTextViewを作成
     public static func createInstance(text : String, priority : Int, createNode : Bool,
-                                      canvasW : Int, isDrawBG : Bool,
+                                      isDrawBG : Bool,
                                       x : CGFloat, y : CGFloat) -> UTextView
     {
         let instance = UTextView(text:text,
@@ -136,6 +134,16 @@ public class UTextView : UDrawable {
     }
     
     /**
+     * Dealloc
+     */
+    deinit {
+        parentNode.removeAllChildren()
+        parentNode.removeFromParent()
+        removeFromDrawManager()
+        print("UTextView.deinit:" + self.text)
+    }
+    
+    /**
      * SpriteKitのノードを作成する
      */
     public override func initSKNode() {
@@ -145,91 +153,58 @@ public class UTextView : UDrawable {
         self.parentNode.position = pos
         
         // Label
-        self.labelNode = SKNodeUtil.createLabelNode(text: text, textSize: CGFloat(textSize), color: color, alignment: .Left, offset: nil)
-        
-        size = labelNode!.frame.size
+        let result = SKNodeUtil.createLabelNode(text: text, fontSize: CGFloat(textSize), color: color, alignment: alignment, pos: CGPoint())
+        self.labelNode = result.node
+        self.size = result.size
         
         if isMargin {
             mMargin = CGSize(width: UDpi.toPixel(UTextView.MARGIN_H),
                              height: UDpi.toPixel(UTextView.MARGIN_V))
+            labelNode!.position = CGPoint(x: mMargin.width,
+                                          y: mMargin.height )
             size = CGSize(width: size.width + mMargin.width * 2,
                           height: size.height + mMargin.height * 2)
         }
         
         self.labelNode!.zPosition = 0.1
-        switch alignment {
-        case .None:
-            labelNode!.horizontalAlignmentMode = .left
-            labelNode!.verticalAlignmentMode = .top
-            if isMargin {
-                labelNode!.position = CGPoint(x:mMargin.width, y: SKUtil.convY(fromView: mMargin.height))
-            }
-        case .CenterX:
-            labelNode!.horizontalAlignmentMode = .center
-            labelNode!.verticalAlignmentMode = .top
-            if isMargin {
-                labelNode!.position = CGPoint(x: 0, y: SKUtil.convY(fromView: mMargin.height))
-            }
-        case .CenterY:
-            labelNode!.horizontalAlignmentMode = .left
-            labelNode!.verticalAlignmentMode = .center
-            if isMargin {
-                labelNode!.position = CGPoint(x:mMargin.width, y: 0)
-            }
-        case .Center:
-            labelNode!.horizontalAlignmentMode = .center
-            labelNode!.verticalAlignmentMode = .center
-            
-        case .Left:
-            labelNode!.horizontalAlignmentMode = .left
-            labelNode!.verticalAlignmentMode = .top
-            if isMargin {
-                labelNode!.position = CGPoint(x:mMargin.width, y: SKUtil.convY(fromView: mMargin.height))
-            }
-        case .Right:
-            labelNode!.horizontalAlignmentMode = .right
-            labelNode!.verticalAlignmentMode = .top
-            if isMargin {
-                labelNode!.position = CGPoint(x:-mMargin.width, y: SKUtil.convY(fromView: mMargin.height))
-            }
-        case .Right_CenterY:
-            labelNode!.horizontalAlignmentMode = .right
-            labelNode!.verticalAlignmentMode = .center
-            if isMargin {
-                labelNode!.position = CGPoint(x: -mMargin.width, y: 0)
-            }
-        }
         
-        parentNode.addChild(self.labelNode!)
-        
+        parentNode.addChild2(self.labelNode!)
         
         // BG
         if isDrawBG {
-            
-            switch alignment {
-            case .None:
-                self.bgNode = SKShapeNode(rect: CGRect(x:0, y:0, width: size.width, height: SKUtil.convY(fromView: size.height)))
-            case .CenterX:
-                self.bgNode = SKShapeNode(rect: CGRect(x: -size.width / 2, y:0, width: size.width, height: SKUtil.convY(fromView: size.height)))
-            case .CenterY:
-                self.bgNode = SKShapeNode(rect: CGRect(x:0, y: size.height / 2, width: size.width, height: SKUtil.convY(fromView: size.height)))
-            case .Center:
-                self.bgNode = SKShapeNode(rect: CGRect(x: -size.width / 2, y: size.height / 2, width: size.width, height: SKUtil.convY(fromView: size.height)))
-            case .Left:
-                self.bgNode = SKShapeNode(rect: CGRect(x:0, y:0, width: size.width, height: SKUtil.convY(fromView: size.height)))
-            case .Right:
-                self.bgNode = SKShapeNode(rect: CGRect(x: -size.width, y:0, width: size.width, height: SKUtil.convY(fromView: size.height)))
-            case .Right_CenterY:
-                self.bgNode = SKShapeNode(rect: CGRect(x: -size.width, y: size.height / 2, width: size.width, height: SKUtil.convY(fromView: size.height)))
-            }
-            
+            let radius = UDpi.toPixel(10)
+            self.bgNode = SKShapeNode(rect: CGRect(x:0, y:0, width: size.width, height: size.height).convToSK(),
+                                      cornerRadius: radius)
             
             if bgColor != nil {
                 self.bgNode!.fillColor = bgColor!
             }
             self.bgNode!.strokeColor = .clear
-            parentNode.addChild(self.bgNode!)
+            parentNode.addChild2(self.bgNode!)
         }
+        
+        // alignment
+        var alignPos : CGPoint = CGPoint()
+        switch alignment {
+        case .None:
+            fallthrough
+        case .Left:
+            alignPos = CGPoint(x: 0, y: 0)
+        case .CenterX:
+            alignPos = CGPoint(x: -size.width / 2, y: 0)
+        case .CenterY:
+            alignPos = CGPoint(x: 0, y: -size.height / 2)
+        case .Center:
+            alignPos = CGPoint(x: -size.width / 2, y: -size.height / 2)
+        case .Right:
+            alignPos = CGPoint(x: -size.width, y: 0)
+        case .Right_CenterY:
+            alignPos = CGPoint(x: -size.width, y: -size.height / 2)
+        default:
+            break
+        }
+        parentNode.position = CGPoint(x: parentNode.position.x + alignPos.x,
+                                      y: parentNode.position.y + alignPos.y)
     }
     
     /**
@@ -263,24 +238,11 @@ public class UTextView : UDrawable {
      * @param paint
      * @param offset 独自の座標系を持つオブジェクトをスクリーン座標系に変換するためのオフセット値
      */
-    public override func draw(_ offset : CGPoint?) {
-    }
-    
-    /**
-     * 背景色を描画する
-     * @parameter pos : 描画位置
-     */
-    func drawBG(_ pos : CGPoint) {
-        UDraw.drawRoundRectFill(rect: CGRect(x: pos.x, y:pos.y,
-                                width: size.width,
-                                height: size.height),
-                                cornerR: UDpi.toPixel(7), color: bgColor!,
-                                strokeWidth: 0, strokeColor: nil)
+    public override func draw() {
     }
     
     /**
      * テキストのサイズを取得する（マルチライン対応）
-     * @param canvasW
      * @return
      */
     public func getTextSize() -> CGSize {
@@ -321,3 +283,4 @@ public class UTextView : UDrawable {
         return false
     }
 }
+

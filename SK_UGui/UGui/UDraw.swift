@@ -330,8 +330,8 @@ class UDraw {
         let size = text.size(attributes: [NSFontAttributeName : font])
         
         // アライメント
-        var _x : CGFloat
-        var _y : CGFloat
+        var _x : CGFloat = 0
+        var _y : CGFloat = 0
         switch alignment {
         case .None:
             _x = x
@@ -354,6 +354,8 @@ class UDraw {
         case .Right_CenterY:
             _x = x - size.width
             _y = y - size.height / 2
+        default:
+            break
         }
         
         text.draw(in: CGRect(x:_x,

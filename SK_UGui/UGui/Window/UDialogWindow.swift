@@ -30,7 +30,7 @@ public enum DialogPosType {
     case Center     // 中央に表示
 }
 
-public protocol UDialogCallbacks {
+public protocol UDialogCallbacks : class {
     func dialogClosed(dialog : UDialogWindow)
 }
 
@@ -70,8 +70,8 @@ public class UDialogWindow : UWindow {
     var dialogColor : UIColor?
     var dialogBGColor : UIColor?
     
-    var buttonCallbacks : UButtonCallbacks?
-    var dialogCallbacks : UDialogCallbacks?
+    weak var buttonCallbacks : UButtonCallbacks?
+    weak var dialogCallbacks : UDialogCallbacks?
     var animationType : AnimationType = AnimationType.Opening
     var isAnimation = false
     
@@ -237,6 +237,14 @@ public class UDialogWindow : UWindow {
                               textColor: UIColor.black, dialogColor: UIColor.lightGray)
     }
     
+    /**
+     * 解放処理
+     */
+    deinit {
+        
+        print("UDialogWindow.deinit")
+    }
+    
     public func setDialogPos(x : CGFloat, y : CGFloat) {
         pos.x = x
         pos.y = y
@@ -292,7 +300,15 @@ public class UDialogWindow : UWindow {
      */
     public func closeDialog() {
         isShow = false
+        
+        mTitleView = nil
+        mButtons.removeAll()
+        mDrawables.removeAll()
+        mTextViews.removeAll()
+        
         self.removeFromDrawManager()
+        
+        self.parentNode.removeAllChildren()
         self.parentNode.removeFromParent()
         
         if dialogCallbacks != nil {
@@ -432,13 +448,11 @@ public class UDialogWindow : UWindow {
                 x: size.width / 2, y: y,
                 width: size.width, color: .black, bgColor: nil)
             
-            print("1:\(y)")
             y += mTitleView!.getHeight() + UDpi.toPixel( UDialogWindow.MARGIN_V * 2)
         }
         
         // テキスト
         for textView in mTextViews {
-            print("2:\(y)")
             textView!.setPos( size.width / 2, y)
             y += textView!.getHeight() + UDpi.toPixel( UDialogWindow.MARGIN_V )
         }
@@ -496,7 +510,6 @@ public class UDialogWindow : UWindow {
                     _button.setPos((size.width - _button.getWidth()) / 2, y)
                     y += button!.getHeight() + buttonMarginV
                 } else {
-                    print("2:\(y)")
                     button!.setPos(buttonMarginH, y)
                     button!.setSize(size.width - buttonMarginH * 2, buttonH)
                     y += buttonH + buttonMarginV
@@ -538,16 +551,12 @@ public class UDialogWindow : UWindow {
      * @param paint
      * @param offset 独自の座標系を持つオブジェクトをスクリーン座標系に変換するためのオフセット値
      */
-    override public func draw(_ offset: CGPoint?) {
+    override public func draw() {
         if (!isShow) {
             return
         }
         // Window内部
         var _pos = CGPoint(x: frameSize.width, y: frameSize.height + topBarH)
-        if offset != nil {
-            _pos.x += offset!.x
-            _pos.y += offset!.y
-        }
         drawContent(offset: _pos)
     }
     
@@ -565,17 +574,17 @@ public class UDialogWindow : UWindow {
         
         // Title
         if mTitleView != nil {
-            mTitleView!.draw(_offset)
+            mTitleView!.draw()
         }
         
         // TextViews
         for textView in mTextViews {
-            textView!.draw(_offset)
+            textView!.draw()
         }
         
         // Buttons
         for button in mButtons {
-            button!.draw(_offset)
+            button!.draw()
         }
     }
     

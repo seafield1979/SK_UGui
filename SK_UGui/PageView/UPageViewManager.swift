@@ -122,6 +122,9 @@ public class UPageViewManager {
         UDrawManager.clearDebugPoint()
         
         self.mTopScene.removeAllChildren()
+        
+        // 描画オブジェクトを全てクリア
+        UDrawManager.getInstance().removeAll()
     }
     
     /**

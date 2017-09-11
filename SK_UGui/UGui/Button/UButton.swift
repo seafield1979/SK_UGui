@@ -18,7 +18,7 @@ public enum UButtonType {
 }
 
 
-public protocol UButtonCallbacks {
+public protocol UButtonCallbacks : class {
     /**
      * ボタンがクリックされた時の処理
      * @param id  button id
@@ -137,7 +137,7 @@ public class UButton : UDrawable {
      * 描画処理
      * @param offset 独自の座標系を持つオブジェクトをスクリーン座標系に変換するためのオフセット値
      */
-    override public func draw(_ offset: CGPoint) {
+    override public func draw() {
         // UButtonは抽象クラスなので何もしない
     }
     

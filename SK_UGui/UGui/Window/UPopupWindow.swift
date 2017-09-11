@@ -39,7 +39,7 @@ public class UPopupWindow : UDialogWindow {
                  isAnimation : Bool,
                  screenW : CGFloat, screenH : CGFloat)
     {
-        titleNode = SKNodeUtil.createLabelNode(text: title, textSize: 20, color: .black, alignment: .Center, offset: CGPoint(x:0, y:0))
+        titleNode = SKNodeUtil.createLabelNode(text: title, fontSize: 20, color: .black, alignment: .Center, pos: CGPoint(x:0, y:0)).node
         
         super.init( topScene: topScene,
                     type: DialogType.Mordal,

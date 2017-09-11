@@ -43,9 +43,10 @@ public class ListItemTest1 : UListItem {
         mTextSize = Int(UDpi.toPixel(ListItemTest1.TEXT_SIZE))
         
         // SpriteKit Node
-        labelNode = SKNodeUtil.createLabelNode(text: text, textSize: CGFloat(mTextSize), color: .white, alignment: .Center, offset: nil)
+        // 親クラスでbgNodeは作成済み
+        labelNode = SKNodeUtil.createLabelNode(text: text, fontSize: CGFloat(mTextSize), color: .white, alignment: .Center, pos: nil).node
         labelNode!.position = CGPoint(x: size.width / 2, y: size.height / 2)
-        bgNode?.addChild(labelNode!)
+        bgNode.addChild(labelNode!)
     }
     
     /**
@@ -58,23 +59,7 @@ public class ListItemTest1 : UListItem {
      * @param paint
      * @param offset 独自の座標系を持つオブジェクトをスクリーン座標系に変換するためのオフセット値
      */
-    override public func draw( _ offset : CGPoint? ) {
-        var _pos = CGPoint(x: pos.x, y: pos.y)
-        if offset != nil {
-            _pos.x += offset!.x
-            _pos.y += offset!.y
-        }
-        
-        // BG
-        _ = CGRect(x:_pos.x, y:_pos.y,
-                           width: size.width, height: size.height)
-//        UDraw.drawRectFill(rect: _rect, color: color!,
-//                           strokeWidth: 4, strokeColor: UIColor.black)
-        
-        // text
-        _ = mText
-//        UDraw.drawText(text: text!, alignment: UAlignment.Center, textSize: mTextSize,
-//                       x: _pos.x + size.width / 2, y: _pos.y + size.height / 2, color: ListItemTest1.TEXT_COLOR )
+    override public func draw() {
     }
     
     /**

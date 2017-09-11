@@ -76,6 +76,9 @@ public class PageViewManager : UPageViewManager {
         case .Test7:
             page = PageViewTest7( topScene: mTopScene,
                                   title: UResourceManager.getStringByName("test7"))
+        default:
+            break
+            
         }
         if page != nil {
             pages[pageView.rawValue] = page

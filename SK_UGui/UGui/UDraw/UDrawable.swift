@@ -62,7 +62,7 @@ public class UDrawable {
     var animeRatio : CGFloat = 0.0
     
     // Constructor
-    init(priority: Int, x: CGFloat, y: CGFloat, width : CGFloat, height : CGFloat)
+init(priority: Int, x: CGFloat, y: CGFloat, width : CGFloat, height : CGFloat)
     {
         parentNode = SKNode()
         
@@ -73,6 +73,15 @@ public class UDrawable {
         drawPriority = priority
         color = UIColor.black
         isShow = true
+    }
+    
+    /**
+     * 解放処理
+*/
+    deinit {
+        parentNode.removeAllChildren()
+        parentNode.removeFromParent()
+        removeFromDrawManager()
     }
     
     /**
@@ -220,7 +229,7 @@ public class UDrawable {
      * 描画処理(抽象メソッド)
      * @param offset 独自の座標系を持つオブジェクトをスクリーン座標系に変換するためのオフセット値
      */
-    public func draw(_ offset : CGPoint) {
+    public func draw() {
         // 抽象メソッド(Swiftではサポートされていないので仕方なく実装)
         print("UDrawable draw() オーバーライドされていません")
     }

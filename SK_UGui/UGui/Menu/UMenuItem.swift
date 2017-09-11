@@ -168,7 +168,7 @@ public class UMenuItem : UDrawable {
      * @param paint
      * @param parentPos
      */
-    override public func draw(_ parentPos: CGPoint) {
+    override public func draw() {
         spriteNode!.isHidden = !isShow
         if !isShow {
             return
@@ -208,7 +208,7 @@ public class UMenuItem : UDrawable {
         // 子要素
         if mChildItem != nil {
             for item in mChildItem! {
-                item!.draw(parentPos)
+                item!.draw()
             }
         }
     }
